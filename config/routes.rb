@@ -1,18 +1,21 @@
 Rails.application.routes.draw do
-
   resources :comments
-  resources :users
-  # posts/:post_id/comments 
-  resources :posts do 
-    resources :comments, shallow: true 
-  end 
+  resources :users, only: [:index]
+  resources :posts, except: [:show]
 
-  #signup
-  get "/signup", to: "users#create"
-  #login
-  get "/login", to: "sessions#create"
-  #logout
-  get "/logout", to: "sessions#destroy"
+  get "/users/:user_id/posts", to: "posts#index"
+
+  # signup
+  post "/signup", to: "users#create"
+
+  # login
+  post "/login", to: "sessions#create"
+
+  # logout
+  delete "/logout", to: "sessions#destroy"
+
+  # me 
+  get "/me", to: "users#show"
 
   
   # Routing logic: fallback requests for React Router.
