@@ -12,28 +12,19 @@ puts "Seeding data..."
 
 User.destroy_all 
 
-admin = User.create(username: "Admin", email: "admin@example.com", password: "password")
-min = User.create(username: "Min100", email: "min@gmail.com", password: "password")
-joe = User.create(username: "Joe100", email: "joe@gmail.com", password: "password")
+# Create users
+admin = User.create(username: "admin", email: "admin@example.com", password: "password")
+minchul = User.create(username: "minchul", email: "min@gmail.com", password: "password")
+joey = User.create(username: "joey", email: "joey@gmail.com", password: "password")
 
-admin_post_1 = admin.posts.create(title: "Admin Post Title 1", content: "Some awesome lorem text lorem lorem text text")
-admin_post_2 = admin.posts.create(title: "Admin Post Title 2", content: "Some awesome lorem text lorem lorem text text")
-admin_post_3 = admin.posts.create(title: "Admin Post Title 3", content: "Some awesome lorem text lorem lorem text text")
-min_post_1 = min.posts.create(title: "Min Post Title 1", content: "Some awesome lorem text lorem lorem text text")
-min_post_2 = min.posts.create(title: "Min Post Title 2", content: "Some awesome lorem text lorem lorem text text")
-min_post_3 = min.posts.create(title: "Min Post Title 3", content: "Some awesome lorem text lorem lorem text text")
-joe_post_1 = joe.posts.create(title: "Joe Post Title 1", content: "Some awesome lorem text lorem lorem text text")
-joe_post_2 = joe.posts.create(title: "Joe Post Title 2", content: "Some awesome lorem text lorem lorem text text")
-joe_post_3 = joe.posts.create(title: "Joe Post Title 3", content: "Some awesome lorem text lorem lorem text text")
+# Create posts and assign them to users 
+p1 = Post.create(title: "Post Title 1", content: "Some awesome lorem text lorem lorem text text", user: admin)
+p2 = Post.create(title: "Post Title 2", content: "Some awesome lorem text lorem lorem text text", user: minchul)
+p3 = Post.create(title: "Post Title 3", content: "Some awesome lorem text lorem lorem text text", user: joey)
 
-admin.comments.create(post: min_post_1, content: "This was a great post! Thanks for sharing!")
-admin.comments.create(post: joe_post_1, content: "This was a great post! Thanks for sharing!")
-admin.comments.create(post: min_post_2, content: "This was a great post! Thanks for sharing!")
-min.comments.create(post: admin_post_1, content: "This was a great post! Thanks for sharing!")
-min.comments.create(post: joe_post_3, content: "This was a great post! Thanks for sharing!")
-min.comments.create(post: joe_post_2, content: "This was a great post! Thanks for sharing!")
-joe.comments.create(post: admin_post_2, content: "This was a great post! Thanks for sharing!")
-joe.comments.create(post: min_post_3, content: "This was a great post! Thanks for sharing!")
-joe.comments.create(post: min_post_2, content: "This was a great post! Thanks for sharing!")
+# Create comments 
+Comment.create(user: admin, post: p1, content: "This was a great post! Thanks for sharing!")
+Comment.create(user: minchul, post: p2, content: "This was a great post! Thanks for sharing!")
+Comment.create(user: joey, post: p3, content: "This was a great post! Thanks for sharing!")
 
 puts "✅ Done seeding!"
