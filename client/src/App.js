@@ -11,6 +11,7 @@ import CommentEdit from "./comments/CommentEdit";
 import CommentForm from "./comments/CommentForm";
 import Profile from "./me/Profile";
 import NotFound from "./NotFound";
+import PostForm from "./posts/PostForm";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/posts" element={<PostList />} />
+        <Route exact path="/posts/new" element={<PostForm />} />
         <Route exact path="/posts/:id" element={<PostDetails />} />
         <Route exact path="/comments/:id" element={<CommentEdit />} />
         <Route exact path="/posts/:post_id/comments" element={<CommentForm />} />

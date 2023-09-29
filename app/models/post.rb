@@ -7,6 +7,10 @@ class Post < ApplicationRecord
   validates :title, length: {in: 3..50}
   validates :content, length: {in: 5...280}
 
+  def summary 
+    "#{title}: #{content}"
+  end 
+
 end
 
 # `validate` - singular for custom validations

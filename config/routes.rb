@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   resources :comments
   resources :users, only: [:index]
-  resources :posts, except: [:show]
+  resources :posts
 
-  get "/users/:user_id/posts", to: "posts#index"
+  # get "/users/:user_id/posts", to: "posts#index"
 
   # signup
   post "/signup", to: "users#create"
