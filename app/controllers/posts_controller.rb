@@ -1,15 +1,15 @@
 class PostsController < ApplicationController
     def index  
-        @posts = Post.all 
-        render json: @posts 
+        posts = Post.all 
+        render json: posts, status: :ok 
     end 
 
     def show  
         post = Post.find_by_username(params[:username])
         if post.valid? 
-            render json: post 
+            render json: post, status: :ok 
         else  
-            render json: { message: ""}
+            render json: { message: ""}, status: :not_found
         end 
     end 
 
