@@ -1,23 +1,11 @@
 import React from "react";
+import "./Home.css"; 
 
 const Home = () => {
-  // Temporary dummy data for posts
-  const posts = [
-    { id: 1, title: "Post 1", content: "Content of post 1" },
-    { id: 2, title: "Post 2", content: "Content of post 2" },
-  ];
-
   return (
     <div className="home-container">
-      <h2>Home</h2>
-      <div className="posts-list">
-        {posts.map((post) => (
-          <div className="post" key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.content}</p>
-          </div>
-        ))}
-      </div>
+      <h2>Welcome to MedX</h2>
+      <p>Explore health and wellness content from our community.</p>
     </div>
   );
 };

@@ -10,9 +10,10 @@ class UsersController < ApplicationController
 
     def create # post '/signup'
         new_user = User.create(user_params)
-        if user.valid? 
+        if new_user.valid? 
             render json: new_user, status: :ok 
         else  
+            byebug
             render json: { errors: errors.full_messages }
         end 
     end 
