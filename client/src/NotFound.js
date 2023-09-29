@@ -1,25 +1,12 @@
 import React from "react";
-import styled from "styled-components";
-
-const NotFoundContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 25vh;
-  background-color: #f2f2f2;
-`;
-
-const NotFoundText = styled.h1`
-  font-size: 2rem;
-  color: #333;
-`;
+import "./NotFound.css";
 
 const NotFound = () => {
   return (
-    <NotFoundContainer>
-      <NotFoundText>404 - Not Found~ </NotFoundText>
-      <NotFoundText> ~ ¯\_(ツ)_/¯ </NotFoundText>
-    </NotFoundContainer>
+    <div className="not-found">
+      <h2>404 - Not Found</h2>
+      <p>The page you are looking for does not exist.</p>
+    </div>
   );
 };
 

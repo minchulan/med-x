@@ -8,7 +8,7 @@ class PostsController < ApplicationController
 
     # GET /posts/:id
     def show  
-        post = Post.find_by_id(params[:id])
+        post = Post.find_by(id: params[:id])
         if post
             render json: post, status: :ok 
         else  
