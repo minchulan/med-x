@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "./context/user";
 import { useNavigate } from "react-router-dom";
-import "./Signup.css"; // Import the CSS file for styling
+import "./Signup.css";
 
 const Signup = () => {
+  const { signup } = useContext(UserContext);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -14,7 +17,13 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your signup logic here
+      const newUser = {
+          username,
+          email,
+          password
+      };
+
+      signup(newUser)
   };
 
   const handleChange = (e) => {
@@ -36,7 +45,7 @@ const Signup = () => {
             value={username}
             name="username"
             id="username"
-            required
+            // required
           />
         </div>
         <div className="form-group">
@@ -47,7 +56,7 @@ const Signup = () => {
             value={email}
             name="email"
             id="email"
-            required
+            // required
           />
         </div>
         <div className="form-group">
@@ -58,7 +67,7 @@ const Signup = () => {
             value={password}
             name="password"
             id="password"
-            required
+            // required
           />
         </div>
         <button type="submit">Sign Up</button>
