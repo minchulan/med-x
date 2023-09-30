@@ -1,5 +1,3 @@
-# require 'faker'
-
 puts "Seeding data..."
 
 User.destroy_all 
@@ -15,8 +13,8 @@ p2 = Post.create(title: "Post Title 2", content: "Some awesome lorem text lorem 
 p3 = Post.create(title: "Post Title 3", content: "Some awesome lorem text lorem lorem text text", user: joey)
 
 # Create comments 
-Comment.create(user: admin, post: p1, content: "This was a great post! Thanks for sharing!")
-Comment.create(user: minchul, post: p2, content: "This was a great post! Thanks for sharing!")
-Comment.create(user: joey, post: p3, content: "This was a great post! Thanks for sharing!")
+p1.comments.create(user: admin, content: "This was a great post! Thanks for sharing!")
+p2.comments.create(user: minchul, content: "This was a great post! Thanks for sharing!")
+p3.comments.create(user: joey, content: "This was a great post! Thanks for sharing!")
 
 puts "✅ Done seeding!"
