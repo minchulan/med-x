@@ -2,9 +2,11 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "./context/user";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
+import { ErrorsContext } from "./context/error";
 
 const Signup = () => {
-  const { signup } = useContext(UserContext);
+    const { signup } = useContext(UserContext);
+    const { errors } = useContext(ErrorsContext)
 
   const [formData, setFormData] = useState({
     username: "",
@@ -45,6 +47,7 @@ const Signup = () => {
             value={username}
             name="username"
             id="username"
+            autoComplete="off"
             // required
           />
         </div>
@@ -56,6 +59,7 @@ const Signup = () => {
             value={email}
             name="email"
             id="email"
+            autoComplete="off"
             // required
           />
         </div>
@@ -67,11 +71,21 @@ const Signup = () => {
             value={password}
             name="password"
             id="password"
+            autoComplete="off"
             // required
           />
         </div>
         <button type="submit">Sign Up</button>
       </form>
+      {errors && errors.length > 0 && (
+        <div className="error-container">
+          <ul>
+            {errors.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

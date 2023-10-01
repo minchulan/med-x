@@ -16,9 +16,6 @@ class Post < ApplicationRecord
     end 
   end 
 
-  def summary 
-    "#{title}: #{content}"
-  end 
 end
 
 #---------------------------------------------

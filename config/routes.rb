@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-
-  resources :users, only: [:index]
   
+  resources :users, only: [:index]
+
   resources :posts do 
     resources :comments, shallow: true 
   end 
@@ -26,6 +26,9 @@ end
 
 
 #------------------------------------------------------
+# create a new comment in the context of a post. ["/posts/:post_id/comments"]
+# we want to see all the comments related to a single post. ["/posts/:post_id/comments"]
+
 # get "/users/:user_id/posts", to: "posts#index"
 
 # shallow: true gives us the following routes:

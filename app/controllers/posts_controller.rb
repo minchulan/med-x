@@ -1,9 +1,10 @@
 class PostsController < ApplicationController
+    before_action :find_post, only: [:show, :update, :destroy]
+    # skip_before_action :authorize_user, only: [:index]
 
   # GET "/posts"
   def index  
-    posts = Post.all 
-    render json: posts, status: :ok
+    render json: Post.all, status: :ok 
   end 
 
   def ordered
@@ -13,50 +14,35 @@ class PostsController < ApplicationController
 
   # POST "/posts"
   def create 
-    post = Post.create(post_params)
-    if post.id
-      render json: post, status: :created 
-    else  
-      render json: { errors: post.errors.full_messages.to_sentence }, status: :unprocessable_entity
-    end 
+    post = Post.create!(post_params)
+    render json: post, status: :created 
   end 
 
   # GET "/posts/:id"
   def show  
-    post = Post.find_by(id: params[:id])
-    if post
-      render json: post, status: :ok
-    else  
-      render json: { error: "Post not found with id #{params[:id]}" }, status: :not_found
-    end 
+    render json: @post, status: :ok 
   end 
 
   # PATCH "/posts/:id"
   def update 
-    post = Post.find_by(id: params[:id])
-    if post 
-      post.update(post_params)
-      render json: post, status: :ok
-    else  
-      render json: { error: "Post not found with id #{params[:id]}" }, status: :not_found
-    end 
+    post.update!(post_params)
+    render json: @post, status: :accepted 
   end 
 
   # DELETE "/posts/:id"
   def destroy
-    post = Post.find_by(id: params[:id])
-    if post
-      post.destroy 
-      head :no_content 
-    else
-      render json: { error: "Post not found with id #{params[:id]}" }, status: :not_found
-    end 
+    @post.destroy 
+    head :no_content 
   end 
 
   private 
 
   def post_params 
     params.require(:post).permit(:title, :content)
+  end 
+
+  def find_post
+    @post = Post.find(params[:id])
   end 
 end
 

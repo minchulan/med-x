@@ -9,6 +9,7 @@ const PostProvider = ({ children }) => {
     fetch("/posts")
       .then((resp) => resp.json())
       .then((data) => {
+        console.log(data);
         setPosts(data);
       });
   }, []);
@@ -34,7 +35,7 @@ const PostProvider = ({ children }) => {
   };
 
   return (
-    <PostContext.Provider value={{ posts, setPost, editPost, deletePost }}>
+    <PostContext.Provider value={{ posts, setPosts, editPost, deletePost }}>
       {children}
     </PostContext.Provider>
   );

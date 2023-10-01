@@ -52,7 +52,7 @@ function UserProvider({ children, setLoading }) {
             });
         } else {
             resp.json().then((data) => {
-                console.log(data.error)
+                Object.entries(data.errors).map((e) => `${e[0]} : ${e[1]}`); 
             })
         }
         });

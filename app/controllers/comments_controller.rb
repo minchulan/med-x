@@ -1,69 +1,64 @@
 class CommentsController < ApplicationController
+    before_action :authorize_user
+    before_action :load_post, only: [:index, :create]
+    before_action :load_comment, only: [:show, :update, :destroy]
+    before_action :check_owner, only: [:update, :destroy]
 
     # GET "/posts/:post_id/comments"
     def index  
-        if params[:post_id]
-            post = Post.find_by(id: params[:post_id])
-            if post 
-                render json: post.comments 
-            else  
-                render json: { error: "Cannot find post with id #{params[:post_id]}" }, status: :not_found
-            end 
-        else
-            comments = Comment.all
-            render json: comments
-        end
+        render json: @post.comments 
     end 
 
     # GET "/comments/:id"
     def show
-        comment = Comment.find_by(id: params[:id])
-        if comment
-            render json: comment, status: :ok
-        else
-            render json: { error: "Comment not found with id #{params[:id]}" }, status: :not_found
-        end
+        render json: @comment 
     end
 
     # POST "/posts/:post_id/comments"
     def create
-        if params[:post_id]
-            post = Post.find(params[:post_id])
-            comment = post.comments.create(comment_params)
-            if comment.id 
-                render json: comment, status: :ok
-            else  
-                render json: { error: comment.errors.full_messages.to_sentence }, status: :unprocessable_entity
-            end 
-        else
-            render json: { error: "Missing post_id parameter" }, status: :unprocessable_entity
-        end
+        comment = @post.comments.build(comment_params)
+        comment.user = current_user
+
+        if comment.save 
+            render json: comment, status: :created 
+        else  
+            render_unprocessable_entity(comment)
+        end 
     end
 
     # PATCH "/comments/:id"
     def update 
-        comment = Comment.find_by(id: params[:id])
-        if comment.nil?
-            render json: { error: "Comment not found with id #{params[:id]}" }, status: :not_found
-        elsif comment.update(comment_params)
-            render json: comment, status: :ok
-        else
-            render json: { error: comment.errors.full_messages.to_sentence }, status: :unprocessable_entity
-        end
+        if @comment.update(comment_params)
+            render json: @comment 
+        else  
+            render_unprocessable_entity(@comment)
+        end 
     end
 
     # DELETE "/comments/:id"
     def destroy 
-        comment = Comment.find_by(id: params[:id])
-        if comment
-            if comment.destroy 
-                render json: { message: "Successfully destroyed comment!" }, status: :ok 
-            else  
-                render json: { error: comment.errors.full_messages.to_sentence }, status: :unprocessable_entity
-            end 
-        else
-            render json: { error: "Comment not found with id #{params[:id]}" }, status: :not_found
-        end
+        @comment.destroy
+        head :no_content
     end
+
+    private 
+
+    def comment_params 
+        params.require(:comment).permit(:content)
+    end 
+
+    def load_post 
+        @post = Post.find_by_id(params[:post_id])
+    end 
+
+    def load_comment 
+        @comment = Comment.find_by_id(params[:id])
+        render json: { error: "Comment not found with id #{params[:id]}" }, status: :not_found unless @comment 
+    end 
+
+    def check_owner 
+        unless @comment.user == current_user
+            render json: { errors: { User: "does not own this comment." } }, status: :forbidden 
+    end 
 
 end

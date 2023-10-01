@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { UserContext } from "./context/user";
 import { ErrorsContext } from "./context/error";
 import "./Login.css"; 
@@ -37,17 +37,6 @@ const Login = ({ loading }) => {
         login(user);
     };
 
-    const ephemeralErrors = () => {
-    if (errors && errors.length > 0) {
-        setTimeout(() => {
-        setErrors([]);
-        }, 5000);
-    }
-    };
-
-    ephemeralErrors();
-
-
     const handleChange = (e) => {
         setFormData({
         ...formData,
@@ -56,34 +45,49 @@ const Login = ({ loading }) => {
     };
 
     return (
-        <div className="login-form">
+      <div className="login-form">
         <h2>Log In</h2>
         <form onSubmit={handleSubmit}>
-            <div className="form-group">
+          <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
-                type="email"
-                onChange={handleChange}
-                value={email}
-                name="email"
-                id="email"
-                // required
+              type="email"
+              onChange={handleChange}
+              value={email}
+              name="email"
+              id="email"
+              autoComplete="on"
+              // required
             />
-            </div>
-            <div className="form-group">
+          </div>
+          <div className="form-group">
             <label htmlFor="password">Password:</label>
             <input
-                type="password"
-                onChange={handleChange}
-                value={password}
-                name="password"
-                id="password"
-                // required
+              type="password"
+              onChange={handleChange}
+              value={password}
+              name="password"
+              id="password"
+              autoComplete="on"
+              // required
             />
-            </div>
-            <button type="submit">Log In</button>
+          </div>
+          <button type="submit">Log In</button>
         </form>
-        </div>
+        <br />
+        <>
+          <small>
+            <b>Don't have an account? {"   "}</b>
+            <u>
+              <NavLink to="/signup">Sign up</NavLink>
+            </u>
+          </small>
+        </>
+        <hr />
+        {errors && errors.length > 0 && (
+          <div className="error-container">{errors}</div>
+        )}
+      </div>
     );
 };
 
