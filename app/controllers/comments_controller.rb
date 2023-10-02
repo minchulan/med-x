@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-    before_action :authorize_user
+    # before_action :authorize_user
     before_action :load_post, only: [:index, :create]
     before_action :load_comment, only: [:show, :update, :destroy]
     before_action :check_owner, only: [:update, :destroy]
@@ -59,6 +59,7 @@ class CommentsController < ApplicationController
     def check_owner 
         unless @comment.user == current_user
             render json: { errors: { User: "does not own this comment." } }, status: :forbidden 
+        end 
     end 
 
 end

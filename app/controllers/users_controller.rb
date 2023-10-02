@@ -14,14 +14,20 @@ class UsersController < ApplicationController
 
     # POST "/signup"
     def create 
-        new_user = User.create!(user_params)
-        render json: new_user, status: :ok 
+        user = User.create!(user_params)
+        session[:user_id] = user.id
+        render json: user, status: :ok 
     end 
-
+    # creating a user, and side-effect is logging in. 
 
     private 
 
     def user_params 
-        params.require(:user).permit(:username, :email, :password)
+        params.permit(:username, :email, :password)
+    end 
+
+    def find_user 
+        @user = current_user
+        render_not_found unless @user 
     end 
 end

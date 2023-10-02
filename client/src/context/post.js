@@ -3,42 +3,53 @@ import { createContext, useState, useEffect } from "react";
 const PostContext = createContext([]);
 
 const PostProvider = ({ children }) => {
-  const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState([]);
+    
+    useEffect(() => {
+        fetch("/posts").then((resp) => {
+            if (resp.ok) {
+                resp.json().then((data) => {
+                    setPosts(data)
+                })
+            }
+        })
+    }, [])
 
-  useEffect(() => {
-    fetch("/posts")
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log(data);
-        setPosts(data);
-      });
-  }, []);
+    // Add post 
+    const addPost = (addedPost) => {
+        setPosts([...posts, addedPost])
+    };
 
-  const setPost = (post) => {
-    setPosts([...posts, post]);
-  };
+    // Edit post 
+    const editPost = (editedPost) => {
+        const updatedPosts = posts.map((post) => {
+        if (editedPost.id === post.id) {
+            return editedPost;
+        } else {
+            return post;
+        }
+        });
+        setPosts(updatedPosts);
+    };
 
-  const editPost = (newPost) => {
-    const updatedPosts = posts.map((post) => {
-      if (newPost.id === post.id) {
-        return newPost;
-      } else {
-        return post;
-      }
-    });
-    setPosts(updatedPosts);
-  };
+    // Delete post 
+    const deletePost = (deletedPost) => {
+        const updatedPosts = posts.filter((post) => post.id !== deletedPost.id);
+        setPosts(updatedPosts);
+    };
 
-  const deletePost = (deletedPost) => {
-    const updatedPosts = posts.filter((post) => post.id !== deletedPost.id);
-    setPosts(updatedPosts);
-  };
-
-  return (
-    <PostContext.Provider value={{ posts, setPosts, editPost, deletePost }}>
-      {children}
-    </PostContext.Provider>
-  );
+    return (
+        <PostContext.Provider value={{ posts, addPost, editPost, deletePost }}>
+        {children}
+        </PostContext.Provider>
+    );
 };
 
 export { PostContext, PostProvider };
+
+/*
+Data held in state gets passed down to our Home component. 
+Home component goes to another component that uses logic to build post cards. 
+From there, we can click on to our post card and move on to the next fetch. 
+
+*/

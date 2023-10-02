@@ -6,15 +6,15 @@ const UserContext = createContext();
 function UserProvider({ children, setLoading }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false); // logged out by default
-    const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         fetch("/me").then((resp) => {
             if (resp.ok) {
-            resp.json().then((data) => {
-            console.log(data);
-            login(data);
+                resp.json().then((data) => {
+                setCurrentUser(data);
+                setLoggedIn(true);
+                login(data);
             });
         } else {
             setLoading(false);
@@ -27,7 +27,7 @@ function UserProvider({ children, setLoading }) {
     const login = (user) => {
         setCurrentUser(user);
         setLoggedIn(true);
-        navigate('/me')
+        navigate('/posts')
     };
 
     // Logout
@@ -48,7 +48,7 @@ function UserProvider({ children, setLoading }) {
             resp.json().then((data) => {
             setCurrentUser(data);
             setLoggedIn(true);
-            navigate("/me");
+            navigate("/posts");
             });
         } else {
             resp.json().then((data) => {

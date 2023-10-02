@@ -1,66 +1,90 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/user";
+import { ErrorsContext } from "../context/error";
 import "./PostForm.css";
+import { PostContext } from "../context/post";
 
-const PostForm = () => {
-  const [postData, setPostData] = useState({
+const initialPostFormState = {
     title: "",
     content: "",
-  });
+}
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPostData({ ...postData, [name]: value });
-  };
+const PostForm = () => {
+    const { loggedIn } = useContext(UserContext);
+    const { errors, setErrors } = useContext(ErrorsContext);
+    const { addPost } = useContext(PostContext);
+    const [postData, setPostData] = useState(initialPostFormState);
 
-  const handleSubmit = (e) => {
-      e.preventDefault();
+    const navigate = useNavigate();
 
-      // POST '/posts/new'
-      fetch('/posts/new', {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(postData)
-      })
-      .then((resp) => console.log(resp))
-      
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setPostData({ ...postData, [name]: value });
+    };
 
+    // Add new post 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        fetch("/posts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(postData)
+        })
+            .then((resp) => {
+                if (resp.ok) {
+                    resp.json().then((data) => {
+                        addPost(data)
+                        navigate("/posts")
+                    })
+                } else {
+                    resp.json().then((data) => {
+                        setErrors(data.errors)
+                    })
+            }
+        })
 
-    // Handle form submission, e.g., send data to API, update state, etc.
-    console.log("Post data submitted:", postData);
-    // Reset form fields after submission if needed
-    setPostData({ title: "", content: "" });
-  };
+    };
 
-  return (
-    <div className="post-form-container">
-      <h2>Create a New Post</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={postData.title}
-            onChange={handleInputChange}
-            // required
-          />
+    return (
+        <div className="post-form-container">
+        {errors && errors.length > 0 && (
+            <div className="error-container">
+            <ul className="error-list">
+                {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+                ))}
+            </ul>
+            </div>
+        )}
+        <h2>Create a New Post</h2>
+        <form onSubmit={handleSubmit}>
+            <div className="form-group">
+            <label htmlFor="title">Title:</label>
+            <input
+                type="text"
+                id="title"
+                name="title"
+                value={postData.title}
+                onChange={handleInputChange}
+                // required
+            />
+            </div>
+            <div className="form-group">
+            <label htmlFor="content">Content:</label>
+            <textarea
+                id="content"
+                name="content"
+                value={postData.content}
+                onChange={handleInputChange}
+                rows="6"
+                // required
+            ></textarea>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
         </div>
-        <div className="form-group">
-          <label htmlFor="content">Content:</label>
-          <textarea
-            id="content"
-            name="content"
-            value={postData.content}
-            onChange={handleInputChange}
-            rows="6"
-            // required
-          ></textarea>
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  );
+    );
 };
 
 export default PostForm;

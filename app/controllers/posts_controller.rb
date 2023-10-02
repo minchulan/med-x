@@ -14,7 +14,7 @@ class PostsController < ApplicationController
 
   # POST "/posts"
   def create 
-    post = Post.create!(post_params)
+    post = current_user.posts.create!(post_params) #associated build
     render json: post, status: :created 
   end 
 
@@ -38,7 +38,7 @@ class PostsController < ApplicationController
   private 
 
   def post_params 
-    params.require(:post).permit(:title, :content)
+    params.require(:post).permit(:title, :content) 
   end 
 
   def find_post

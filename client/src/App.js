@@ -7,8 +7,6 @@ import Login from "./Login";
 import Signup from "./Signup";
 import PostList from "./posts/PostList";
 import PostDetails from "./posts/PostDetails";
-import CommentEdit from "./comments/CommentEdit";
-import CommentForm from "./comments/CommentForm";
 import Profile from "./me/Profile";
 import NotFound from "./NotFound";
 import PostForm from "./posts/PostForm";
@@ -17,6 +15,7 @@ import { PostProvider } from "./context/post";
 import { ErrorsProvider } from "./context/error";
 import Errors from "./Errors";
 import CommentsList from "./comments/CommentsList";
+import PostEdit from "./posts/PostEdit";
 
 function App() {
   const [loading, setLoading] = useState(true); // ensures app is completely loaded when running other components
@@ -29,14 +28,14 @@ function App() {
           <Errors />
               <Routes>
                 <Route exact path="/" element={<Home />} />
+                <Route exact path="/me" element={<Profile />} />
                 <Route exact path="/posts" element={<PostList />} />
                 <Route exact path="/posts/new" element={<PostForm loading={loading} />} />
+                <Route exact path="/posts/:id/edit" element={<PostEdit loading={loading} />} />
                 <Route exact path="/posts/:id" element={<PostDetails />} />
-                <Route exact path="/comments/:id" element={<CommentEdit />} />
                 <Route exact path="/posts/:post_id/comments" element={<CommentsList />} />
-                <Route exact path="/login" element={<Login loading={loading}/>} />
+                <Route exact path="/login" element={<Login loading={loading} />} />
                 <Route exact path="/signup" element={<Signup loading={loading} />} />
-                <Route exact path="/me" element={<Profile />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
         </PostProvider>
