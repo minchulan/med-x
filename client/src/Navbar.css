@@ -1,28 +1,58 @@
-/* Navbar.css */
+:root {
+  --primary-color: #ff4500; 
+}
 
+/* Navbar Container */
 .navbar-container {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background-color: #1a1a1b; 
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px; /* Increased padding for better spacing */
+  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0px 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+/* Logo */
+.navbar-container img {
+  width: 100px; 
+}
+
+/* Navigation Links */
 .nav-links ul {
-    list-style: none;
-    display: flex;
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
 }
 
-.nav-links li {
-    margin: 0 10px;
+.nav-links ul li {
+  margin-right: 24px; 
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: white;
+/* Links inside loggedInLinks and loggedOutLinks */
+.nav-links ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
 }
 
-.nav-links a.active {
-    font-weight: bold;
+.nav-links ul li a:hover {
+  color: var(--primary-color);
+}
+
+.small-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.small-button:hover {
+  background-color: #ff5b26;
 }

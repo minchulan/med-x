@@ -79,7 +79,7 @@ const PostForm = () => {
                 onChange={handleInputChange}
                 rows="6"
                 // required
-            ></textarea>
+            />
             </div>
             <button type="submit">Submit</button>
         </form>

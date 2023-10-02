@@ -9,8 +9,6 @@ const PostList = ({ loading }) => {
     const { currentUser, loggedIn } = useContext(UserContext);
     const { posts } = useContext(PostContext)
     const navigate = useNavigate();
-
-    console.log({ currentUser })
     
     useEffect(() => {
         if (!loading && !loggedIn) {

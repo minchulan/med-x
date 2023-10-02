@@ -2,23 +2,23 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
+  background-color: #f9f9f9;
+  border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .post-title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
+  color: #333;
 }
 
 .comment-count {
   cursor: pointer;
   color: #0079d3;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 
 .comments-list {
@@ -27,13 +27,15 @@
 }
 
 .comment-card {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  padding: 14px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .comment-card-content {
-  font-size: 14px;
-  color: #333;
+  font-size: 16px;
+  color: #444;
 }

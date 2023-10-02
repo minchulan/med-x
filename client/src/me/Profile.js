@@ -4,7 +4,6 @@ import "./Profile.css";
 
 const Profile = () => {
     const { currentUser } = useContext(UserContext);
-    console.log(currentUser)
 
     return (
         <div className="profile-container">
@@ -16,16 +15,10 @@ const Profile = () => {
                 alt="User Avatar"
             />
             </div>
-            {/* <div className="details">
-            <h3>{ currentUser.username}</h3>
-            <p>{currentUser.email}</p>
-            </div> */}
-            {/* <div>
-                <ul>
-                    <li>{currentUser.posts}</li>
-                    <li>{ currentUser.comments}</li>
-                </ul>
-            </div> */}
+            <div className="details">
+                <h3>{ currentUser.username}</h3>
+                <p>{currentUser.email}</p>
+            </div>
         </div>
         <div className="bio">
             <h3>Bio</h3>

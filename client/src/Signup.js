@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "./context/user";
-import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import { ErrorsContext } from "./context/error";
 
@@ -15,7 +14,6 @@ const Signup = () => {
   });
 
   const { username, email, password } = formData;
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
