@@ -1,35 +1,44 @@
 import React, { useState, useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { UserContext } from "./context/user";
 import "./Signup.css";
 import { ErrorsContext } from "./context/error";
 
 const Signup = () => {
-    const { signup } = useContext(UserContext);
-    const { errors } = useContext(ErrorsContext)
+  const { signup } = useContext(UserContext);
+  const { errors } = useContext(ErrorsContext);
 
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    showPassword: false, // New state for Show Password functionality
   });
 
-  const { username, email, password } = formData;
+  const { username, email, password, showPassword } = formData;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-      const newUser = {
-          username,
-          email,
-          password
-      };
+    const newUser = {
+      username,
+      email,
+      password,
+    };
 
-      signup(newUser)
+    signup(newUser);
   };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const toggleShowPassword = () => {
+    setFormData({
+      ...formData,
+      showPassword: !showPassword,
     });
   };
 
@@ -46,7 +55,6 @@ const Signup = () => {
             name="username"
             id="username"
             autoComplete="off"
-            // required
           />
         </div>
         <div className="form-group">
@@ -58,23 +66,38 @@ const Signup = () => {
             name="email"
             id="email"
             autoComplete="off"
-            // required
           />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password:</label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"} // Toggle password visibility
             onChange={handleChange}
             value={password}
             name="password"
             id="password"
             autoComplete="off"
-            // required
           />
+          <div className="checkbox-group">
+            <label>show password:</label>
+            <input
+              type="checkbox"
+              onChange={toggleShowPassword}
+              checked={showPassword}
+            />
+          </div>
         </div>
         <button type="submit">Sign Up</button>
       </form>
+      <br />
+      <>
+        <small>
+          <b>Already have an account? {"   "}</b>
+          <u>
+            <NavLink to="/login">Log in</NavLink>
+          </u>
+        </small>
+      </>
       {errors && errors.length > 0 && (
         <div className="error-container">
           <ul>

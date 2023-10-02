@@ -5,11 +5,12 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  animation: App-logo-spin infinite 20s linear;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: reduce) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: none; 
   }
 }
 

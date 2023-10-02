@@ -1,12 +1,21 @@
+:root {
+  --primary-color: #0079d3;
+  --hover-color: #005ea1;
+  --background-color: #ffffff;
+  --border-color: #ccc;
+  --text-color: #333;
+}
+
+/* Signup Form */
 .signup-form {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
-  background-color: #fff;
+  background-color: var(--background-color);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  text-align: left;
 }
 
 .form-group {
@@ -17,22 +26,41 @@ label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
-  text-align: left;
+  color: var(--text-color);
 }
 
 input {
   width: calc(100% - 20px);
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
   box-sizing: border-box;
   margin-top: 3px;
 }
 
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+
+.checkbox-group label {
+  margin-right: 10px;
+  color: var(--text-color);
+  font-weight: normal;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
 button {
   width: calc(100% - 20px);
-  background-color: #0079d3;
+  background-color: var(--primary-color);
   color: white;
   padding: 10px;
   border: none;
@@ -43,5 +71,11 @@ button {
 }
 
 button:hover {
-  background-color: #005ea1;
+  background-color: var(--hover-color);
+}
+
+/* Error Container */
+.error-container {
+  color: red;
+  margin-top: 10px;
 }
