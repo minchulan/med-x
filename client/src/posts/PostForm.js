@@ -48,15 +48,6 @@ const PostForm = () => {
 
     return (
         <div className="post-form-container">
-        {errors && errors.length > 0 && (
-            <div className="error-container">
-            <ul className="error-list">
-                {errors.map((error, index) => (
-                <li key={index}>{error}</li>
-                ))}
-            </ul>
-            </div>
-        )}
         <h2>Create a New Post</h2>
         <form onSubmit={handleSubmit}>
             <div className="form-group">

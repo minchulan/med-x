@@ -6,7 +6,7 @@ import "./Login.css";
 
 const Login = ({ loading }) => {
   const { login, loggedIn } = useContext(UserContext);
-  const { errors, setErrors } = useContext(ErrorsContext);
+  const { setErrors } = useContext(ErrorsContext);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -15,7 +15,7 @@ const Login = ({ loading }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
-  const { username, email, password } = formData;
+  const { email, password } = formData;
 
   useEffect(() => {
     if (!loading && loggedIn) {
@@ -28,15 +28,25 @@ const Login = ({ loading }) => {
   }, [loading, loggedIn, navigate, setErrors]);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const user = {
-      username,
-      email,
-      password,
-    };
-
-    login(user);
+      e.preventDefault();
+      
+      fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+      })
+          .then((resp) => resp.json())
+          .then((data) => {
+              if (data.errors) {
+                  setErrors(data.errors) 
+              } else { 
+                  login(data)
+                  setErrors([])
+                  navigate("/posts")
+              }
+          })
   };
+    
 
   const handleChange = (e) => {
     setFormData({
@@ -91,10 +101,6 @@ const Login = ({ loading }) => {
           </u>
         </small>
         </>
-        <br />
-      {errors && errors.length > 0 && (
-        <div className="error-container">{errors}</div>
-      )}
     </div>
   );
 };

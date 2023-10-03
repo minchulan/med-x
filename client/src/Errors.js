@@ -1,16 +1,23 @@
-import React, { useContext } from 'react';
-import { ErrorsContext } from './context/error';
+import React, { useContext, useEffect } from "react";
+import { ErrorsContext } from "./context/error";
+import "./Errors.css";
 
 const Errors = () => {
-    const { errors } = useContext(ErrorsContext);
+  const { errors, setErrors } = useContext(ErrorsContext);
 
-    const errorsList = errors.map((error, index) => <li key={index}>{error}</li>)
+  const errorsList = errors.map((error, index) => <li key={index}>{error}</li>);
 
-    return (
-        <ul>
-            {errorsList}
-        </ul>
-    )
-}
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setErrors([]);
+    }, 4000);
 
-export default Errors
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [errors, setErrors]);
+
+  return <ul className="errors-list">{errorsList}</ul>;
+};
+
+export default Errors;

@@ -6,7 +6,7 @@ import PostCard from "./PostCard";
 import "./PostList.css"; 
 
 const PostList = ({ loading }) => {
-    const { currentUser, loggedIn } = useContext(UserContext);
+    const { loggedIn } = useContext(UserContext);
     const { posts } = useContext(PostContext)
     const navigate = useNavigate();
     
@@ -25,7 +25,7 @@ const PostList = ({ loading }) => {
 
     return (
         <div className="post-list-container">
-        <h2>All Posts </h2>
+        <h2>Posts </h2>
         <div className="post-list">
            {postCards} 
         </div>

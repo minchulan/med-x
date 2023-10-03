@@ -1,12 +1,10 @@
 import React, { useState, useEffect, createContext } from "react";
-import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
 
 function UserProvider({ children, setLoading }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false); // logged out by default
-    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("/me").then((resp) => {
@@ -27,40 +25,17 @@ function UserProvider({ children, setLoading }) {
     const login = (user) => {
         setCurrentUser(user);
         setLoggedIn(true);
-        navigate('/posts')
     };
 
     // Logout
     const logout = () => {
         setCurrentUser(null);
         setLoggedIn(false);
-        navigate('/');
-    };
-
-    // Signup
-    const signup = (newUser) => {
-        fetch("/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newUser),
-        }).then((resp) => {
-        if (resp.ok) {
-            resp.json().then((data) => {
-            setCurrentUser(data);
-            setLoggedIn(true);
-            navigate("/posts");
-            });
-        } else {
-            resp.json().then((data) => {
-                Object.entries(data.errors).map((e) => `${e[0]} : ${e[1]}`); 
-            })
-        }
-        });
     };
 
     return (
         <UserContext.Provider
-        value={{ loggedIn, currentUser, setCurrentUser, login, logout, signup }}
+        value={{ loggedIn, currentUser, setCurrentUser, login, logout }}
         >
         {children}
         </UserContext.Provider>
