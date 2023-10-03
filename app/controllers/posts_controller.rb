@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
     before_action :find_post, only: [:show, :update, :destroy]
-    # skip_before_action :authorize_user, only: [:index]
+    skip_before_action :authorize_user, only: [:index]
 
   # GET "/posts"
   def index  

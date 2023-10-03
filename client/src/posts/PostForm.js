@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/user";
 import { ErrorsContext } from "../context/error";
@@ -17,6 +17,12 @@ const PostForm = () => {
     const [postData, setPostData] = useState(initialPostFormState);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        return () => {
+            setErrors();
+        }
+    }, [setErrors])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

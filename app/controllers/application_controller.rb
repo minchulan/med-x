@@ -14,6 +14,11 @@ class ApplicationController < ActionController::API
     render json: { errors: { User: "Not Authorized" } }, status: :unauthorized unless current_user
   end 
 
+  def is_authorized? 
+    permitted = current_user.admin? 
+    render json: { errors: { User: "does not have admin permissions" } }, status: :forbidden unless permitted 
+  end 
+
   private
 
   def render_unprocessable_entity(invalid)

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "./context/user";
 import "./Signup.css";
@@ -6,37 +6,44 @@ import { ErrorsContext } from "./context/error";
 
 const Signup = () => {
   const { login } = useContext(UserContext);
-    const { errors, setErrors } = useContext(ErrorsContext);
+    const { setErrors, clearErrors } = useContext(ErrorsContext);
     
     const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    showPassword: false, // New state for Show Password functionality
-  });
+    useEffect(() => {
+        return () => {
+            setErrors([]);
+        }
+    }, [setErrors]);
 
-  const { username, email, password, showPassword } = formData;
+    const [formData, setFormData] = useState({
+        username: "",
+        email: "",
+        password: "",
+        showPassword: false, // New state for Show Password functionality
+    });
 
-  const handleSubmit = (e) => {
-      e.preventDefault();
-      
-      fetch("/signup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, email, password })
-      })
-          .then((resp) => resp.json())
-          .then(data => {
-              if (data.errors) {
-                  setErrors(data.errors)
-              } else {
-                  login(data)
-                  navigate("/posts")
-              }  
-          }) 
-  };
+    const { username, email, password, showPassword } = formData;
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        fetch("/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, email, password })
+        })
+            .then((resp) => resp.json())
+            .then(data => {
+                if (data.errors) {
+                    setErrors(data.errors)
+                } else {
+                    clearErrors(); // clear errors after successful form submission
+                    login(data)
+                    navigate("/posts")
+                }  
+            }) 
+    };
     
 
     const handleChange = (e) => {

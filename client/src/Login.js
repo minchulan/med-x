@@ -5,7 +5,7 @@ import { ErrorsContext } from "./context/error";
 import "./Login.css";
 
 const Login = ({ loading }) => {
-  const { login, loggedIn } = useContext(UserContext);
+  const { login } = useContext(UserContext);
   const { setErrors } = useContext(ErrorsContext);
   const [formData, setFormData] = useState({
     username: "",
@@ -18,35 +18,30 @@ const Login = ({ loading }) => {
   const { email, password } = formData;
 
   useEffect(() => {
-    if (!loading && loggedIn) {
-      navigate("/");
-    }
-
     return () => {
       setErrors([]);
     };
-  }, [loading, loggedIn, navigate, setErrors]);
+  }, [setErrors]);
 
   const handleSubmit = (e) => {
-      e.preventDefault();
-      
-      fetch("/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
-      })
-          .then((resp) => resp.json())
-          .then((data) => {
-              if (data.errors) {
-                  setErrors(data.errors) 
-              } else { 
-                  login(data)
-                  setErrors([])
-                  navigate("/posts")
-              }
-          })
+    e.preventDefault();
+
+    fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data.errors) {
+          setErrors(data.errors);
+        } else {
+          login(data);
+          setErrors([]);
+          navigate("/posts");
+        }
+      });
   };
-    
 
   const handleChange = (e) => {
     setFormData({
@@ -96,11 +91,12 @@ const Login = ({ loading }) => {
       <>
         <small>
           <b>Don't have an account? {"   "}</b>
+
           <u>
             <NavLink to="/signup">Sign up</NavLink>
           </u>
         </small>
-        </>
+      </>
     </div>
   );
 };
