@@ -1,27 +1,30 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { UserContext } from "./context/user";
-import { ErrorsContext } from "./context/error";
 import "./Login.css";
 
 const Login = ({ loading }) => {
-  const { login } = useContext(UserContext);
-  const { setErrors } = useContext(ErrorsContext);
+  const { login, loggedIn } = useContext(UserContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
-    username: "",
     email: "",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+
   const { email, password } = formData;
 
   useEffect(() => {
+    if (!loading && loggedIn) {
+      navigate("/");
+    }
+
     return () => {
-      setErrors([]);
+      setError(null);
     };
-  }, [setErrors]);
+  }, [loading, loggedIn, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,17 +33,21 @@ const Login = ({ loading }) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        if (data.errors) {
-          setErrors(data.errors);
-        } else {
+    }).then((resp) => {
+      if (resp.ok) {
+        resp.json().then((data) => {
+          console.log(data);
           login(data);
-          setErrors([]);
+          setError(null);
           navigate("/posts");
-        }
-      });
+        });
+      } else {
+        resp.json().then((data) => {
+          console.log(data.error);
+          setError(data.error); // Assuming your backend sends the error message as 'error'
+        });
+      }
+    });
   };
 
   const handleChange = (e) => {
@@ -87,11 +94,13 @@ const Login = ({ loading }) => {
 
         <button type="submit">Log In</button>
       </form>
+
+      {error && <div className="error-container">{error}</div>}
+
       <br />
       <>
         <small>
           <b>Don't have an account? {"   "}</b>
-
           <u>
             <NavLink to="/signup">Sign up</NavLink>
           </u>

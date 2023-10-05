@@ -2,53 +2,57 @@ class PostsController < ApplicationController
     before_action :find_post, only: [:show, :update, :destroy]
     skip_before_action :authorize_user, only: [:index]
 
-  # GET "/posts"
-  def index  
-    render json: Post.all, status: :ok 
-  end 
+    # GET "/posts"
+    def index  
+        render json: Post.all, status: :ok 
+    end 
 
-  def ordered
-    posts = Post.sort_desc_by_title
-    render json: posts, status: :ok
-  end 
+    def ordered
+        posts = Post.sort_desc_by_title
+        render json: posts, status: :ok
+    end 
 
-  # POST "/posts"
-  def create 
-    post = current_user.posts.create!(post_params) #associated build
-    render json: post, status: :created 
-  end 
+    # POST "/posts"
+    def create 
+        post = current_user.posts.create!(post_params) #associated build
+        render json: post, status: :created 
+    end 
 
-  # GET "/posts/:id"
-  def show  
-    render json: @post, status: :ok 
-  end 
+    # GET "/posts/:id"
+    def show  
+        render json: @post, status: :ok 
+    end 
 
-  # PATCH "/posts/:id"
-  def update 
-    post.update!(post_params)
-    render json: @post, status: :accepted 
-  end 
+    # PATCH "/posts/:id"
+    def update 
+        post.update!(post_params)
+        render json: @post, status: :accepted 
+    end 
 
-  # DELETE "/posts/:id"
-  def destroy
-    @post.destroy 
-    head :no_content 
-  end 
+    # DELETE "/posts/:id"
+    def destroy
+        @post.destroy 
+        head :no_content 
+    end 
 
-  private 
+    private 
 
-  def post_params 
-    params.require(:post).permit(:title, :content) 
-  end 
+    def post_params 
+        params.require(:post).permit(:title, :content) 
+    end 
 
-  def find_post
-    @post = Post.find(params[:id])
-  end 
+    def find_post
+        @post = Post.find(params[:id])
+    end 
 end
 
 
 #------------------------------------------------------
 =begin  
+
+ActiveStorage 
+
+utilize ActiveStorage in to associate pictures with instances of a Post. 
 
 posts#create 
      In this action, you are attempting to create a new post based on the parameters sent in the request (post_params). After attempting to save the post, you check if the post has been successfully saved to the database using post.id.

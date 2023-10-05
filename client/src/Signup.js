@@ -6,118 +6,117 @@ import { ErrorsContext } from "./context/error";
 
 const Signup = () => {
   const { login } = useContext(UserContext);
-    const { setErrors, clearErrors } = useContext(ErrorsContext);
-    
-    const navigate = useNavigate();
+  const { setErrors, clearErrors } = useContext(ErrorsContext);
 
-    useEffect(() => {
-        return () => {
-            setErrors([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => {
+      setErrors([]);
+    };
+  }, [setErrors]);
+
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    showPassword: false, 
+  });
+
+  const { username, email, password, showPassword } = formData;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch("/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, email, password }),
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data.errors) {
+          setErrors(data.errors);
+        } else {
+          clearErrors(); 
+          login(data);
+          navigate("/posts");
         }
-    }, [setErrors]);
+      });
+  };
 
-    const [formData, setFormData] = useState({
-        username: "",
-        email: "",
-        password: "",
-        showPassword: false, // New state for Show Password functionality
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
+  };
 
-    const { username, email, password, showPassword } = formData;
+  const toggleShowPassword = () => {
+    setFormData({
+      ...formData,
+      showPassword: !showPassword,
+    });
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-        fetch("/signup", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, email, password })
-        })
-            .then((resp) => resp.json())
-            .then(data => {
-                if (data.errors) {
-                    setErrors(data.errors)
-                } else {
-                    clearErrors(); // clear errors after successful form submission
-                    login(data)
-                    navigate("/posts")
-                }  
-            }) 
-    };
-    
-
-    const handleChange = (e) => {
-        setFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
-        });
-    };
-
-    const toggleShowPassword = () => {
-        setFormData({
-        ...formData,
-        showPassword: !showPassword,
-        });
-    };
-
-    return (
-        <div className="signup-form">
-        <h2>Create Account</h2>
-        <form onSubmit={handleSubmit}>
-            <div className="form-group">
-            <label htmlFor="username">Username:</label>
-            <input
-                type="text"
-                onChange={handleChange}
-                value={username}
-                name="username"
-                id="username"
-                autoComplete="off"
-            />
-            </div>
-            <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input
-                type="email"
-                onChange={handleChange}
-                value={email}
-                name="email"
-                id="email"
-                autoComplete="off"
-            />
-            </div>
-            <div className="form-group">
-            <label htmlFor="password">Password:</label>
-            <input
-                type={showPassword ? "text" : "password"} // Toggle password visibility
-                onChange={handleChange}
-                value={password}
-                name="password"
-                id="password"
-                autoComplete="off"
-            />
-            <div className="checkbox-group">
-                <label>show password:</label>
-                <input
-                type="checkbox"
-                onChange={toggleShowPassword}
-                checked={showPassword}
-                />
-            </div>
-            </div>
-            <button type="submit">Sign Up</button>
-        </form>
-        <br />
-        <>
-            <small>
-            <b>Already have an account? {"   "}</b>
-            <u>
-                <NavLink to="/login">Log in</NavLink>
-            </u>
-            </small>
-        </>
+  return (
+    <div className="signup-form">
+      <h2>Create Account</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            onChange={handleChange}
+            value={username}
+            name="username"
+            id="username"
+            autoComplete="off"
+          />
         </div>
-    );
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            onChange={handleChange}
+            value={email}
+            name="email"
+            id="email"
+            autoComplete="off"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type={showPassword ? "text" : "password"} // Toggle password visibility
+            onChange={handleChange}
+            value={password}
+            name="password"
+            id="password"
+            autoComplete="off"
+          />
+          <div className="checkbox-group">
+            <label>show password:</label>
+            <input
+              type="checkbox"
+              onChange={toggleShowPassword}
+              checked={showPassword}
+            />
+          </div>
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
+      <br />
+      <>
+        <small>
+          <b>Already have an account? {"   "}</b>
+          <u>
+            <NavLink to="/login">Log in</NavLink>
+          </u>
+        </small>
+      </>
+    </div>
+  );
 };
 
 export default Signup;

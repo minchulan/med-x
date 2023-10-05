@@ -18,13 +18,16 @@ const Navbar = () => {
     return (
       <>
         <li>
-          <Link to="/posts">Posts</Link>
+          <Link to="/posts">Explore</Link>
         </li>
         <li>
           <Link to="/posts/new">Create Post</Link>
         </li>
         <li>
           <Link to="/me">Profile</Link>
+        </li>
+        <li>
+          <Link to="/users">User List</Link>
         </li>
         <li>
           <Link to="#">

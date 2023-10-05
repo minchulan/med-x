@@ -48,8 +48,8 @@ const PostDetails = () => {
       <p className="comment-count" onClick={toggleComments}>
         {commentCount} {commentText}
       </p>
-      {showComments && <ul className="comments-list">{commentCards}</ul>}
       {showComments && <CommentForm onSubmit={addComment} />}
+      {showComments && <ul className="comments-list">{commentCards}</ul>}
     </div>
   );
 };

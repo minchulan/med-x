@@ -33,3 +33,7 @@ const Profile = () => {
 };
 
 export default Profile;
+
+// use activeStorage for image handling
+// use to upload profile pictures 
+// or image attachment for posts 

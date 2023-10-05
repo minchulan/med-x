@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resources :comments, shallow: true 
   end 
 
+  get "/users/:user_id/posts", to: "posts#index"
+
   # signup 
   post "/signup", to: "users#create"
 
