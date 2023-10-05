@@ -64,7 +64,7 @@ const Navbar = () => {
         <ul>
           <li>
             <Link to="/" className="nav-link">
-              Home
+              <i className="fas fa-home"></i>  Home
             </Link>
           </li>
           {loggedIn ? loggedInLinks() : loggedOutLinks()}
