@@ -26,11 +26,14 @@ const calculateTimeAgo = (createdAt) => {
 
 const PostCard = ({ post }) => {
   const navigate = useNavigate();
+
   const { currentUser } = useContext(UserContext);
+
   const { id, title, user, summary, created_at } = post;
   const timeAgo = calculateTimeAgo(created_at);
 
   const [menuVisible, setMenuVisible] = useState(false);
+
   const menuRef = useRef(null);
 
   console.log(post)

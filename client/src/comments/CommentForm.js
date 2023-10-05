@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../context/user";
 import "./CommentForm.css";
 
 const CommentForm = ({ onSubmit }) => {
+  const { currentUser } = useContext(UserContext);
   const [comment, setComment] = useState("");
 
   const handleCommentChange = (e) => {
@@ -15,12 +17,12 @@ const CommentForm = ({ onSubmit }) => {
       return;
     }
     onSubmit(comment);
-    setComment(""); 
+    setComment("");
   };
 
   return (
     <div className="comment-form-container">
-      <h2 className="comment-form-header">Add a Comment</h2>
+      <p className="comment-form-header">Comment as {currentUser.username}</p>
       <form onSubmit={handleSubmit} className="comment-form">
         <textarea
           value={comment}
