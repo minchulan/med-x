@@ -23,9 +23,20 @@ const PostDetails = () => {
     setShowComments(!showComments);
   };
 
-  const addComment = () => {
-    // Logic to add a new comment
-    // Increment the comment count
+  const addComment = (newCommentText) => {
+    const newComment = {
+      id: Math.random(), // Generate a unique ID for the new comment (for demo purposes)
+      text: newCommentText,
+    };
+
+    // Update the post object with the new comment
+    const updatedPost = {
+      ...post,
+      comments: [...post.comments, newComment],
+    };
+
+    // Update the post state with the updated post object
+    setPost(updatedPost);
   };
 
   if (!post) return <NotFound />;
