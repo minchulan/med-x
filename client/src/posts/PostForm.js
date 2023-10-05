@@ -10,7 +10,7 @@ const initialPostFormState = {
     content: "",
 }
 
-const PostForm = () => {
+const PostForm = ({ loading }) => {
     const { loggedIn } = useContext(UserContext);
     const { errors, setErrors } = useContext(ErrorsContext);
     const { addPost } = useContext(PostContext);
@@ -19,17 +19,20 @@ const PostForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        return () => {
-            setErrors();
+        if (!loading && !loggedIn) {
+            navigate("/login");
+
+            return () => {
+                setErrors();
+            };
         }
-    }, [setErrors])
+    }, [loading, loggedIn, navigate, setErrors])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setPostData({ ...postData, [name]: value });
     };
 
-    // Add new post 
     const handleSubmit = (e) => {
         e.preventDefault();
         fetch("/posts", {
@@ -64,7 +67,7 @@ const PostForm = () => {
                 name="title"
                 value={postData.title}
                 onChange={handleInputChange}
-                // required
+                required
             />
             </div>
             <div className="form-group">
@@ -75,7 +78,7 @@ const PostForm = () => {
                 value={postData.content}
                 onChange={handleInputChange}
                 rows="6"
-                // required
+                required
             />
             </div>
             <button type="submit">Submit</button>

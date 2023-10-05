@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  resources :users, only: [:index]
+  resources :users, only: [:index, :show] # show action for user profiles 
 
   resources :posts do 
     resources :comments, shallow: true 

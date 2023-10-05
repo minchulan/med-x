@@ -19,7 +19,7 @@ import PostEdit from "./posts/PostEdit";
 import UserList from "./users/UserList";
 
 function App() {
-  const [loading, setLoading] = useState(true); // ensures app is completely loaded when running other components
+  const [loading, setLoading] = useState(true);
 
   return (
     <ErrorsProvider>
@@ -28,33 +28,19 @@ function App() {
           <Navbar />
           <Errors />
           <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/me" element={<Profile />} />
-            <Route exact path="/users" element={<UserList />} />
-            <Route exact path="/users/:id" element={<UserList />} />
-            <Route exact path="/posts" element={<PostList />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/me" element={<Profile />} />
+            <Route path="/users/*" element={<UserList loading={loading} />} />
+            <Route path="/posts" element={<PostList loading={loading} />} />
+            <Route path="/posts/new" element={<PostForm loading={loading} />} />
             <Route
-              exact
-              path="/posts/new"
-              element={<PostForm loading={loading} />}
-            />
-            <Route
-              exact
               path="/posts/:id/edit"
               element={<PostEdit loading={loading} />}
             />
-            <Route exact path="/posts/:id" element={<PostDetails />} />
-            <Route
-              exact
-              path="/posts/:post_id/comments"
-              element={<CommentsList />}
-            />
-            <Route exact path="/login" element={<Login loading={loading} />} />
-            <Route
-              exact
-              path="/signup"
-              element={<Signup loading={loading} />}
-            />
+            <Route path="/posts/:id" element={<PostDetails />} />
+            <Route path="/posts/:post_id/comments" element={<CommentsList />} />
+            <Route path="/login" element={<Login loading={loading} />} />
+            <Route path="/signup" element={<Signup loading={loading} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </PostProvider>

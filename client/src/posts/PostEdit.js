@@ -19,8 +19,6 @@ const PostEdit = ({ loading }) => {
 
     const navigate = useNavigate();
 
-    console.log({id})
-
     useEffect(() => {
         if (!loading && !loggedIn) {
         navigate("/login");
