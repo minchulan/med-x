@@ -14,11 +14,14 @@ class UsersController < ApplicationController
 
     # POST "/signup"
     def create 
-        user = User.create!(user_params)
-        session[:user_id] = user.id
-        render json: user, status: :ok 
+        user = User.new(user_params)
+        if user.save 
+            session[:user_id] = user.id 
+            render json: user, status: :ok 
+        else  
+            render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+        end 
     end 
-    # creating a user, and side-effect is logging in. 
 
     private 
 

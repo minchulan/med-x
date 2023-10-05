@@ -3,18 +3,20 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/user";
 import PostMeta from "./PostMeta";
 import "./PostCard.css";
+import { PostContext } from "../context/post";
 
 const PostCard = ({ post }) => {
   const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);
+  const { deletePost } = useContext(PostContext);
   const { id, title, user, summary, created_at } = post;
 
   const [menuVisible, setMenuVisible] = useState(false);
   const menuRef = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
         setMenuVisible(false);
       }
     };
@@ -36,6 +38,12 @@ const PostCard = ({ post }) => {
 
   const handleDeleteClick = () => {
     // Implement delete functionality
+    fetch(`/posts/${post.id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((resp) => console.log(resp))
+    
   };
 
   return (
