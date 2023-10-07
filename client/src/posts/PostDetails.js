@@ -7,16 +7,15 @@ import "./PostDetails.css";
 import CommentCard from "../comments/CommentCard";
 
 const PostDetails = () => {
-  const { posts } = useContext(PostContext);
+  const { posts, setPosts } = useContext(PostContext);
   const [post, setPost] = useState(null);
   const [showComments, setShowComments] = useState(false);
   const { id } = useParams();
   const postId = parseInt(id);
 
-  console.log(post)
-
   useEffect(() => {
-    const foundPost = posts.find((post) => post.id === postId);
+    const foundPost = posts.find((p) => p.id === postId);
+    console.log(foundPost)
     setPost(foundPost);
   }, [id, postId, posts]);
 
@@ -34,17 +33,24 @@ const PostDetails = () => {
     ));
 
   const addComment = (newCommentText) => {
-    const newComment = {
-      id: Math.random(), // hard coded dummy data
-      text: newCommentText,
-    };
-    // Update the post object with the new comment
-    const updatedPost = {
-      ...post,
-      comments: [...post.comments, newComment],
-    };
-    // Update the post state with the updated post object
-    setPost(updatedPost);
+    fetch(`/posts/${postId}/comments`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: newCommentText }),
+    })
+      .then((resp) => resp.json())
+      .then((newComment) => {
+        // Update the post object with the new comment from the response
+        const updatedPost = {
+          ...post,
+          comments: [...post.comments, newComment],
+        };
+        // Update the posts state with the updated post object
+        const updatedPosts = posts.map((p) =>
+          p.id === postId ? updatedPost : p
+        );
+        setPosts(updatedPosts);
+      })
   };
 
   return (

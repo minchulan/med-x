@@ -9,10 +9,12 @@ const PostCard = ({ post }) => {
   const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);
   const { deletePost } = useContext(PostContext);
-  const { id, title, user, summary, created_at } = post;
+  const { id, title, user, content, created_at } = post;
 
   const [menuVisible, setMenuVisible] = useState(false);
   const menuRef = useRef(null);
+
+  console.log({ post });
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -52,7 +54,7 @@ const PostCard = ({ post }) => {
         <h2 className="post-card-title">{title}</h2>
       </NavLink>
       <PostMeta username={user.username} createdAt={created_at} />
-      <p className="post-card-content">{summary}</p>
+      <p className="post-card-content">{content}</p>
       {currentUser && currentUser.id === post.user.id && (
         <div className="post-card-actions">
           <button className="kebab-icon" onClick={toggleMenu}>
