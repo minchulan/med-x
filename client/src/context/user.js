@@ -13,31 +13,32 @@ function UserProvider({ children, setLoading }) {
         resp.json().then((data) => {
           setCurrentUser(data);
           setLoggedIn(true);
-          fetchUsers();
         });
       } else {
         setLoading(false);
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Get all users
-  const fetchUsers = () => {
-    fetch("/users").then((resp) => {
-      if (resp.ok) {
-        resp.json().then((data) => {
-          console.log(data);
-          setUsers(data);
-          setLoading(false);
-        });
-      } else {
-        resp.json().then((data) => {
-          console.log(data);
-        });
-      }
-    });
-  };
+  useEffect(() => {
+    if (loggedIn) {
+      fetch("/users").then((resp) => {
+        if (resp.ok) {
+          resp.json().then((data) => {
+            console.log(data);
+            setUsers(data);
+            setLoading(false);
+          });
+        } else {
+          resp.json().then((data) => {
+            console.log(data);
+          });
+        }
+      });
+    }
+  }, [loggedIn, setLoading]);
 
   // Login
   const login = (user) => {
@@ -58,7 +59,7 @@ function UserProvider({ children, setLoading }) {
 
   return (
     <UserContext.Provider
-      value={{ loggedIn, currentUser, setCurrentUser, login, logout, addUser }}
+      value={{ loggedIn, currentUser, setCurrentUser, users, setUsers, login, logout, addUser }}
     >
       {children}
     </UserContext.Provider>

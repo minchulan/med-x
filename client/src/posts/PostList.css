@@ -1,57 +1,40 @@
 .post-list-container {
-  max-width: 800px;
+  width: 80%;
   margin: 0 auto;
+  padding-top: 20px;
+}
+
+.post-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.post-card {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
   padding: 20px;
-  background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+  transition: box-shadow 0.3s ease;
 
-.post-list-container .post-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+  &:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
 
-.post-list-container .post-card .post-card-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 12px;
-  color: #333;
-}
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
 
-.post-list-container .post-card .post-card-meta {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 12px;
-}
+  .post-meta {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+  }
 
-.post-list-container .post-card .post-card-content {
-  font-size: 16px;
-  color: #444;
-  margin-bottom: 12px;
+  .post-content {
+    font-size: 1rem;
+    color: #333;
+  }
 }
-
-.post-list-container .post-card .post-card-actions button {
-  background-color: var(--primary-color); /* Use the primary color variable */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
-}
-
-.post-list-container .post-card .post-card-actions button:hover {
-  background-color: var(--primary-hover-color); /* Use the primary hover color variable */
-}
-
-.post-list-container .no-posts-message {
-  font-size: 16px;
-  color: #666;
-}
-

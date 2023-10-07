@@ -31,7 +31,7 @@ const CommentForm = ({ onSubmit }) => {
           className="comment-input"
         />
         <button type="submit" className="comment-submit-btn">
-          Submit
+          Comment
         </button>
       </form>
     </div>
