@@ -9,7 +9,7 @@ import CommentCard from "../comments/CommentCard";
 const PostDetails = () => {
   const { posts, setPosts, currentUser } = useContext(PostContext);
   const [post, setPost] = useState(null);
-  const [showComments, setShowComments] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
   const { id } = useParams();
   const postId = parseInt(id);
 
@@ -23,6 +23,7 @@ const PostDetails = () => {
   const commentCount = post.comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
+  // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
     // Send a PATCH request to update the comment content
     fetch(`/posts/${postId}/comments/${commentId}`, {
@@ -47,6 +48,7 @@ const PostDetails = () => {
       });
   };
 
+  // DELETE COMMENT
   const handleDeleteComment = (commentId) => {
     // Send a DELETE request to remove the comment
     fetch(`/posts/${postId}/comments/${commentId}`, {
@@ -71,8 +73,8 @@ const PostDetails = () => {
     });
   };
 
+  // COMMENT CARDS
   const commentCards =
-    showComments &&
     post.comments.map((comment) => (
       <div className="comment-card" key={comment.id}>
         <CommentCard
@@ -84,6 +86,7 @@ const PostDetails = () => {
       </div>
     ));
 
+  // ADD COMMENT
   const addComment = (newCommentText) => {
     fetch(`/posts/${postId}/comments`, {
       method: "POST",
@@ -95,7 +98,7 @@ const PostDetails = () => {
         // Update the post object with the new comment from the response
         const updatedPost = {
           ...post,
-          comments: [...post.comments, newComment],
+          comments: [newComment, ...post.comments],
         };
         // Update the posts state with the updated post object
         const updatedPosts = posts.map((p) =>
@@ -105,6 +108,13 @@ const PostDetails = () => {
       });
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Optional: smooth scrolling animation
+    });
+  };
+
   return (
     <div className="post-details-container">
       <h1 className="post-header">{post.title}</h1>
@@ -112,14 +122,16 @@ const PostDetails = () => {
         By: <NavLink to={`/user/${post.user.id}`}>{post.user.username}</NavLink>
       </p>
       <p className="post-content">{post.content}</p>
-      <p
-        className="comment-count"
-        onClick={() => setShowComments(!showComments)}
-      >
+      <p className="comment-count">
         {commentCount} {singularOrPlural}
       </p>
-      {showComments && <CommentForm onSubmit={addComment} />}
-      {showComments && <ul className="comments-list">{commentCards}</ul>}
+      <CommentForm onSubmit={addComment} />
+      <ul className="comments-list">{commentCards}</ul>
+
+      {/* Back to top button */}
+      <button onClick={scrollToTop} id="back-to-top-button">
+        Back to Top
+      </button>
     </div>
   );
 };

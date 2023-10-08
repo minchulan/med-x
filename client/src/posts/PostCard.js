@@ -4,17 +4,17 @@ import { UserContext } from "../context/user";
 import PostMeta from "./PostMeta";
 import "./PostCard.css";
 import { PostContext } from "../context/post";
+import comment from "../asset/comment.png"
 
 const PostCard = ({ post }) => {
   const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);
   const { deletePost } = useContext(PostContext);
   const { id, title, user, content, created_at } = post;
-
   const [menuVisible, setMenuVisible] = useState(false);
   const menuRef = useRef(null);
 
-  console.log({ post });
+  const commentCount = post.comments.length;
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -22,9 +22,7 @@ const PostCard = ({ post }) => {
         setMenuVisible(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -39,13 +37,12 @@ const PostCard = ({ post }) => {
   };
 
   const handleDeleteClick = () => {
-    // Implement delete functionality
     fetch(`/posts/${post.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     })
-      .then((resp) => console.log(resp))
-    
+      .then((resp) => resp.json())
+      .then((data) => deletePost(data));
   };
 
   return (
@@ -55,6 +52,10 @@ const PostCard = ({ post }) => {
       </NavLink>
       <PostMeta username={user.username} createdAt={created_at} />
       <p className="post-card-content">{content}</p>
+      <div className="comment-count-container">
+        <img src={comment} alt="Comment Icon" className="comment-icon" />
+        {"  "}{commentCount} {commentCount === 1 ? "comment" : "comments"}
+      </div>
       {currentUser && currentUser.id === post.user.id && (
         <div className="post-card-actions">
           <button className="kebab-icon" onClick={toggleMenu}>

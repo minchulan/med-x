@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../context/user";
+import PostMeta from "../posts/PostMeta";
 
 const CommentCard = ({ comment, onDelete, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -30,7 +31,10 @@ const CommentCard = ({ comment, onDelete, onEdit }) => {
 
   return (
     <div className="comment-card">
-      <p>By: {comment.user.username}</p>
+      <PostMeta
+        username={comment.user.username}
+        createdAt={comment.created_at}
+      />
       {isEditing ? (
         <div>
           <textarea

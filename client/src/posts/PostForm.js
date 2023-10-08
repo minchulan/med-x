@@ -12,10 +12,9 @@ const initialPostFormState = {
 
 const PostForm = ({ loading }) => {
     const { loggedIn } = useContext(UserContext);
-    const { errors, setErrors } = useContext(ErrorsContext);
+    const { setErrors } = useContext(ErrorsContext);
     const { addPost } = useContext(PostContext);
     const [postData, setPostData] = useState(initialPostFormState);
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,12 +42,13 @@ const PostForm = ({ loading }) => {
             .then((resp) => {
                 if (resp.ok) {
                     resp.json().then((data) => {
-                        addPost(data)
-                        navigate("/posts")
+                        console.log(data);
+                        addPost(data);
+                        navigate("/posts");
                     })
                 } else {
                     resp.json().then((data) => {
-                        setErrors(data.errors)
+                        setErrors(data.errors);
                     })
             }
         })

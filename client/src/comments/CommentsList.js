@@ -1,5 +1,6 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import './CommentsList.css'
 
 const CommentList = ({ comments }) => {
   return (
@@ -8,7 +9,7 @@ const CommentList = ({ comments }) => {
         <li key={comment.id} className="comment-card">
           <p className="comment-text">
             Comment by{" "}
-            <NavLink to={`/profile/${comment.user.id}`}>
+            <NavLink to={`/profile/${comment.user.id}`} className="user-link">
               {comment.user.username}
             </NavLink>
             : {comment.text}
@@ -19,4 +20,4 @@ const CommentList = ({ comments }) => {
   );
 };
 
-export default CommentList
+export default CommentList;

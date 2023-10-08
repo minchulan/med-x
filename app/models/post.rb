@@ -5,7 +5,7 @@ class Post < ApplicationRecord
   has_many :commented_users, through: :comments, source: :user 
 
   validates_presence_of :title, :content
-  validates :title, length: {in: 3..20}
+  validates :title, length: {in: 3..50}
   validates :content, length: {in: 5...280}
 
   before_save :format_title 
