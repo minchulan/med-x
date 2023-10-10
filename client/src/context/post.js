@@ -33,13 +33,30 @@ const PostProvider = ({ children }) => {
     };
 
     // Delete post 
-    const deletePost = (deletedPost) => {
-        const updatedPosts = posts.filter((post) => post.id !== deletedPost.id);
+    const deletePost = (postId) => {
+        const updatedPosts = posts.filter((post) => post.id !== postId);
         setPosts(updatedPosts);
     };
 
+    // Add comment 
+    const addComment = (comment) => {
+        // posts array 
+        const post = posts.find((p) => p.id === comment.post_id)
+        const updatedComments = [...post.comments, comment];
+        const updatedPost = { ...post, comments: updatedComments };
+
+        const updatedPosts = posts.map((p) => {
+            if (p.id === post.id) {
+                return updatedPost;
+            } else {
+                return p;
+            }
+        })
+        setPosts(updatedPosts);
+    }
+
     return (
-        <PostContext.Provider value={{ posts, setPosts, addPost, editPost, deletePost }}>
+        <PostContext.Provider value={{ posts, setPosts, addPost, editPost, deletePost, addComment }}>
         {children}
         </PostContext.Provider>
     );

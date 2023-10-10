@@ -1,8 +1,4 @@
-:root {
-  --primary-color: #ff4500; 
-}
 
-/* Navbar Container */
 .navbar-container {
   background-color: #1a1a1b; 
   color: white;
@@ -51,8 +47,4 @@
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s ease-in-out;
-}
-
-.small-button:hover {
-  background-color: #ff5b26;
 }

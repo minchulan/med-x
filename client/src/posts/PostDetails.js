@@ -1,24 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { PostContext } from "../context/post";
-import NotFound from "../NotFound";
 import CommentForm from "../comments/CommentForm";
 import "./PostDetails.css";
 import CommentCard from "../comments/CommentCard";
 
 const PostDetails = () => {
   const { posts, setPosts, currentUser } = useContext(PostContext);
-  const [post, setPost] = useState(null);
   const { id } = useParams();
   const postId = parseInt(id);
 
-  useEffect(() => {
-    const foundPost = posts.find((p) => p.id === postId);
-    setPost(foundPost);
-  }, [id, postId, posts]);
-
-  if (!post) return <NotFound />;
-
+  const post = posts.find((p) => p.id === postId);
+  console.log(post)
+  
   const commentCount = post.comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
@@ -72,19 +66,6 @@ const PostDetails = () => {
     });
   };
 
-  // COMMENT CARDS
-  const commentCards =
-    post.comments.map((comment) => (
-      <div className="comment-card" key={comment.id}>
-        <CommentCard
-          comment={comment}
-          onEdit={handleEditComment}
-          onDelete={handleDeleteComment}
-          currentUser={currentUser}
-        />
-      </div>
-    ));
-
   // ADD COMMENT
   const addComment = (newCommentText) => {
     fetch(`/posts/${postId}/comments`, {
@@ -107,11 +88,24 @@ const PostDetails = () => {
       });
   };
 
+  // COMMENT CARDS
+  const commentCards = post.comments.map((comment) => (
+    <div className="comment-card" key={comment.id}>
+      <CommentCard
+        comment={comment}
+        onEdit={handleEditComment}
+        onDelete={handleDeleteComment}
+        currentUser={currentUser}
+      />
+    </div>
+  ));
+
   return (
     <div className="post-details-container">
       <h1 className="post-header">{post.title}</h1>
       <p className="post-author">
-        By: <NavLink to={`/users/${post.user.id}`}>{post.user.username}</NavLink>
+        By:{" "}
+        <NavLink to={`/users/${post.user.id}`}>{post.user.username}</NavLink>
       </p>
       <p className="post-content">{post.content}</p>
       <p className="comment-count">

@@ -1,12 +1,4 @@
-:root {
-  --primary-color: #0079d3;
-  --hover-color: #005ea1;
-  --background-color: #ffffff;
-  --border-color: #ccc;
-  --text-color: #333;
-}
 
-/* Signup Form */
 .signup-form {
   max-width: 400px;
   margin: 0 auto;
@@ -68,10 +60,6 @@ button {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: var(--hover-color);
 }
 
 /* Error Container */

@@ -44,7 +44,7 @@ const Login = ({ loading }) => {
       } else {
         resp.json().then((data) => {
           console.log(data.error);
-          setError(data.error); // Assuming your backend sends the error message as 'error'
+          setError(data.error);
         });
       }
     });

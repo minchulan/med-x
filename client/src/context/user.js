@@ -11,14 +11,13 @@ function UserProvider({ children, setLoading }) {
     fetch("/me").then((resp) => {
       if (resp.ok) {
         resp.json().then((data) => {
-          setCurrentUser(data);
-          setLoggedIn(true);
-        });
+          console.log(data);
+          login(data);
+        })
       } else {
         setLoading(false);
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Get all users
@@ -31,12 +30,8 @@ function UserProvider({ children, setLoading }) {
             setUsers(data);
             setLoading(false);
           });
-        } else {
-          resp.json().then((data) => {
-            console.log(data);
-          });
         }
-      });
+      })
     }
   }, [loggedIn, setLoading]);
 

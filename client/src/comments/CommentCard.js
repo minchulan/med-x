@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../context/user";
 import PostMeta from "../posts/PostMeta";
+import "./CommentCard.css";
 
 const CommentCard = ({ comment, onDelete, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const { currentUser } = useContext(UserContext);
 
   const handleEdit = () => {
@@ -27,14 +29,32 @@ const CommentCard = ({ comment, onDelete, onEdit }) => {
     onDelete(comment.id);
   };
 
+  const toggleMenu = () => {
+    console.log('Menu toggled');
+    setIsMenuVisible(!isMenuVisible);
+  };
+
   const isOwner = comment.user.id === currentUser.id;
 
   return (
-    <div className="comment-card">
+    <div className={`comment-card ${isOwner ? "owner" : ""}`}>
       <PostMeta
         username={comment.user.username}
         createdAt={comment.created_at}
       />
+      {isOwner && (
+        <div className="comment-menu">
+          <button className="menu-button" onClick={toggleMenu}>
+           <b>⋮</b>
+          </button>
+          {isMenuVisible && (
+            <div>
+              <button onClick={handleEdit}>Edit</button>
+              <button onClick={handleDelete}>Delete</button>
+            </div>
+          )}
+        </div>
+      )}
       {isEditing ? (
         <div>
           <textarea
@@ -52,13 +72,6 @@ const CommentCard = ({ comment, onDelete, onEdit }) => {
       ) : (
         <div>
           <p>{comment.content}</p>
-          {/* Show edit and delete buttons only if the current user is the author of the comment */}
-          {isOwner && (
-            <div className="comment-actions">
-              <button onClick={handleEdit}>Edit</button>
-              <button onClick={handleDelete}>Delete</button>
-            </div>
-          )}
         </div>
       )}
     </div>

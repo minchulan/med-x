@@ -4,65 +4,41 @@
   padding: 20px;
 }
 
-
 .post-header {
   font-size: 24px;
-  font-weight: bold;
   margin-bottom: 10px;
 }
 
-
-.post-author a {
-  color: #0079d3;
-  text-decoration: none;
+.post-author {
   font-weight: bold;
   margin-bottom: 10px;
-  display: inline-block;
-  padding: 5px 10px;
-  border: 1px solid #0079d3;
-  border-radius: 5px;
-  transition: all 0.3s ease;
 }
-
-.post-author a:hover {
-  background-color: #0079d3;
-  color: white;
-}
-
 
 .post-content {
-  line-height: 1.6;
   margin-bottom: 20px;
 }
 
+.post-actions button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.post-actions button:hover {
+  background-color: #45a049;
+}
 
 .comment-count {
-  font-size: 16px;
-  color: #888;
-  margin-bottom: 20px;
+  font-size: 14px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .comments-list {
   list-style: none;
   padding: 0;
 }
-
-.comment-card {
-  background-color: #f2f2f2;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-}
-
-#back-to-top-button {
-  bottom: 20px;
-  right: 20px;
-  background-color: #0079d3;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
