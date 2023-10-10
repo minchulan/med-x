@@ -44,6 +44,11 @@ const Navbar = () => {
     return (
       <>
         <li>
+          <Link to="/" className="nav-link">
+            <i className="fas fa-home"></i> Home
+          </Link>
+        </li>
+        <li>
           <Link to="/signup">Signup</Link>
         </li>
         <li>
@@ -62,11 +67,6 @@ const Navbar = () => {
       </nav>
       <nav className="nav-links">
         <ul>
-          <li>
-            <Link to="/" className="nav-link">
-              <i className="fas fa-home"></i>  Home
-            </Link>
-          </li>
           {loggedIn ? loggedInLinks() : loggedOutLinks()}
         </ul>
       </nav>

@@ -5,9 +5,10 @@ import { PostContext } from "../context/post";
 import PostCard from "./PostCard";
 import "./PostList.css"; 
 
+// EXPLORE PAGE 
 const PostList = ({ loading }) => {
     const { loggedIn } = useContext(UserContext);
-    const { posts } = useContext(PostContext)
+    const { posts, deletePost } = useContext(PostContext)
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -20,6 +21,7 @@ const PostList = ({ loading }) => {
         <PostCard
             key={post.id}
             post={post}
+            deletePost={deletePost}
         />
     ))
 

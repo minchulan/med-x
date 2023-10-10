@@ -9,7 +9,6 @@ import CommentCard from "../comments/CommentCard";
 const PostDetails = () => {
   const { posts, setPosts, currentUser } = useContext(PostContext);
   const [post, setPost] = useState(null);
-  const [menuVisible, setMenuVisible] = useState(false);
   const { id } = useParams();
   const postId = parseInt(id);
 
@@ -108,18 +107,11 @@ const PostDetails = () => {
       });
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth", // Optional: smooth scrolling animation
-    });
-  };
-
   return (
     <div className="post-details-container">
       <h1 className="post-header">{post.title}</h1>
       <p className="post-author">
-        By: <NavLink to={`/user/${post.user.id}`}>{post.user.username}</NavLink>
+        By: <NavLink to={`/users/${post.user.id}`}>{post.user.username}</NavLink>
       </p>
       <p className="post-content">{post.content}</p>
       <p className="comment-count">
@@ -127,11 +119,6 @@ const PostDetails = () => {
       </p>
       <CommentForm onSubmit={addComment} />
       <ul className="comments-list">{commentCards}</ul>
-
-      {/* Back to top button */}
-      <button onClick={scrollToTop} id="back-to-top-button">
-        Back to Top
-      </button>
     </div>
   );
 };

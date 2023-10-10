@@ -70,5 +70,12 @@ export { UserContext, UserProvider };
 
 /*
 
+  ** authorization - restricting access **
+  - if our currentUser is set in state, allow access to our website. however, if currentUser is not set in state, redirect to login page. 
+
+  - check to see if our user is logged in by making a request to backend to see if that user is saved in sessions. 
+
+  - when our user logs in, we put user id in sessions. every time we go to a particular page, we are going to take a look at user context. every time user context loads, we want it to verify to see if a user is logged in. upon mount, we make a request to our backend to check to see if there's actually something in sessions. if a user is successfully in sessions, then let frontend know that user is still logged in. thus, current user will still be set to state, otherwise clear our user. 
+
 
 */

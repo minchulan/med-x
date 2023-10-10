@@ -8,13 +8,22 @@ import comment from "../asset/comment.png"
 
 const PostCard = ({ post }) => {
   const navigate = useNavigate();
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, loggedIn } = useContext(UserContext);
   const { deletePost } = useContext(PostContext);
   const { id, title, user, content, created_at } = post;
   const [menuVisible, setMenuVisible] = useState(false);
   const menuRef = useRef(null);
 
   const commentCount = post.comments.length;
+  const singularOrPlural = commentCount === 1 ? "comment" : "comments";
+
+  const handlePostClick = () => {
+    if (!loggedIn) {
+      navigate("/login");
+    } else {
+      navigate(`/posts/${id}`);
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -47,14 +56,14 @@ const PostCard = ({ post }) => {
 
   return (
     <div className={`post-card ${menuVisible ? "menu-visible" : ""}`}>
-      <NavLink to={`/posts/${id}`}>
+      <div onClick={handlePostClick}>
         <h2 className="post-card-title">{title}</h2>
-      </NavLink>
+      </div>
       <PostMeta username={user.username} createdAt={created_at} />
       <p className="post-card-content">{content}</p>
       <div className="comment-count-container">
-        <img src={comment} alt="Comment Icon" className="comment-icon" />
-        {"  "}{commentCount} {commentCount === 1 ? "comment" : "comments"}
+        <img src={comment} alt="Comment Icon" className="comment-icon" />{" "}
+        {commentCount} {singularOrPlural}
       </div>
       {currentUser && currentUser.id === post.user.id && (
         <div className="post-card-actions">

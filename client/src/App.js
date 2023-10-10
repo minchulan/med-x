@@ -17,7 +17,8 @@ import Errors from "./Errors";
 import CommentsList from "./comments/CommentsList";
 import PostEdit from "./posts/PostEdit";
 import UserList from "./users/UserList";
-import UserPostDetails from "./users/UserPostDetails";
+import UserDetails from "./users/UserDetails";
+import UserPostDetails from "./posts/UserPostDetails";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/me" element={<Profile />} />
             <Route path="/users/*" element={<UserList loading={loading} />} />
-            <Route path="/users/:user_id/posts" element={<UserPostDetails />} />
+            <Route exact path="/users/:id" element={<UserDetails />} />
+            <Route exact path="/users/:user_id/posts" element={<UserPostDetails />} />
             <Route path="/posts" element={<PostList loading={loading} />} />
             <Route path="/posts/new" element={<PostForm loading={loading} />} />
             <Route
