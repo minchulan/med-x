@@ -11,14 +11,13 @@ function UserProvider({ children, setLoading }) {
     fetch("/me").then((resp) => {
       if (resp.ok) {
         resp.json().then((data) => {
-          console.log(data);
           login(data);
         })
       } else {
         setLoading(false);
       }
     });
-  }, []);
+  }, [setLoading]);
 
   // Get all users
   useEffect(() => {
@@ -26,7 +25,6 @@ function UserProvider({ children, setLoading }) {
       fetch("/users").then((resp) => {
         if (resp.ok) {
           resp.json().then((data) => {
-            console.log(data);
             setUsers(data);
             setLoading(false);
           });

@@ -11,21 +11,20 @@ const PostDetails = () => {
   const postId = parseInt(id);
 
   const post = posts.find((p) => p.id === postId);
-  console.log(post)
-  
   const commentCount = post.comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
   // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
     // Send a PATCH request to update the comment content
-    fetch(`/posts/${postId}/comments/${commentId}`, {
+    fetch(`comments/${commentId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content: editedContent }),
     })
       .then((resp) => resp.json())
       .then((updatedComment) => {
+        console.log(updatedComment)
         // Update the post object with the updated comment
         const updatedPost = {
           ...post,
@@ -44,7 +43,7 @@ const PostDetails = () => {
   // DELETE COMMENT
   const handleDeleteComment = (commentId) => {
     // Send a DELETE request to remove the comment
-    fetch(`/posts/${postId}/comments/${commentId}`, {
+    fetch(`/comments/${commentId}`, {
       method: "DELETE",
     }).then((resp) => {
       if (resp.ok) {
@@ -92,6 +91,7 @@ const PostDetails = () => {
   const commentCards = post.comments.map((comment) => (
     <div className="comment-card" key={comment.id}>
       <CommentCard
+        key={comment.id}
         comment={comment}
         onEdit={handleEditComment}
         onDelete={handleDeleteComment}
@@ -109,9 +109,11 @@ const PostDetails = () => {
       </p>
       <p className="post-content">{post.content}</p>
       <p className="comment-count">
-        {commentCount} {singularOrPlural}
+        <u>
+          {commentCount} {singularOrPlural}
+        </u>
       </p>
-      <CommentForm onSubmit={addComment} />
+      <CommentForm onSubmit={addComment} post_id={post.id} />
       <ul className="comments-list">{commentCards}</ul>
     </div>
   );

@@ -1,9 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/user";
+import { PostContext } from "../context/post";
 import { ErrorsContext } from "../context/error";
 import "./PostForm.css";
-import { PostContext } from "../context/post";
+
 
 const initialPostFormState = {
   title: "",
@@ -17,16 +18,6 @@ const PostForm = ({ loading }) => {
   const [postData, setPostData] = useState(initialPostFormState);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!loading && !loggedIn) {
-      navigate("/login");
-
-      return () => {
-        setErrors();
-      };
-    }
-  }, [loading, loggedIn, navigate, setErrors]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPostData({ ...postData, [name]: value });
@@ -34,6 +25,10 @@ const PostForm = ({ loading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!loggedIn) {
+      navigate("/login");
+      return;
+    }
     fetch("/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

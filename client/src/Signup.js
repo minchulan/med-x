@@ -6,7 +6,7 @@ import { ErrorsContext } from "./context/error";
 
 const Signup = () => {
   const { login } = useContext(UserContext);
-  const { setErrors, clearErrors } = useContext(ErrorsContext);
+  const { setErrors } = useContext(ErrorsContext);
 
   const navigate = useNavigate();
 
@@ -38,7 +38,6 @@ const Signup = () => {
         if (data.errors) {
           setErrors(data.errors);
         } else {
-          clearErrors(); 
           login(data);
           navigate("/posts");
         }
@@ -49,13 +48,6 @@ const Signup = () => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    });
-  };
-
-  const toggleShowPassword = () => {
-    setFormData({
-      ...formData,
-      showPassword: !showPassword,
     });
   };
 
@@ -95,14 +87,6 @@ const Signup = () => {
             id="password"
             autoComplete="off"
           />
-          <div className="checkbox-group">
-            <label>show password:</label>
-            <input
-              type="checkbox"
-              onChange={toggleShowPassword}
-              checked={showPassword}
-            />
-          </div>
         </div>
         <button type="submit">Sign Up</button>
       </form>

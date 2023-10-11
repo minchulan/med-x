@@ -44,7 +44,7 @@ const Login = ({ loading }) => {
       } else {
         resp.json().then((data) => {
           console.log(data.error);
-          setError(data.error);
+          setError(data.error); 
         });
       }
     });

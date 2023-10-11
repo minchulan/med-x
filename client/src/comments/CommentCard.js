@@ -11,11 +11,11 @@ const CommentCard = ({ comment, onDelete, onEdit }) => {
 
   const handleEdit = () => {
     setIsEditing(true);
+    setEditedContent(comment.content);
   };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditedContent(comment.content);
   };
 
   const handleSaveEdit = () => {
@@ -30,16 +30,15 @@ const CommentCard = ({ comment, onDelete, onEdit }) => {
   };
 
   const toggleMenu = () => {
-    console.log('Menu toggled');
     setIsMenuVisible(!isMenuVisible);
   };
 
-  const isOwner = comment.user.id === currentUser.id;
+  const isOwner = comment.user && comment.user.id === currentUser.id;
 
   return (
     <div className={`comment-card ${isOwner ? "owner" : ""}`}>
       <PostMeta
-        username={comment.user.username}
+        username={comment.user ? comment.user.username : "Unknown User"}
         createdAt={comment.created_at}
       />
       {isOwner && (

@@ -1,23 +1,38 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../context/user";
+import { PostContext } from "../context/post";
+import { ErrorsContext } from "../context/error";
 import "./CommentForm.css";
 
-const CommentForm = ({ onSubmit }) => {
+const CommentForm = ({ post_id }) => {
   const { currentUser } = useContext(UserContext);
-  const [comment, setComment] = useState("");
+  const { addComment } = useContext(PostContext);
+  const { setErrors } = useContext(ErrorsContext);
+  const [content, setContent] = useState("");
 
   const handleCommentChange = (e) => {
-    setComment(e.target.value);
+    setContent(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (comment.trim() === "") {
-      // Prevent submitting empty comments
-      return;
-    }
-    onSubmit(comment);
-    setComment("");
+    fetch(`/posts/${post_id}/comments`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content, post_id })
+    }).then((resp) => {
+      if (resp.ok) {
+        resp.json().then((data) => {
+          addComment(data);
+        });
+      } else {
+        resp.json().then((data) => {
+          setErrors(data.errors);
+        });
+      }
+    });
+
+    setContent(""); // reset
   };
 
   return (
@@ -25,7 +40,7 @@ const CommentForm = ({ onSubmit }) => {
       <p className="comment-form-header">Comment as {currentUser.username}</p>
       <form onSubmit={handleSubmit} className="comment-form">
         <textarea
-          value={comment}
+          value={content}
           onChange={handleCommentChange}
           placeholder="What are your thoughts?"
           className="comment-input"

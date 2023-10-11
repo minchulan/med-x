@@ -6,8 +6,6 @@ const UserList = ({ loading }) => {
   const navigate = useNavigate();
   const { users, loggedIn } = useContext(UserContext);
 
-  console.log(users);
-
   useEffect(() => {
     if (!loading && !loggedIn) {
       navigate("/login");

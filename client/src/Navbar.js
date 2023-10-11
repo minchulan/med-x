@@ -6,7 +6,6 @@ import logo from "./asset/logo.png"
 
 const Navbar = () => {
   const { loggedIn, logout } = useContext(UserContext);
-
   const navigate = useNavigate();
 
   const handleLogout = () => {
