@@ -1,5 +1,5 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :content, :created_at, :user, :post_id
+  attributes :id, :content, :created_at, :user
 
   belongs_to :user
   belongs_to :post
@@ -7,8 +7,8 @@ class CommentSerializer < ActiveModel::Serializer
   # Include user's username in the serialized output
   def user
     {
-      id: object.user.id,
-      username: object.user.username
+      id: self.object.user.id,
+      username: self.object.user.username
     }
   end
 end

@@ -11,13 +11,14 @@ const PostDetails = () => {
   const postId = parseInt(id);
 
   const post = posts.find((p) => p.id === postId);
+  console.log(post)
   const commentCount = post.comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
   // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
     // Send a PATCH request to update the comment content
-    fetch(`comments/${commentId}`, {
+    fetch(`/posts/${post.id}/comments/${commentId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content: editedContent }),
