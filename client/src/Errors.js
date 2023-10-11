@@ -1,9 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ErrorsContext } from "./context/error";
 import "./Errors.css"
 
 const Errors = () => {
-    const { errors } = useContext(ErrorsContext);
+    const { errors, setErrors } = useContext(ErrorsContext);
+
+    useEffect(() => {
+        setErrors([]);
+        
+    }, [setErrors]);
 
     const errorsList = errors && errors.map((error, index) => <li key={index}>{error}</li>);
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../context/user";
 import { PostContext } from "../context/post";
 import { ErrorsContext } from "../context/error";
@@ -9,6 +9,11 @@ const CommentForm = ({ post_id }) => {
   const { addComment } = useContext(PostContext);
   const { setErrors } = useContext(ErrorsContext);
   const [content, setContent] = useState("");
+
+  useEffect(() => {
+    setErrors([]);
+
+  }, [setErrors]);
 
   const handleCommentChange = (e) => {
     setContent(e.target.value);

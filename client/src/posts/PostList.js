@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/user";
 import { PostContext } from "../context/post";
+import { ErrorsContext } from "../context/error";
 import PostCard from "./PostCard";
 import "./PostList.css"; 
 
@@ -9,13 +10,17 @@ import "./PostList.css";
 const PostList = ({ loading }) => {
     const { loggedIn } = useContext(UserContext);
     const { posts, deletePost } = useContext(PostContext)
+    const { setErrors } = useContext(ErrorsContext);
     const navigate = useNavigate();
     
     useEffect(() => {
         if (!loading && !loggedIn) {
             navigate('/login')
         }
-    }, [loading, loggedIn, navigate])
+
+        setErrors([]);
+
+    }, [loading, loggedIn, navigate, setErrors])
 
     const postCards = posts.map((post) => (
         <PostCard

@@ -5,7 +5,6 @@ import "./Login.css";
 
 const Login = ({ loading }) => {
   const { login, loggedIn } = useContext(UserContext);
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
@@ -75,20 +74,12 @@ const Login = ({ loading }) => {
         <div className="form-group">
           <label htmlFor="password">Password:</label>
           <input
-            type={showPassword ? "text" : "password"}
+            type="password"
             onChange={handleChange}
             value={password}
             name="password"
             id="password"
             autoComplete="on"
-          />
-        </div>
-        <div className="form-group checkbox-group">
-          <label>show password:</label>
-          <input
-            type="checkbox"
-            onChange={() => setShowPassword((prev) => !prev)}
-            checked={showPassword}
           />
         </div>
 

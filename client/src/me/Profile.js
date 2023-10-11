@@ -1,13 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/user";
 import { PostContext } from "../context/post";
 import "./Profile.css";
+import { ErrorsContext } from "../context/error";
 
 const Profile = () => {
   const { currentUser } = useContext(UserContext);
   const { posts } = useContext(PostContext);
+  const { setErrors } = useContext(ErrorsContext);
 
+  useEffect(() => {
+    setErrors([]);
+
+  }, [setErrors]);
   // Filter posts made by current user
   const userPosts = posts && posts.filter((post) => post.user.id === currentUser.id);
 
