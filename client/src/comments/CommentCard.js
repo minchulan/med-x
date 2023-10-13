@@ -9,6 +9,11 @@ const CommentCard = ({ postId, comment, onDelete, onEdit }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const { currentUser } = useContext(UserContext);
 
+  // Ensure comment and its user property exist before accessing their properties
+  const username = comment && comment.user ? comment.user.username : "";
+  const id = comment && comment.id ? comment.id : "";
+  const isOwner = comment.user && comment.user.id === currentUser.id;
+
   const handleEdit = () => {
     setIsEditing(true);
     setEditedContent(comment.content);
@@ -20,25 +25,23 @@ const CommentCard = ({ postId, comment, onDelete, onEdit }) => {
 
   const handleSaveEdit = () => {
     // Call the onEdit function passed as a prop with the updated content
-    onEdit(comment.id, editedContent);
+    onEdit(id, editedContent);
     setIsEditing(false);
   };
 
   const handleDelete = () => {
     // Call the onDelete function passed as a prop with the comment id
-    onDelete(comment.id);
+    onDelete(id);
   };
 
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisible);
   };
 
-  const isOwner = comment.user && comment.user.id === currentUser.id;
-
   return (
     <div className={`comment-card ${isOwner ? "owner" : ""}`}>
       <PostMeta
-        username={comment.user ? comment.user.username : "Unknown User"}
+        username={username}
         createdAt={comment.created_at}
       />
       {isOwner && (

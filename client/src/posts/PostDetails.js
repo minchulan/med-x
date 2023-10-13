@@ -5,15 +5,17 @@ import CommentForm from "../comments/CommentForm";
 import "./PostDetails.css";
 import CommentCard from "../comments/CommentCard";
 
-const PostDetails = () => {
+const PostDetails = ({ loading }) => {
   const { posts, setPosts, currentUser } = useContext(PostContext);
   const { id } = useParams();
   const postId = parseInt(id);
 
   const post = posts.find((p) => p.id === postId);
-  const commentCount = post.comments.length;
+  // Check if post exists and has comments property before accessing it
+  const comments = post?.comments || [];
+  const commentCount = comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
-
+  
   // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
     // Send a PATCH request to update the comment content
@@ -24,7 +26,6 @@ const PostDetails = () => {
     })
       .then((resp) => resp.json())
       .then((updatedComment) => {
-        console.log(updatedComment)
         // Update the post object with the updated comment
         const updatedPost = {
           ...post,
@@ -101,12 +102,14 @@ const PostDetails = () => {
     </div>
   ));
 
+  if (loading) return <div>Loading...</div>
+  
   return (
     <div className="post-details-container">
       <h1 className="post-header">{post.title}</h1>
       <p className="post-author">
         By:{" "}
-        <NavLink to={`/users/${post.user.id}`}>{post.user.username}</NavLink>
+        <NavLink to={`/users/${post.user.id}`}>u/{post.user.username}</NavLink>
       </p>
       <p className="post-content">{post.content}</p>
       <p className="comment-count">

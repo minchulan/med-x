@@ -13,21 +13,22 @@ class UsersController < ApplicationController
     end 
 
     # POST "/signup"
-    def create 
-        user = User.new(user_params)
-        if user.save 
-            session[:user_id] = user.id 
-            render json: user, status: :ok 
-        else  
-            render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
-        end 
-    end 
+    def create
+    Rails.logger.info("Received signup request with params: #{user_params.inspect}, IP: #{request.remote_ip}, User Agent: #{request.user_agent}")
+    new_user = User.create!(user_params)
+    render json: new_user, status: :ok 
+    end
+
+
 
     private 
 
     def user_params 
-        params.require(:user).permit(:username, :email, :password)
-    end 
+    params.permit(:username, :email, :password).tap do |user_params|
+        user_params[:email].strip! if user_params[:email].present?
+    end
+    end
+
 
     def find_user 
         @user = current_user

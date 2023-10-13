@@ -18,7 +18,6 @@ import CommentsList from "./comments/CommentsList";
 import PostEdit from "./posts/PostEdit";
 import UserList from "./users/UserList";
 import UserDetails from "./users/UserDetails";
-import UserPostDetails from "./posts/UserPostDetails";
 import CommentCard from "./comments/CommentCard";
 
 function App() {
@@ -30,25 +29,24 @@ function App() {
         <PostProvider>
           <Navbar />
           <Errors />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/me" element={<Profile />} />
-            <Route path="/users/*" element={<UserList loading={loading} />} />
-            <Route exact path="/users/:id" element={<UserDetails />} />
-            <Route exact path="/users/:user_id/posts" element={<UserPostDetails />} />
-            <Route path="/posts" element={<PostList loading={loading} />} />
-            <Route path="/posts/new" element={<PostForm loading={loading} />} />
-            <Route
-              path="/posts/:id/edit"
-              element={<PostEdit loading={loading} />}
-            />
-            <Route path="/posts/:id" element={<PostDetails />} />
-            <Route path="/posts/:post_id/comments" element={<CommentsList />} />
-            <Route path="/comments/:id" element={<CommentCard />} />
-            <Route path="/login" element={<Login loading={loading} />} />
-            <Route path="/signup" element={<Signup loading={loading} />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          {
+            loading ? <h1>Loading...</h1> :
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/me" element={<Profile loading={loading} />} />
+                <Route path="/users/*" element={<UserList loading={loading} />} />
+                <Route exact path="/users/:id" element={<UserDetails />} />
+                <Route path="/posts" element={<PostList loading={loading} />} />
+                <Route path="/posts/new" element={<PostForm loading={loading} />} />
+                <Route path="/posts/:id/edit" element={<PostEdit loading={loading} />} />
+                <Route path="/posts/:id" element={<PostDetails loading={loading} />} />
+                <Route path="/posts/:post_id/comments" element={<CommentsList />} />
+                <Route path="/comments/:id" element={<CommentCard />} />
+                <Route path="/login" element={<Login loading={loading} />} />
+                <Route path="/signup" element={<Signup loading={loading} />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+          }
         </PostProvider>
       </UserProvider>
     </ErrorsProvider>

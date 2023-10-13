@@ -17,7 +17,7 @@ const PostCard = ({ post }) => {
   const commentCount = post.comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
-  // LOGGED IN AUTHORIZATION 
+  // LOGGED IN AUTHORIZATION
   const handlePostClick = () => {
     if (!loggedIn) {
       navigate("/login");
@@ -48,14 +48,19 @@ const PostCard = ({ post }) => {
     navigate(`/posts/${post.id}/edit`);
   };
 
-  // DELETE POST 
+  // DELETE POST
   const handleDeleteClick = () => {
     fetch(`/posts/${post.id}`, {
       method: "DELETE",
-    })
+    });
 
     deletePost(post.id);
   };
+
+  // Conditionally render the PostCard component when user data is available
+  if (!user?.username) {
+    return null; // Render nothing if user data is not available yet
+  }
 
   return (
     <div className={`post-card ${menuVisible ? "menu-visible" : ""}`}>

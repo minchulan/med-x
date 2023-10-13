@@ -3,6 +3,6 @@ class Comment < ApplicationRecord
   belongs_to :post
 
   validates :content, presence: true
-  validates :content, length: {in: 5...280}
+  validates :content, length: {in: 1...280}
 end
  

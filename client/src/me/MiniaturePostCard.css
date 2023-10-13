@@ -1,0 +1,13 @@
+.miniature-post-card {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.miniature-post-card a {
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}

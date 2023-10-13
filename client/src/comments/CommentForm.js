@@ -12,8 +12,10 @@ const CommentForm = ({ post_id }) => {
 
   useEffect(() => {
     setErrors([]);
-
   }, [setErrors]);
+
+  // Ensure currentUser exists before accessing its properties
+  const username = currentUser ? currentUser.username : "";
 
   const handleCommentChange = (e) => {
     setContent(e.target.value);
@@ -24,7 +26,7 @@ const CommentForm = ({ post_id }) => {
     fetch(`/posts/${post_id}/comments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content, post_id })
+      body: JSON.stringify({ content, post_id }),
     }).then((resp) => {
       if (resp.ok) {
         resp.json().then((data) => {
@@ -42,7 +44,7 @@ const CommentForm = ({ post_id }) => {
 
   return (
     <div className="comment-form-container">
-      <p className="comment-form-header">Comment as {currentUser.username}</p>
+      <p className="comment-form-header">Comment as {username}</p>
       <form onSubmit={handleSubmit} className="comment-form">
         <textarea
           value={content}

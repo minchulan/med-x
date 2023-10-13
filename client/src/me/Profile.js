@@ -1,32 +1,34 @@
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/user";
 import { PostContext } from "../context/post";
 import "./Profile.css";
 import { ErrorsContext } from "../context/error";
+import MiniaturePostCard from "./MiniaturePostCard";
 
-const Profile = () => {
-  const { currentUser } = useContext(UserContext);
+const Profile = ({ loading }) => {
+  const { currentUser, loggedIn } = useContext(UserContext);
   const { posts } = useContext(PostContext);
   const { setErrors } = useContext(ErrorsContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!loading && !loggedIn) {
+      navigate("/login");
+    }
+
     setErrors([]);
-  }, [setErrors]);
+  }, [loading, loggedIn, navigate, setErrors]);
+
+  // Check if currentUser is available
+  if (loading || !loggedIn || !currentUser) {
+    // Render loading state or redirect to login page
+    return loading ? <div>Loading...</div> : null;
+  }
 
   // Filter posts made by current user
-  const userPosts =
-    posts && posts.filter((post) => post.user.id === currentUser.id);
-
-  // Get all comments made by the current user from all posts
-  const userComments = posts.reduce((allComments, post) => {
-    const commentsWithUser = post.comments.filter(
-      (comment) => comment.user && comment.user.id === currentUser.id
-    );
-    return allComments.concat(commentsWithUser);
-  }, []);
-
-
+  const userPosts = posts?.filter((post) => post.user?.id === currentUser?.id);
+  
   return (
     <div className="profile-container">
       <div className="user-info">
@@ -35,38 +37,28 @@ const Profile = () => {
         </div>
         <div className="details">
           <h3>{currentUser.username}</h3>
-          <p>{currentUser.email}</p>
+          <p>
+            <i>{currentUser.email}</i>
+          </p>
         </div>
         <div className="bio">
-          <h3>Bio</h3>
-          <p>
-            Minchul An is a licensed pharmacist in NY and CO, and is currently a
-            Software Engineering student at Flatiron School's SENG Flex Program.
-            Min is passionate about building products that improve the patient
-            experience.
-          </p>
+          <br />
+          <p>{currentUser.bio || "No bio available."}</p>
         </div>
       </div>
       <div className="profile-content">
         <div className="user-posts">
-          <h3>Posts</h3>
-          <ul>
+          <h2>Overview</h2>
+          <h4>Posts</h4>
+          <div className="miniature-post-cards">
             {userPosts.map((post) => (
-              <li key={post.id}>
-                <Link to={`/posts/${post.id}`}>{post.summary}</Link>
-              </li>
+              <MiniaturePostCard
+                key={post.id}
+                id={post.id}
+                summary={post.summary}
+              />
             ))}
-          </ul>
-        </div>
-        <div className="user-comments">
-          <h3>Comments</h3>
-          <ul>
-            {userComments.map((comment) => (
-              <li key={comment.id}>
-                <Link to={`/comments/${comment.id}`}>{comment.content}</Link>
-              </li>
-            ))}
-          </ul>
+          </div>
         </div>
       </div>
     </div>

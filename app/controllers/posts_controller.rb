@@ -4,18 +4,8 @@ class PostsController < ApplicationController
 
     # GET "/posts"
     def index  
-        if params[:user_id]
-            user = User.find(params[:user_id])
-            posts = user.posts 
-        else  
-            posts = Post.all 
-        end 
+        posts = Post.all 
         render json: posts, status: :ok 
-    end 
-
-    def ordered
-        posts = Post.sort_desc_by_title
-        render json: posts, status: :ok
     end 
 
     # POST "/posts"

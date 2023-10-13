@@ -19,11 +19,10 @@ const Signup = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    password: "",
-    showPassword: false, 
+    password: "", 
   });
 
-  const { username, email, password, showPassword } = formData;
+  const { username, email, password } = formData;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -80,11 +79,11 @@ const Signup = () => {
         <div className="form-group">
           <label htmlFor="password">Password:</label>
           <input
-            type={showPassword ? "text" : "password"} // Toggle password visibility
-            onChange={handleChange}
-            value={password}
+            type="password"
             name="password"
             id="password"
+            onChange={handleChange}
+            value={password}
             autoComplete="off"
           />
         </div>
