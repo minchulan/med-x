@@ -11,7 +11,6 @@ const PostDetails = () => {
   const postId = parseInt(id);
 
   const post = posts.find((p) => p.id === postId);
-  console.log(post)
   const commentCount = post.comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
@@ -91,13 +90,14 @@ const PostDetails = () => {
   // COMMENT CARDS
   const commentCards = post.comments.map((comment) => (
     <div className="comment-card" key={comment.id}>
-      <CommentCard
+      {comment && <CommentCard
         key={comment.id}
         comment={comment}
         onEdit={handleEditComment}
         onDelete={handleDeleteComment}
         currentUser={currentUser}
-      />
+        postId={postId}
+      />}
     </div>
   ));
 

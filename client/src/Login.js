@@ -35,7 +35,6 @@ const Login = ({ loading }) => {
     }).then((resp) => {
       if (resp.ok) {
         resp.json().then((data) => {
-          console.log(data);
           login(data);
           setError(null);
           navigate("/posts");

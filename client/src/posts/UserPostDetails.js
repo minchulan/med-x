@@ -7,9 +7,6 @@ import PostCard from "./PostCard";
 const UserPostDetails = () => {
     const [user, setUser] = useState(null);
     const { user_id } = useParams(); // /users/:user_id/posts
-    
-    console.log(user_id)
-
     const { currentUser, users } = useContext(UserContext);
     const { deletePost } = useContext(PostContext);
 
@@ -17,6 +14,9 @@ const UserPostDetails = () => {
         const selectUser = users.find((u) => u.id === user_id);
         setUser(selectUser);
     }, [users, user_id]);
+
+    console.log(users);
+    console.log(user_id);
 
 
     const postCards = user && user.posts.map((post) => (

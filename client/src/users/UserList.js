@@ -19,7 +19,7 @@ const UserList = ({ loading }) => {
 
   const userLinks = users && users.map((user) => (
     <li key={user.id}>
-      <Link to={`/users/${user.id}/posts`}>{user.username}</Link>
+      <Link to={`/users/${user.id}`}>{user.username}</Link>
     </li>
   ));
 

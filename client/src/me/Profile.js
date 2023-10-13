@@ -12,18 +12,20 @@ const Profile = () => {
 
   useEffect(() => {
     setErrors([]);
-
   }, [setErrors]);
-  // Filter posts made by current user
-  const userPosts = posts && posts.filter((post) => post.user.id === currentUser.id);
 
-  // Get all comments made by the current user from userPosts
-  const userComments = userPosts.reduce(
-    (allComments, post) =>
-      // Concatenate comments from all userPosts into one array
-      allComments.concat(post.comments),
-    []
-  );
+  // Filter posts made by current user
+  const userPosts =
+    posts && posts.filter((post) => post.user.id === currentUser.id);
+
+  // Get all comments made by the current user from all posts
+  const userComments = posts.reduce((allComments, post) => {
+    const commentsWithUser = post.comments.filter(
+      (comment) => comment.user && comment.user.id === currentUser.id
+    );
+    return allComments.concat(commentsWithUser);
+  }, []);
+
 
   return (
     <div className="profile-container">
@@ -38,7 +40,10 @@ const Profile = () => {
         <div className="bio">
           <h3>Bio</h3>
           <p>
-            Minchul An is a licensed pharmacist in NY and CO, and is currently a Software Engineering student at Flatiron School's SENG Flex Program. Min is passionate about building products that improve the patient experience.   
+            Minchul An is a licensed pharmacist in NY and CO, and is currently a
+            Software Engineering student at Flatiron School's SENG Flex Program.
+            Min is passionate about building products that improve the patient
+            experience.
           </p>
         </div>
       </div>

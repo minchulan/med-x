@@ -3,7 +3,7 @@ import { UserContext } from "../context/user";
 import PostMeta from "../posts/PostMeta";
 import "./CommentCard.css";
 
-const CommentCard = ({ comment, onDelete, onEdit }) => {
+const CommentCard = ({ postId, comment, onDelete, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -44,7 +44,7 @@ const CommentCard = ({ comment, onDelete, onEdit }) => {
       {isOwner && (
         <div className="comment-menu">
           <button className="menu-button" onClick={toggleMenu}>
-           <b>⋮</b>
+            <b>⋮</b>
           </button>
           {isMenuVisible && (
             <div>

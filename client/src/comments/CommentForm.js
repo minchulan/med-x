@@ -28,7 +28,6 @@ const CommentForm = ({ post_id }) => {
     }).then((resp) => {
       if (resp.ok) {
         resp.json().then((data) => {
-          console.log(data);
           addComment(data);
         });
       } else {

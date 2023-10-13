@@ -19,6 +19,7 @@ import PostEdit from "./posts/PostEdit";
 import UserList from "./users/UserList";
 import UserDetails from "./users/UserDetails";
 import UserPostDetails from "./posts/UserPostDetails";
+import CommentCard from "./comments/CommentCard";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -43,6 +44,7 @@ function App() {
             />
             <Route path="/posts/:id" element={<PostDetails />} />
             <Route path="/posts/:post_id/comments" element={<CommentsList />} />
+            <Route path="/comments/:id" element={<CommentCard />} />
             <Route path="/login" element={<Login loading={loading} />} />
             <Route path="/signup" element={<Signup loading={loading} />} />
             <Route path="*" element={<NotFound />} />

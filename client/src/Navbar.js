@@ -26,9 +26,6 @@ const Navbar = () => {
           <Link to="/me">Profile</Link>
         </li>
         <li>
-          <Link to="/users">User List</Link>
-        </li>
-        <li>
           <Link to="#">
             <button className="small-button" onClick={handleLogout}>
               Logout
