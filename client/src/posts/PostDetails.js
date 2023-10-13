@@ -11,14 +11,12 @@ const PostDetails = ({ loading }) => {
   const postId = parseInt(id);
 
   const post = posts.find((p) => p.id === postId);
-  // Check if post exists and has comments property before accessing it
   const comments = post?.comments || [];
   const commentCount = comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
   
   // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
-    // Send a PATCH request to update the comment content
     fetch(`/posts/${post.id}/comments/${commentId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -43,7 +41,6 @@ const PostDetails = ({ loading }) => {
 
   // DELETE COMMENT
   const handleDeleteComment = (commentId) => {
-    // Send a DELETE request to remove the comment
     fetch(`/comments/${commentId}`, {
       method: "DELETE",
     }).then((resp) => {

@@ -3,6 +3,7 @@ import { UserContext } from "../context/user";
 import { PostContext } from "../context/post";
 import { ErrorsContext } from "../context/error";
 import "./CommentForm.css";
+import { NavLink } from "react-router-dom";
 
 const CommentForm = ({ post_id }) => {
   const { currentUser } = useContext(UserContext);
@@ -15,6 +16,7 @@ const CommentForm = ({ post_id }) => {
   }, [setErrors]);
 
   // Ensure currentUser exists before accessing its properties
+  const user_id = currentUser ? currentUser.id : null;
   const username = currentUser ? currentUser.username : "";
 
   const handleCommentChange = (e) => {
@@ -44,7 +46,10 @@ const CommentForm = ({ post_id }) => {
 
   return (
     <div className="comment-form-container">
-      <p className="comment-form-header">Comment as {username}</p>
+      <p className="comment-form-header">
+        Comment as{" "}
+        <NavLink to={`/users/${user_id}`}>u/{username}</NavLink>
+      </p>
       <form onSubmit={handleSubmit} className="comment-form">
         <textarea
           value={content}
