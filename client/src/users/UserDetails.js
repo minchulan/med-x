@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { PostContext } from "../context/post";
 import { UserContext } from "../context/user";
+import "./UserDetails.css"
+import MiniaturePostCard from "../me/MiniaturePostCard";
 
 const UserDetails = () => {
   const { users, loggedIn } = useContext(UserContext);
@@ -37,13 +39,14 @@ const UserDetails = () => {
       <div className="user-content">
         <div className="user-posts">
           <h3>Posts</h3>
-          <ul>
-            {userPosts.map((post) => (
-              <li key={post.id}>
-                <Link to={`/posts/${post.id}`}>{post.summary}</Link>
-              </li>
-            ))}
-          </ul>
+          {/* Render MiniaturePostCard for each post */}
+          {userPosts.map((post) => (
+            <MiniaturePostCard
+              key={post.id}
+              id={post.id}
+              summary={post.summary}
+            />
+          ))}
         </div>
       </div>
     </div>
