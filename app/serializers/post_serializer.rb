@@ -1,8 +1,9 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :content, :summary, :created_at
+  attributes :id, :title, :content, :summary, :created_at, :likes_count
  
   belongs_to :user
   has_many :comments 
+  has_many :likes 
 
   def summary 
     # byebug 

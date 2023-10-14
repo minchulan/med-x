@@ -2,43 +2,88 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: #333333;
 }
 
 .post-header {
-  font-size: 24px;
+  font-size: 28px;
   margin-bottom: 10px;
 }
 
 .post-author {
-  font-weight: bold;
   margin-bottom: 10px;
+  color: #888888; 
 }
 
 .post-content {
   margin-bottom: 20px;
+  font-size: 18px;
 }
 
-.post-actions button {
-  margin-right: 10px;
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.post-actions button:hover {
-  background-color: #45a049;
-}
-
-.comment-count {
-  font-size: 14px;
-  margin-top: 20px;
+.counts-container {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 10px;
+}
+
+.comment-count,
+.likes-count {
+  font-size: 16px;
+  color: #888888;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.action-buttons > * {
+  margin-right: 10px;
+  font-size: 16px; 
+  color: #0079d3; 
+  cursor: pointer;
 }
 
 .comments-list {
   list-style: none;
   padding: 0;
 }
+
+.comment-card {
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: #f6f7f8; 
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+}
+
+.comment-card p {
+  margin: 0;
+}
+
+.comment-card .comment-author {
+  font-weight: bold;
+  color: #0079d3; /* Reddit's primary color for links */
+  margin-bottom: 5px;
+}
+
+.comment-card .comment-content {
+  font-size: 16px;
+}
+
+.counts-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.comment-count,
+.like-count {
+  font-size: 14px;
+  color: #888888;
+}
+

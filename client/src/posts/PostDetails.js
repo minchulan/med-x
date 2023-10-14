@@ -4,17 +4,18 @@ import { PostContext } from "../context/post";
 import CommentForm from "../comments/CommentForm";
 import "./PostDetails.css";
 import CommentCard from "../comments/CommentCard";
+import LikeButton from "../LikeButton";
+import comment from "../asset/comment.png";
 
 const PostDetails = ({ loading }) => {
   const { posts, setPosts, currentUser } = useContext(PostContext);
   const { id } = useParams();
   const postId = parseInt(id);
-
   const post = posts.find((p) => p.id === postId);
   const comments = post?.comments || [];
   const commentCount = comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
-  
+
   // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
     fetch(`/posts/${post.id}/comments/${commentId}`, {
@@ -88,32 +89,37 @@ const PostDetails = ({ loading }) => {
   // COMMENT CARDS
   const commentCards = post.comments.map((comment) => (
     <div className="comment-card" key={comment.id}>
-      {comment && <CommentCard
-        key={comment.id}
-        comment={comment}
-        onEdit={handleEditComment}
-        onDelete={handleDeleteComment}
-        currentUser={currentUser}
-        postId={postId}
-      />}
+      {comment && (
+        <CommentCard
+          key={comment.id}
+          comment={comment}
+          onEdit={handleEditComment}
+          onDelete={handleDeleteComment}
+          currentUser={currentUser}
+          postId={postId}
+        />
+      )}
     </div>
   ));
 
-  if (loading) return <div>Loading...</div>
-  
+  if (loading) return <div>Loading...</div>;
+
   return (
     <div className="post-details-container">
       <h1 className="post-header">{post.title}</h1>
       <p className="post-author">
-        By:{" "}
+        Posted by  {" "}
         <NavLink to={`/users/${post.user.id}`}>u/{post.user.username}</NavLink>
       </p>
       <p className="post-content">{post.content}</p>
-      <p className="comment-count">
-        <u>
-          {commentCount} {singularOrPlural}
-        </u>
-      </p>
+      <div className="counts-container">
+        <p className="comment-count">
+          <img src={comment} alt="Comment Icon" className="comment-icon" />{" "}
+           {commentCount} {singularOrPlural}
+        </p>
+        <LikeButton postId={post.id} post={post} />
+      </div>
+
       <CommentForm onSubmit={addComment} post_id={post.id} />
       <ul className="comments-list">{commentCards}</ul>
     </div>

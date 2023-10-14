@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :posts do 
     resources :comments, shallow: true 
-    resources :likes, only: [:create, :destroy]
+    resources :likes, only: [:create, :destroy] # Allow only create and destroy actions for likes
   end 
 
 

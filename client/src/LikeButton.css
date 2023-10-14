@@ -1,0 +1,36 @@
+.like-count {
+  font-size: 16px;
+  margin-bottom: 10px;
+  cursor: pointer; /* Add cursor pointer to indicate interactivity */
+  transition: color 0.3s ease; /* Add a smooth color transition effect */
+}
+
+.like-count:hover {
+  color: #007bff; /* Change text color on hover to indicate interactivity */
+}
+
+.like-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.like-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.like-button:hover {
+  background-color: #0056b3;
+}
+
+.thumbs-up-icon,
+.thumbs-down-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
