@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/user";
 import { PostContext } from "../context/post";
@@ -11,6 +11,7 @@ const Profile = ({ loading }) => {
   const { posts } = useContext(PostContext);
   const { setErrors } = useContext(ErrorsContext);
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("posts"); // Default active tab is "posts"
 
   useEffect(() => {
     if (!loading && !loggedIn) {
@@ -20,17 +21,78 @@ const Profile = ({ loading }) => {
     setErrors([]);
   }, [loading, loggedIn, navigate, setErrors]);
 
-  // Check if currentUser is available
-  if (loading || !loggedIn || !currentUser) {
-    // Render loading state or redirect to login page
-    return loading ? <div>Loading...</div> : null;
-  }
-
   // Filter posts made by current user
   const userPosts = posts?.filter((post) => post.user?.id === currentUser?.id);
-  
+  const likedPosts = posts?.filter((post) =>
+    post.likes.some((like) => like.user_id === currentUser.id)
+  );
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <div className="profile-container">
+      <div className="main-content">
+        <div className="tabs">
+          <button
+            className={activeTab === "posts" ? "active" : ""}
+            onClick={() => handleTabChange("posts")}
+          >
+            My Posts
+          </button>
+          <button
+            className={activeTab === "liked" ? "active" : ""}
+            onClick={() => handleTabChange("liked")}
+          >
+            Liked Posts
+          </button>
+        </div>
+        <div className="miniature-post-cards">
+          {activeTab === "posts" &&
+            userPosts.map((post) => (
+              <MiniaturePostCard
+                key={post.id}
+                id={post.id}
+                summary={post.summary}
+              />
+            ))}
+          {activeTab === "liked" &&
+            likedPosts.map((post) => (
+              <MiniaturePostCard
+                key={post.id}
+                id={post.id}
+                summary={post.summary}
+              />
+            ))}
+        </div>
+      </div>
+      <div className="user-info-container">
+        <div className="avatar">
+          <img src="https://placekitten.com/150/150" alt="User Avatar" />
+        </div>
+        <div className="details">
+          <h3>{currentUser.username}</h3>
+          <p>
+            <i>{currentUser.email}</i>
+          </p>
+        </div>
+        <div className="bio">
+          <br />
+          <p>{currentUser.bio || "No bio available."}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Profile;
+
+// use activeStorage for image handling
+// use to upload profile pictures
+// or image attachment for posts
+
+/*
       <div className="user-info">
         <div className="avatar">
           <img src="https://placekitten.com/150/150" alt="User Avatar" />
@@ -46,27 +108,6 @@ const Profile = ({ loading }) => {
           <p>{currentUser.bio || "No bio available."}</p>
         </div>
       </div>
-      <div className="profile-content">
-        <div className="user-posts">
-          <h2>Overview</h2>
-          <h4>Posts</h4>
-          <div className="miniature-post-cards">
-            {userPosts.map((post) => (
-              <MiniaturePostCard
-                key={post.id}
-                id={post.id}
-                summary={post.summary}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
-export default Profile;
 
-// use activeStorage for image handling
-// use to upload profile pictures
-// or image attachment for posts
+*/
