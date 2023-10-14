@@ -39,13 +39,13 @@ const Profile = ({ loading }) => {
             className={activeTab === "posts" ? "active" : ""}
             onClick={() => handleTabChange("posts")}
           >
-            My Posts
+            Posts
           </button>
           <button
             className={activeTab === "liked" ? "active" : ""}
             onClick={() => handleTabChange("liked")}
           >
-            Liked Posts
+            Liked
           </button>
         </div>
         <div className="miniature-post-cards">

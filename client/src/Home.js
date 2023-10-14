@@ -16,7 +16,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <h2>Welcome to MedX</h2>
-      <p>Explore health and wellness content from our community.</p>
+      <p>Explore health and wellness content from our medical community.</p>
       <hr />
       <div className="post-list">
         {postCards}

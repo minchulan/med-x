@@ -14,19 +14,16 @@ class UsersController < ApplicationController
 
     # POST "/signup"
     def create
-    Rails.logger.info("Received signup request with params: #{user_params.inspect}, IP: #{request.remote_ip}, User Agent: #{request.user_agent}")
-    new_user = User.create!(user_params)
-    render json: new_user, status: :ok 
+        new_user = User.create!(user_params)
+        render json: new_user, status: :ok 
     end
-
-
 
     private 
 
     def user_params 
-    params.permit(:username, :email, :password).tap do |user_params|
-        user_params[:email].strip! if user_params[:email].present?
-    end
+        params.permit(:username, :email, :password).tap do |user_params|
+            user_params[:email].strip! if user_params[:email].present?
+        end
     end
 
 
