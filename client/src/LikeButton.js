@@ -3,26 +3,44 @@ import "./LikeButton.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
-const LikeButton = ({ post }) => {
-  const [likesCount, setLikesCount] = useState(
-    post.likes ? post.likes.length : 0
-  );
+const LikeButton = ({ postId, liked, setLiked, post }) => {
+  const [likesCount, setLikesCount] = useState(post.likes_count || 0);
   const [showButtons, setShowButtons] = useState(false);
 
   const handleLike = () => {
     // Make a POST request to like the post
-    // For example: fetch('/likeEndpoint', { method: 'POST' })
-    // Update likeCount after successful request
-    setLikesCount((likesCount) => likesCount + 1);
-    setShowButtons(true); // Show buttons after clicking like count
+    fetch(`/posts/${postId}/likes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        setLikesCount(data.likes_count);
+        setLiked(true);
+        setShowButtons(true);
+      })
+      .catch((error) => {
+        // Handle error if the request fails
+        console.error("Error liking post:", error);
+      });
   };
 
   const handleUnlike = () => {
     // Make a DELETE request to unlike the post
-    // For example: fetch('/unlikeEndpoint', { method: 'DELETE' })
-    // Update likeCount after successful request, ensuring it doesn't go below 0
-    setLikesCount(Math.max(0, likesCount - 1));
-    setShowButtons(true); // Show buttons after clicking like count
+    fetch(`/posts/${postId}/likes`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        setLikesCount(data.likes_count);
+        setLiked(false);
+        setShowButtons(true);
+      })
+      .catch((error) => {
+        // Handle error if the request fails
+        console.error("Error unliking post:", error);
+      });
   };
 
   return (
@@ -42,4 +60,14 @@ const LikeButton = ({ post }) => {
   );
 };
 
+
 export default LikeButton;
+
+
+
+/*
+  To handle the like increment logic, you would typically do this on the server-side when a successful like request is made. The server should handle the logic of updating the likes count in the database and then send back the updated count to the client.
+
+
+
+*/

@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
-  # belongs_to :author, class_name: "User", foreign_key: "user_id"
+  before_save :format_title 
+
   belongs_to :user 
   has_many :comments, dependent: :destroy 
   has_many :commented_users, through: :comments, source: :user 
@@ -9,7 +10,6 @@ class Post < ApplicationRecord
   validates :title, length: {in: 3..60}
   validates :content, length: {in: 5...400}
 
-  before_save :format_title 
 
   def format_title
     if self.title[0] != self.title[0].upcase 

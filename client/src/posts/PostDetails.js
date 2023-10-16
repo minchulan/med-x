@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { PostContext } from "../context/post";
 import CommentForm from "../comments/CommentForm";
@@ -11,10 +11,27 @@ const PostDetails = ({ loading }) => {
   const { posts, setPosts, currentUser } = useContext(PostContext);
   const { id } = useParams();
   const postId = parseInt(id);
-  const post = posts.find((p) => p.id === postId);
+  const [post, setPost] = useState(null);
   const comments = post?.comments || [];
   const commentCount = comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
+  const [liked, setLiked] = useState(false);
+
+  // Find post details based on postId
+  useEffect(() => {
+    const selectPost = posts.find((post) => post.id === postId);
+    setPost(selectPost);
+  }, [postId, posts]);
+
+  // Check if the current user has liked the post
+  useEffect(() => {
+    if (post && currentUser) {
+      const isLiked = post.likes.some(
+        (like) => like.user_id === currentUser.id
+      );
+      setLiked(isLiked);
+    }
+  }, [post, currentUser]);
 
   // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
@@ -87,37 +104,39 @@ const PostDetails = ({ loading }) => {
   };
 
   // COMMENT CARDS
-  const commentCards = post.comments.map((comment) => (
-    <div className="comment-card" key={comment.id}>
-      {comment && (
-        <CommentCard
-          key={comment.id}
-          comment={comment}
-          onEdit={handleEditComment}
-          onDelete={handleDeleteComment}
-          currentUser={currentUser}
-          postId={postId}
-        />
-      )}
-    </div>
-  ));
+  const commentCards =
+    post &&
+    post.comments.map((comment) => (
+      <div className="comment-card" key={comment.id}>
+        {comment && (
+          <CommentCard
+            key={comment.id}
+            comment={comment}
+            onEdit={handleEditComment}
+            onDelete={handleDeleteComment}
+            currentUser={currentUser}
+            postId={postId}
+          />
+        )}
+      </div>
+    ));
 
-  if (loading) return <div>Loading...</div>;
+  if (loading || !post) return <div>Loading...</div>;
 
   return (
     <div className="post-details-container">
       <h1 className="post-header">{post.title}</h1>
       <p className="post-author">
-        Posted by  {" "}
+        Posted by{" "}
         <NavLink to={`/users/${post.user.id}`}>u/{post.user.username}</NavLink>
       </p>
       <p className="post-content">{post.content}</p>
       <div className="counts-container">
         <p className="comment-count">
           <img src={comment} alt="Comment Icon" className="comment-icon" />{" "}
-           {commentCount} {singularOrPlural}
+          {commentCount} {singularOrPlural}
         </p>
-        <LikeButton postId={post.id} post={post} />
+        <LikeButton postId={post.id} liked={liked} setLiked={setLiked} post={post} />
       </div>
 
       <CommentForm onSubmit={addComment} post_id={post.id} />
