@@ -1,12 +1,12 @@
 .like-count {
   font-size: 16px;
   margin-bottom: 10px;
-  cursor: pointer; /* Add cursor pointer to indicate interactivity */
-  transition: color 0.3s ease; /* Add a smooth color transition effect */
+  cursor: pointer;
+  transition: color 0.3s ease; 
 }
 
 .like-count:hover {
-  color: #007bff; /* Change text color on hover to indicate interactivity */
+  color: #007bff; 
 }
 
 .like-button-container {
@@ -21,6 +21,7 @@
   padding: 5px 10px;
   margin-right: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .like-button:hover {
@@ -33,4 +34,13 @@
   height: 16px;
   margin-right: 5px;
 }
+
+.like-button.liked {
+  background-color: rgb(91, 162, 111); 
+}
+
+.like-button.disliked {
+  background-color: rgb(151, 69, 69); 
+}
+
 

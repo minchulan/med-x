@@ -37,7 +37,7 @@ function App() {
                 <Route path="/users/*" element={<UserList loading={loading} />} />
                 <Route exact path="/users/:id" element={<UserDetails />} />
                 <Route path="/posts" element={<PostList loading={loading} />} />
-                <Route path="/posts/new" element={<PostForm loading={loading} />} />
+                <Route path="/posts/new" element={<PostForm />} />
                 <Route path="/posts/:id/edit" element={<PostEdit loading={loading} />} />
                 <Route path="/posts/:id" element={<PostDetails loading={loading} />} />
                 <Route path="/posts/:post_id/comments" element={<CommentsList />} />

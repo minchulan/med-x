@@ -1,7 +1,7 @@
 class CommentSerializer < ActiveModel::Serializer
   attributes :id, :content, :created_at, :user
 
-  belongs_to :user
+  # belongs_to :user
   belongs_to :post
 
   # Include user's username in the serialized output

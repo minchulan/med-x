@@ -5,6 +5,7 @@ import PostMeta from "./PostMeta";
 import "./PostCard.css";
 import { PostContext } from "../context/post";
 import comment from "../asset/comment.png"
+import LoadingSpinner from "../LoadingSpinner";
 
 const PostCard = ({ post }) => {
   const { currentUser, loggedIn } = useContext(UserContext);
@@ -59,7 +60,7 @@ const PostCard = ({ post }) => {
 
   // Conditionally render the PostCard component when user data is available
   if (!user?.username) {
-    return null; // Render nothing if user data is not available yet
+    return <LoadingSpinner />
   }
 
   return (

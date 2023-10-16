@@ -11,7 +11,7 @@ const initialPostFormState = {
   content: "",
 };
 
-const PostForm = ({ loading }) => {
+const PostForm = () => {
   const { loggedIn } = useContext(UserContext);
   const { setErrors } = useContext(ErrorsContext);
   const { addPost } = useContext(PostContext);
@@ -20,7 +20,7 @@ const PostForm = ({ loading }) => {
 
   useEffect(() => {
     setErrors([]);
-    
+
   }, [setErrors]);
 
   const handleInputChange = (e) => {

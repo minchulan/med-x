@@ -5,12 +5,13 @@ import "./Navbar.css";
 import logo from "./asset/logo.png"
 
 const Navbar = () => {
-  const { loggedIn, logout } = useContext(UserContext);
+  const { loggedIn, logout, setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     navigate("/");
+    setCurrentUser(null);
   };
 
   const loggedInLinks = () => {

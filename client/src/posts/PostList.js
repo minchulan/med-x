@@ -5,6 +5,7 @@ import { PostContext } from "../context/post";
 import { ErrorsContext } from "../context/error";
 import PostCard from "./PostCard";
 import "./PostList.css"; 
+import LoadingSpinner from "../LoadingSpinner";
 
 // EXPLORE PAGE 
 const PostList = ({ loading }) => {
@@ -12,6 +13,9 @@ const PostList = ({ loading }) => {
     const { posts, deletePost } = useContext(PostContext)
     const { setErrors } = useContext(ErrorsContext);
     const navigate = useNavigate();
+
+    console.log({ posts });
+    
     
     useEffect(() => {
         if (!loading && !loggedIn) {
@@ -22,13 +26,15 @@ const PostList = ({ loading }) => {
 
     }, [loading, loggedIn, navigate, setErrors])
 
-    const postCards = posts.map((post) => (
+    const postCards = posts && posts.map((post) => (
         <PostCard
             key={post.id}
             post={post}
             deletePost={deletePost}
         />
     ))
+
+    if (!posts) return <LoadingSpinner />;
 
     return (
         <div className="post-list-container">

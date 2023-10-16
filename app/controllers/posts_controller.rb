@@ -5,7 +5,7 @@ class PostsController < ApplicationController
     # GET "/posts"
     def index  
         posts = Post.all 
-        render json: posts, status: :ok 
+        render json: posts, scope: current_user, status: :ok 
     end 
 
     # POST "/posts"
@@ -46,9 +46,8 @@ end
 #------------------------------------------------------
 =begin  
 
-ActiveStorage 
-
-utilize ActiveStorage in to associate pictures with instances of a Post. 
+posts#index
+    By passing scope: current_user when rendering the JSON response, the liked method in the PostSerializer will have access to the current_user instance variable.
 
 posts#create 
      In this action, you are attempting to create a new post based on the parameters sent in the request (post_params). After attempting to save the post, you check if the post has been successfully saved to the database using post.id.

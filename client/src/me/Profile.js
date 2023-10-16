@@ -12,6 +12,7 @@ const Profile = ({ loading }) => {
   const { setErrors } = useContext(ErrorsContext);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("posts"); // Default active tab is "posts"
+  const [likedPosts, setLikedPosts] = useState([]);
 
   useEffect(() => {
     if (!loading && !loggedIn) {
@@ -21,11 +22,16 @@ const Profile = ({ loading }) => {
     setErrors([]);
   }, [loading, loggedIn, navigate, setErrors]);
 
-  // Filter posts made by current user
-  const userPosts = posts?.filter((post) => post.user?.id === currentUser?.id);
-  const likedPosts = posts?.filter((post) =>
-    post.likes.some((like) => like.user_id === currentUser.id)
-  );
+  console.log(posts)
+
+  // Filter liked posts whenever posts or currentUser changes
+  useEffect(() => {
+    // Filter liked posts
+    const filteredLikedPosts = posts?.filter((post) =>
+      post.likes.some((like) => like.user_id === currentUser?.id)
+    );
+    setLikedPosts(filteredLikedPosts);
+  }, [posts, currentUser]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -50,7 +56,7 @@ const Profile = ({ loading }) => {
         </div>
         <div className="miniature-post-cards">
           {activeTab === "posts" &&
-            userPosts.map((post) => (
+            posts.map((post) => (
               <MiniaturePostCard
                 key={post.id}
                 id={post.id}
@@ -87,27 +93,3 @@ const Profile = ({ loading }) => {
 };
 
 export default Profile;
-
-// use activeStorage for image handling
-// use to upload profile pictures
-// or image attachment for posts
-
-/*
-      <div className="user-info">
-        <div className="avatar">
-          <img src="https://placekitten.com/150/150" alt="User Avatar" />
-        </div>
-        <div className="details">
-          <h3>{currentUser.username}</h3>
-          <p>
-            <i>{currentUser.email}</i>
-          </p>
-        </div>
-        <div className="bio">
-          <br />
-          <p>{currentUser.bio || "No bio available."}</p>
-        </div>
-      </div>
-
-
-*/
