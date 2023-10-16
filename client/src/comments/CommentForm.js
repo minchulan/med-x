@@ -6,6 +6,7 @@ import "./CommentForm.css";
 import { NavLink } from "react-router-dom";
 
 const CommentForm = ({ post_id }) => {
+  console.log("Post ID changed:", post_id);
   const { currentUser } = useContext(UserContext);
   const { addComment } = useContext(PostContext);
   const { setErrors } = useContext(ErrorsContext);
