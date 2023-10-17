@@ -51,10 +51,18 @@ function UserProvider({ children, setLoading }) {
   };
 
   // Update user state to reflect new post
-  const updateUser = (newPost) => {
+  const updateUserAddPost = (newPost) => {
     setCurrentUser((prevUser) => ({
       ...prevUser,
       posts: [...prevUser.posts, newPost],
+    }));
+  };
+
+  // Update user state to remove a deleted post
+  const updateUserRemovePost = (postId) => {
+    setCurrentUser((prevUser) => ({
+      ...prevUser,
+      posts: prevUser.posts.filter((post) => post.id !== postId),
     }));
   };
 
@@ -69,7 +77,8 @@ function UserProvider({ children, setLoading }) {
         login,
         logout,
         addUser,
-        updateUser
+        updateUserAddPost,
+        updateUserRemovePost,
       }}
     >
       {children}
@@ -78,3 +87,29 @@ function UserProvider({ children, setLoading }) {
 }
 
 export { UserContext, UserProvider };
+  
+  
+  
+  
+  /*
+
+  // Update user state to reflect post like count
+  const updatePostLikeCount = (postId, newLikeCount) => {
+    setCurrentUser((prevUser) => {
+      const updatedPosts = prevUser.posts.map((post) => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            likes_count: newLikeCount,
+          };
+        }
+        return post;
+      });
+      return {
+        ...prevUser,
+        posts: updatedPosts,
+      };
+    });
+  };
+
+  */

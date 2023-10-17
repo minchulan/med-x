@@ -8,7 +8,7 @@ import comment from "../asset/comment.png"
 import LoadingSpinner from "../LoadingSpinner";
 
 const PostCard = ({ post }) => {
-  const { currentUser, loggedIn } = useContext(UserContext);
+  const { currentUser, loggedIn, updateUserRemovePost } = useContext(UserContext);
   const { deletePost } = useContext(PostContext);
   const { id, title, user, content, created_at } = post;
   const [menuVisible, setMenuVisible] = useState(false);
@@ -56,6 +56,7 @@ const PostCard = ({ post }) => {
     });
 
     deletePost(post.id);
+    updateUserRemovePost(post.id)
   };
 
   // Conditionally render the PostCard component when user data is available

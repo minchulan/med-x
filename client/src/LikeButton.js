@@ -6,6 +6,8 @@ import { ErrorsContext } from "./context/error";
 import { PostContext } from "./context/post";
 
 const LikeButton = ({ post }) => {
+  console.log({ post })
+  
   const [isLiked, setIsLiked] = useState(post.liked);
   const [likesCount, setLikesCount] = useState(post.likes_count);
   const { setErrors } = useContext(ErrorsContext);
