@@ -14,16 +14,20 @@ class UsersController < ApplicationController
 
     # POST "/signup"
     def create
-        new_user = User.create!(user_params)
-        render json: new_user, status: :ok 
+    new_user = User.new(user_params)
+    if new_user.save
+        session[:user_id] = new_user.id
+        render json: new_user, status: :ok
+    else
+        render json: { errors: new_user.errors.full_messages }, status: :unprocessable_entity
     end
+    end
+
 
     private 
 
     def user_params 
-        params.permit(:username, :email, :password).tap do |user_params|
-            user_params[:email].strip! if user_params[:email].present?
-        end
+        params.permit(:username, :email, :password)
     end
 
 

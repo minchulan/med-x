@@ -4,46 +4,37 @@ import { UserContext } from "../context/user";
 import { PostContext } from "../context/post";
 import { ErrorsContext } from "../context/error";
 import PostCard from "./PostCard";
-import "./PostList.css"; 
+import "./PostList.css";
 import LoadingSpinner from "../LoadingSpinner";
 
-// EXPLORE PAGE 
+// EXPLORE PAGE
 const PostList = ({ loading }) => {
-    const { loggedIn } = useContext(UserContext);
-    const { posts, deletePost } = useContext(PostContext)
-    const { setErrors } = useContext(ErrorsContext);
-    const navigate = useNavigate();
+  const { loggedIn } = useContext(UserContext);
+  const { posts, deletePost } = useContext(PostContext);
+  const { setErrors } = useContext(ErrorsContext);
+  const navigate = useNavigate();
 
-    console.log({ posts });
-    
-    
-    useEffect(() => {
-        if (!loading && !loggedIn) {
-            navigate('/login')
-        }
+  useEffect(() => {
+    if (!loading && !loggedIn) {
+      navigate("/login");
+    }
+    setErrors([]);
+  }, [loading, loggedIn, navigate, setErrors]);
 
-        setErrors([]);
+  const postCards =
+    posts &&
+    posts.map((post) => (
+      <PostCard key={post.id} post={post} deletePost={deletePost} />
+    ));
 
-    }, [loading, loggedIn, navigate, setErrors])
+  if (!posts) return <LoadingSpinner />;
 
-    const postCards = posts && posts.map((post) => (
-        <PostCard
-            key={post.id}
-            post={post}
-            deletePost={deletePost}
-        />
-    ))
-
-    if (!posts) return <LoadingSpinner />;
-
-    return (
-        <div className="post-list-container">
-        <h2>Posts </h2>
-        <div className="post-list">
-           {postCards} 
-        </div>
-        </div>
-    );
+  return (
+    <div className="post-list-container">
+      <h2>Posts </h2>
+      <div className="post-list">{postCards}</div>
+    </div>
+  );
 };
 
 export default PostList;

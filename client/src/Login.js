@@ -37,11 +37,10 @@ const Login = ({ loading }) => {
         resp.json().then((data) => {
           login(data);
           setError(null);
-          navigate("/posts");
+          navigate("/");
         });
       } else {
         resp.json().then((data) => {
-          console.log(data.error);
           setError(data.error); 
         });
       }

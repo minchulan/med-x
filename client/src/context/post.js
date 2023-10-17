@@ -8,10 +8,11 @@ const PostProvider = ({ children }) => {
   useEffect(() => {
     fetch("/posts").then((resp) => {
       if (resp.ok) {
-        resp.json().then((data) => {
-          setPosts(data);
-        });
-      }
+          resp.json().then((data) => {
+              console.log(data);
+              setPosts(data);   
+          }); 
+      } 
     });
   }, []);
 
@@ -22,13 +23,9 @@ const PostProvider = ({ children }) => {
 
   // Edit post
   const editPost = (editedPost) => {
-    const updatedPosts = posts.map((post) => {
-      if (editedPost.id === post.id) {
-        return editedPost;
-      } else {
-        return post;
-      }
-    });
+    const updatedPosts = posts.map((post) =>
+      post.id === editedPost.id ? editedPost : post
+    );
     setPosts(updatedPosts);
   };
 
@@ -40,51 +37,49 @@ const PostProvider = ({ children }) => {
 
   // Add comment
   const addComment = (comment) => {
-    const post = posts.find((p) => p.id === comment.post.id);
-    const updatedComments = [comment, ...post.comments];
-    const updatedPost = { ...post, comments: updatedComments };
+    const updatedPosts = posts.map((post) =>
+      post.id === comment.post.id
+        ? { ...post, comments: [comment, ...post.comments] }
+        : post
+    );
+    setPosts(updatedPosts);
+  };
 
-    const updatedPosts = posts.map((p) => {
-      if (p.id === post.id) {
-        return updatedPost;
-      } else {
-        return p;
-      }
-    });
+  // Update like count
+    const updateLikeCount = (postId, newLikeCount) => {
+    const updatedPosts = posts.map((post) =>
+      post.id === postId ? { ...post, likes_count: newLikeCount } : post
+    );
     setPosts(updatedPosts);
   };
 
   // Edit comment
   const editComment = (editedComment) => {
-    const updatedPosts = posts.map((post) => {
-      if (post.id === editedComment.post.id) {
-        const updatedComments = post.comments.map((comment) => {
-          if (comment.id === editedComment.id) {
-            return editedComment;
-          } else {
-            return comment;
+    const updatedPosts = posts.map((post) =>
+      post.id === editedComment.post.id
+        ? {
+            ...post,
+            comments: post.comments.map((comment) =>
+              comment.id === editedComment.id ? editedComment : comment
+            ),
           }
-        });
-        return { ...post, comments: updatedComments };
-      } else {
-        return post;
-      }
-    });
+        : post
+    );
     setPosts(updatedPosts);
   };
 
   // Delete comment
   const deleteComment = (commentId, postId) => {
-    const updatedPosts = posts.map((post) => {
-      if (post.id === postId) {
-        const updatedComments = post.comments.filter(
-          (comment) => comment.id !== commentId
-        );
-        return { ...post, comments: updatedComments };
-      } else {
-        return post;
-      }
-    });
+    const updatedPosts = posts.map((post) =>
+      post.id === postId
+        ? {
+            ...post,
+            comments: post.comments.filter(
+              (comment) => comment.id !== commentId
+            ),
+          }
+        : post
+    );
     setPosts(updatedPosts);
   };
 
@@ -99,6 +94,7 @@ const PostProvider = ({ children }) => {
         addComment,
         editComment,
         deleteComment,
+        updateLikeCount,
       }}
     >
       {children}

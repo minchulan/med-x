@@ -1,6 +1,7 @@
 class LikesController < ApplicationController
   before_action :find_post
 
+  # POST "/posts/:post_id/likes"
   def create
     @like = @post.likes.new(user_id: current_user.id)
 
@@ -11,6 +12,7 @@ class LikesController < ApplicationController
     end
   end
 
+  # DELETE "/posts/:post_id/likes/:id"
   def destroy
     @like = @post.likes.find_by(user_id: current_user.id)
 

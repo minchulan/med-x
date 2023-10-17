@@ -3,7 +3,7 @@ import { UserContext } from "../context/user";
 import PostMeta from "../posts/PostMeta";
 import "./CommentCard.css";
 
-const CommentCard = ({ postId, comment, onDelete, onEdit }) => {
+const CommentCard = ({ comment, onDelete, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
   const [isMenuVisible, setIsMenuVisible] = useState(false);

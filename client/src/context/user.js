@@ -7,7 +7,6 @@ function UserProvider({ children, setLoading }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
-
   useEffect(() => {
     fetch("/me").then((resp) => {
       if (resp.ok) {
@@ -19,7 +18,6 @@ function UserProvider({ children, setLoading }) {
       }
     });
   }, [setLoading]);
-
 
   // Get all users
   useEffect(() => {

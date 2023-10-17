@@ -14,19 +14,18 @@ const Profile = ({ loading }) => {
   const [activeTab, setActiveTab] = useState("posts"); // Default active tab is "posts"
   const [likedPosts, setLikedPosts] = useState([]);
 
+  console.log(currentUser)
+
+
   useEffect(() => {
     if (!loading && !loggedIn) {
       navigate("/login");
     }
-
     setErrors([]);
   }, [loading, loggedIn, navigate, setErrors]);
 
-  console.log(posts)
-
   // Filter liked posts whenever posts or currentUser changes
   useEffect(() => {
-    // Filter liked posts
     const filteredLikedPosts = posts?.filter((post) =>
       post.likes.some((like) => like.user_id === currentUser?.id)
     );
@@ -56,7 +55,7 @@ const Profile = ({ loading }) => {
         </div>
         <div className="miniature-post-cards">
           {activeTab === "posts" &&
-            posts.map((post) => (
+            currentUser.posts.map((post) => (
               <MiniaturePostCard
                 key={post.id}
                 id={post.id}

@@ -7,16 +7,20 @@ import CommentCard from "../comments/CommentCard";
 import LikeButton from "../LikeButton";
 import comment from "../asset/comment.png";
 import LoadingSpinner from "../LoadingSpinner";
+import { UserContext } from "../context/user";
 
 const PostDetails = ({ loading }) => {
-  const { posts, setPosts, currentUser } = useContext(PostContext);
+  const { posts, setPosts } = useContext(PostContext);
+  const { currentUser } = useContext(UserContext);
   const { id } = useParams();
   const postId = parseInt(id);
   const [post, setPost] = useState(null);
   const comments = post?.comments || [];
   const commentCount = comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
-  const [liked, setLiked] = useState(false);
+
+  console.log({ currentUser })
+  
 
   // Find post details based on postId
   useEffect(() => {
@@ -24,15 +28,6 @@ const PostDetails = ({ loading }) => {
     setPost(selectPost);
   }, [postId, posts]);
 
-  // Check if the current user has liked the post
-  useEffect(() => {
-    if (post && currentUser) {
-      const isLiked = post.likes.some(
-        (like) => like.user_id === currentUser.id
-      );
-      setLiked(isLiked);
-    }
-  }, [post, currentUser]);
 
   // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
@@ -104,7 +99,7 @@ const PostDetails = ({ loading }) => {
       });
   };
 
-  // COMMENT CARDS
+  // RENDER COMMENT CARDS
   const commentCards =
     post &&
     post.comments.map((comment) => (
@@ -116,13 +111,12 @@ const PostDetails = ({ loading }) => {
             onEdit={handleEditComment}
             onDelete={handleDeleteComment}
             currentUser={currentUser}
-            postId={postId}
           />
         )}
       </div>
     ));
 
-  if (loading || !post) return <LoadingSpinner />
+  if (loading || !post) return <LoadingSpinner />;
 
   return (
     <div className="post-details-container">
@@ -137,7 +131,7 @@ const PostDetails = ({ loading }) => {
           <img src={comment} alt="Comment Icon" className="comment-icon" />{" "}
           {commentCount} {singularOrPlural}
         </p>
-        <LikeButton postId={post.id} liked={post} setLiked={setLiked} post={post} />
+        <LikeButton post={post} />
       </div>
 
       <CommentForm onSubmit={addComment} post_id={post.id} />
