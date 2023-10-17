@@ -19,8 +19,6 @@ const PostDetails = ({ loading }) => {
   const commentCount = comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
-  console.log(currentUser);
-
   // Find post details based on postId
   useEffect(() => {
     const selectPost = posts.find((post) => post.id === postId);

@@ -45,12 +45,7 @@ function UserProvider({ children, setLoading }) {
     setLoggedIn(false);
   };
 
-  // Add user
-  const addUser = (user) => {
-    setUsers([...users, user]);
-  };
-
-  // Update user state to reflect new post
+  // Update currentUser state to add a new post
   const updateUserAddPost = (newPost) => {
     setCurrentUser((prevUser) => ({
       ...prevUser,
@@ -58,12 +53,17 @@ function UserProvider({ children, setLoading }) {
     }));
   };
 
-  // Update user state to remove a deleted post
+  // Update currentUser state to remove a deleted post
   const updateUserRemovePost = (postId) => {
     setCurrentUser((prevUser) => ({
       ...prevUser,
       posts: prevUser.posts.filter((post) => post.id !== postId),
     }));
+  };
+
+  // Add user
+  const addUser = (user) => {
+    setUsers([...users, user]);
   };
 
   return (
@@ -93,23 +93,32 @@ export { UserContext, UserProvider };
   
   /*
 
-  // Update user state to reflect post like count
-  const updatePostLikeCount = (postId, newLikeCount) => {
-    setCurrentUser((prevUser) => {
-      const updatedPosts = prevUser.posts.map((post) => {
-        if (post.id === postId) {
+  STRETCH GOALS:
+      1] `addUser` => implement a navbar link to a UsersList for admin auth only.
+      
+      2] // Update currentUser state to add a new comment - stretch goal (in profile page, show all comments left by user)
+
+      3] // Update currentUser state to remove a deleted comment - stretch goal (in profile page, show all comments left by user)
+
+
+  FIX:
+      // Update user state to reflect post like count
+      const updatePostLikeCount = (postId, newLikeCount) => {
+        setCurrentUser((prevUser) => {
+          const updatedPosts = prevUser.posts.map((post) => {
+            if (post.id === postId) {
+              return {
+                ...post,
+                likes_count: newLikeCount,
+              };
+            }
+            return post;
+          });
           return {
-            ...post,
-            likes_count: newLikeCount,
+            ...prevUser,
+            posts: updatedPosts,
           };
-        }
-        return post;
-      });
-      return {
-        ...prevUser,
-        posts: updatedPosts,
+        });
       };
-    });
-  };
 
   */

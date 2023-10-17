@@ -5,7 +5,7 @@ import "./Signup.css";
 import { ErrorsContext } from "./context/error";
 
 const Signup = () => {
-  const { login, setCurrentUser } = useContext(UserContext);
+  const { login, setCurrentUser, addUser } = useContext(UserContext);
   const { setErrors } = useContext(ErrorsContext);
 
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const Signup = () => {
         } else {
           login(data);
           setCurrentUser(data);
-          console.log(data);
+          addUser(data);
           navigate("/");
         }
       });
