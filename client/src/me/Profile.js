@@ -45,12 +45,12 @@ const Profile = ({ loading }) => {
           >
             Posts
           </button>
-          {/* <button
+          <button
             className={activeTab === "liked" ? "active" : ""}
             onClick={() => setActiveTab("liked")}
           >
             Liked
-          </button> */}
+          </button>
         </div>
         <div className="miniature-post-cards">
           {activeTab === "posts" &&
@@ -61,14 +61,14 @@ const Profile = ({ loading }) => {
                 summary={post.summary}
               />
             ))}
-          {/* {activeTab === "liked" &&
+          {activeTab === "liked" &&
             likedPosts.map((post) => (
               <MiniaturePostCard
                 key={post.id}
                 id={post.id}
                 summary={post.summary}
               />
-            ))} */}
+            ))}
         </div>
       </div>
       <div className="user-info-container">

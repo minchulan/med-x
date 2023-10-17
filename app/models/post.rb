@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-  before_validation :format_title 
+  has_one_attached :image 
 
   belongs_to :user 
   has_many :comments, dependent: :destroy 
@@ -10,6 +10,7 @@ class Post < ApplicationRecord
   validates :title, length: {in: 3..60}
   validates :content, length: {in: 5...400}
 
+  before_validation :format_title 
 
   def format_title
     if self.title[0] != self.title[0].upcase 
