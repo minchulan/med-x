@@ -133,7 +133,9 @@ const PostDetails = ({ loading }) => {
           <img src={comment} alt="Comment Icon" className="comment-icon" />{" "}
           {commentCount} {singularOrPlural}
         </p>
-        <LikeButton post={post} />
+        <LikeButton
+          post={post}
+        />
       </div>
 
       <CommentForm onSubmit={addComment} post_id={post.id} />

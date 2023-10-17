@@ -4,6 +4,7 @@ import { PostContext } from "../context/post";
 import { UserContext } from "../context/user";
 import "./UserDetails.css";
 import MiniaturePostCard from "../me/MiniaturePostCard";
+import LoadingSpinner from "../LoadingSpinner";
 
 const UserDetails = () => {
   const { users, loggedIn } = useContext(UserContext);
@@ -13,7 +14,7 @@ const UserDetails = () => {
   const [activeTab, setActiveTab] = useState("posts");
 
   if (!loggedIn) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />
   }
 
   // Find the user by user ID

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "../context/user";
 import PostMeta from "../posts/PostMeta";
 import "./CommentCard.css";
+import LoadingSpinner from "../LoadingSpinner";
 
 const CommentCard = ({ comment, onDelete, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -9,10 +10,13 @@ const CommentCard = ({ comment, onDelete, onEdit }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const { currentUser } = useContext(UserContext);
 
-  // Ensure comment and its user property exist before accessing their properties
-  const username = comment && comment.user ? comment.user.username : "";
-  const id = comment && comment.id ? comment.id : "";
-  const isOwner = comment.user && comment.user.id === currentUser.id;
+  if (!comment || !comment.user || !comment.user.id) {
+    return <LoadingSpinner />;
+  };
+
+  const username = comment.user ? comment.user.username : "";
+  const id = comment.id || "";
+  const isOwner = comment?.user?.id === currentUser?.id;
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -40,10 +44,7 @@ const CommentCard = ({ comment, onDelete, onEdit }) => {
 
   return (
     <div className={`comment-card ${isOwner ? "owner" : ""}`}>
-      <PostMeta
-        username={username}
-        createdAt={comment.created_at}
-      />
+      <PostMeta username={username} createdAt={comment.created_at} />
       {isOwner && (
         <div className="comment-menu">
           <button className="menu-button" onClick={toggleMenu}>

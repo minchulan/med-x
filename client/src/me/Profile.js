@@ -1,17 +1,18 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/user";
 import { PostContext } from "../context/post";
-import "./Profile.css";
 import { ErrorsContext } from "../context/error";
 import MiniaturePostCard from "./MiniaturePostCard";
+import LoadingSpinner from "../LoadingSpinner";
+import "./Profile.css";
 
 const Profile = ({ loading }) => {
   const { currentUser, loggedIn } = useContext(UserContext);
   const { posts } = useContext(PostContext);
   const { setErrors } = useContext(ErrorsContext);
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("posts"); // Default active tab is "posts"
+  const [activeTab, setActiveTab] = useState("posts");
   const [likedPosts, setLikedPosts] = useState([]);
 
   useEffect(() => {
@@ -21,17 +22,18 @@ const Profile = ({ loading }) => {
     setErrors([]);
   }, [loading, loggedIn, navigate, setErrors]);
 
-  // Filter liked posts whenever posts or currentUser changes
   useEffect(() => {
-    const filteredLikedPosts = posts?.filter((post) =>
-      post.likes.some((like) => like.user_id === currentUser?.id)
-    );
-    setLikedPosts(filteredLikedPosts);
-  }, [posts, currentUser]);
+    if (currentUser && currentUser.posts && posts) {
+      const filteredLikedPosts = posts.filter((post) =>
+        post.likes.some((like) => like.user_id === currentUser.id)
+      );
+      setLikedPosts(filteredLikedPosts);
+    }
+  }, [currentUser, posts]);
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
+  if (loading || !currentUser || !currentUser.posts) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="profile-container">
@@ -39,16 +41,16 @@ const Profile = ({ loading }) => {
         <div className="tabs">
           <button
             className={activeTab === "posts" ? "active" : ""}
-            onClick={() => handleTabChange("posts")}
+            onClick={() => setActiveTab("posts")}
           >
             Posts
           </button>
-          <button
+          {/* <button
             className={activeTab === "liked" ? "active" : ""}
-            onClick={() => handleTabChange("liked")}
+            onClick={() => setActiveTab("liked")}
           >
             Liked
-          </button>
+          </button> */}
         </div>
         <div className="miniature-post-cards">
           {activeTab === "posts" &&
@@ -59,14 +61,14 @@ const Profile = ({ loading }) => {
                 summary={post.summary}
               />
             ))}
-          {activeTab === "liked" &&
+          {/* {activeTab === "liked" &&
             likedPosts.map((post) => (
               <MiniaturePostCard
                 key={post.id}
                 id={post.id}
                 summary={post.summary}
               />
-            ))}
+            ))} */}
         </div>
       </div>
       <div className="user-info-container">

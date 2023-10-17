@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
 
@@ -6,18 +7,22 @@ function UserProvider({ children, setLoading }) {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
+  // Get current user
   useEffect(() => {
     fetch("/me").then((resp) => {
       if (resp.ok) {
         resp.json().then((data) => {
+          console.log(data)
           login(data);
+          setLoading(false);
         });
       } else {
         setLoading(false);
       }
     });
-  }, [setLoading]);
+  }, [setLoading, setCurrentUser]);
 
   // Get all users
   useEffect(() => {
@@ -43,6 +48,7 @@ function UserProvider({ children, setLoading }) {
   const logout = () => {
     setCurrentUser(null);
     setLoggedIn(false);
+    navigate("/");
   };
 
   // Update currentUser state to add a new post
@@ -58,6 +64,30 @@ function UserProvider({ children, setLoading }) {
     setCurrentUser((prevUser) => ({
       ...prevUser,
       posts: prevUser.posts.filter((post) => post.id !== postId),
+    }));
+  };
+
+  // Update currentUser state to increment likesCount (like)
+  const updateUserLikeCount = (postId, likesCount) => {
+    setCurrentUser((prevUser) => ({
+      ...prevUser,
+      posts: prevUser.posts.map((post) =>
+        post.id === postId
+          ? { ...post, likes_count: likesCount}
+          : post
+      ),
+    }));
+  };
+
+  // Update currentUser state to decrement likesCount (unlike)
+  const updateUserUnlikeCount = (postId, likesCount) => {
+    setCurrentUser((prevUser) => ({
+      ...prevUser,
+      posts: prevUser.posts.map((post) =>
+        post.id === postId
+          ? { ...post, likes_count: likesCount}
+          : post
+      ),
     }));
   };
 
@@ -79,6 +109,8 @@ function UserProvider({ children, setLoading }) {
         addUser,
         updateUserAddPost,
         updateUserRemovePost,
+        updateUserLikeCount,
+        updateUserUnlikeCount,
       }}
     >
       {children}

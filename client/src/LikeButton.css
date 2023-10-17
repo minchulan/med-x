@@ -1,8 +1,8 @@
 .like-count {
-  font-size: 16px;
-  margin-bottom: 10px;
   cursor: pointer;
-  transition: color 0.3s ease; 
+  display: flex;
+  align-items: center;
+  font-weight: bold;
 }
 
 .like-count:hover {
@@ -62,6 +62,15 @@
   z-index: 999;
   top: 100%;
   left: 0;
+}
+
+/* Styles for liked posts */
+.like-count.liked {
+  color: #007bff; /* Change color to indicate liked status */
+}
+
+.thumbs-up-icon.liked {
+  color: #007bff; /* Change thumbs-up icon color for liked posts */
 }
 
 

@@ -1,9 +1,12 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
+import { UserContext } from "./user";
 
 const PostContext = createContext([]);
 
 const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
+  const { updateUserLikeCount, updateUserUnlikeCount } =
+    useContext(UserContext);
 
   useEffect(() => {
     fetch("/posts").then((resp) => {
@@ -44,17 +47,6 @@ const PostProvider = ({ children }) => {
     setPosts(updatedPosts);
   };
 
-  // Update like count
-    const updateLikeCount = (postId, newLikeCount) => {
-        console.log(postId)
-        console.log(newLikeCount)
-
-        const updatedPosts = posts.map((post) =>
-        post.id === postId ? { ...post, likes_count: newLikeCount } : post
-        );
-        setPosts(updatedPosts);
-    };
-
   // Edit comment
   const editComment = (editedComment) => {
     const updatedPosts = posts.map((post) =>
@@ -85,6 +77,34 @@ const PostProvider = ({ children }) => {
     setPosts(updatedPosts);
   };
 
+    
+  // Update the post's likes_count when liked (incremented like count)
+  const updatePostLikeCount = (postId, newIncrementedLikeCount) => {
+    const updatedPosts = posts.map((post) =>
+      post.id === postId
+        ? { ...post, likes_count: newIncrementedLikeCount }
+        : post
+    );
+    setPosts(updatedPosts);
+
+    // Pass the updated likes_count directly to updateUserLikeCount
+    updateUserLikeCount(postId, newIncrementedLikeCount);
+  };
+
+  // Update the post's likes_count when unliked (decremented like count)
+  const updatePostUnlikeCount = (postId, newDecrementedLikeCount) => {
+    const updatedPosts = posts.map((post) =>
+      post.id === postId
+        ? { ...post, likes_count: newDecrementedLikeCount }
+        : post
+    );
+
+    setPosts(updatedPosts);
+
+    // Pass the updated likes_count directly to updateUserUnlikeCount
+    updateUserUnlikeCount(postId, newDecrementedLikeCount);
+  };
+
   return (
     <PostContext.Provider
       value={{
@@ -96,7 +116,8 @@ const PostProvider = ({ children }) => {
         addComment,
         editComment,
         deleteComment,
-        updateLikeCount,
+        updatePostLikeCount,
+        updatePostUnlikeCount
       }}
     >
       {children}
