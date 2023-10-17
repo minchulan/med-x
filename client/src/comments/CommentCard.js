@@ -61,6 +61,8 @@ const CommentCard = ({ comment, onDelete, onEdit }) => {
         <div>
           <textarea
             className="comment-textarea"
+            id="editedContent"
+            name="editedContent"
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
           />

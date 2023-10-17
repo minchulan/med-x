@@ -12,7 +12,7 @@ function UserProvider({ children, setLoading }) {
       if (resp.ok) {
         resp.json().then((data) => {
           login(data);
-        })
+        });
       } else {
         setLoading(false);
       }
@@ -29,7 +29,7 @@ function UserProvider({ children, setLoading }) {
             setLoading(false);
           });
         }
-      })
+      });
     }
   }, [loggedIn, setLoading]);
 
@@ -50,9 +50,27 @@ function UserProvider({ children, setLoading }) {
     setUsers([...users, user]);
   };
 
+  // Update user state to reflect new post
+  const updateUser = (newPost) => {
+    setCurrentUser((prevUser) => ({
+      ...prevUser,
+      posts: [...prevUser.posts, newPost],
+    }));
+  };
+
   return (
     <UserContext.Provider
-      value={{ loggedIn, currentUser, setCurrentUser, users, setUsers, login, logout, addUser }}
+      value={{
+        loggedIn,
+        currentUser,
+        setCurrentUser,
+        users,
+        setUsers,
+        login,
+        logout,
+        addUser,
+        updateUser
+      }}
     >
       {children}
     </UserContext.Provider>

@@ -14,9 +14,6 @@ const Profile = ({ loading }) => {
   const [activeTab, setActiveTab] = useState("posts"); // Default active tab is "posts"
   const [likedPosts, setLikedPosts] = useState([]);
 
-  console.log(currentUser)
-
-
   useEffect(() => {
     if (!loading && !loggedIn) {
       navigate("/login");

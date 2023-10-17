@@ -11,7 +11,7 @@ import { UserContext } from "../context/user";
 
 const PostDetails = ({ loading }) => {
   const { posts, setPosts } = useContext(PostContext);
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const { id } = useParams();
   const postId = parseInt(id);
   const [post, setPost] = useState(null);
@@ -19,15 +19,13 @@ const PostDetails = ({ loading }) => {
   const commentCount = comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
-  console.log({ currentUser })
-  
+  console.log(currentUser);
 
   // Find post details based on postId
   useEffect(() => {
     const selectPost = posts.find((post) => post.id === postId);
     setPost(selectPost);
   }, [postId, posts]);
-
 
   // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
@@ -96,6 +94,12 @@ const PostDetails = ({ loading }) => {
           p.id === postId ? updatedPost : p
         );
         setPosts(updatedPosts);
+        // Update currentUser state to reflect new comment
+        const updatedUser = {
+          ...currentUser,
+          comments: [...currentUser.comments, newComment]
+        }
+        setCurrentUser(updatedUser);
       });
   };
 

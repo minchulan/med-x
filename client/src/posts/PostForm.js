@@ -12,7 +12,7 @@ const initialPostFormState = {
 };
 
 const PostForm = () => {
-  const { loggedIn } = useContext(UserContext);
+  const { loggedIn, updateUser } = useContext(UserContext);
   const { setErrors } = useContext(ErrorsContext);
   const { addPost } = useContext(PostContext);
   const [postData, setPostData] = useState(initialPostFormState);
@@ -42,6 +42,7 @@ const PostForm = () => {
       if (resp.ok) {
         resp.json().then((data) => {
           addPost(data);
+          updateUser(data);
           navigate("/posts");
         });
       } else {

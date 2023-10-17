@@ -52,6 +52,8 @@ const CommentForm = ({ post_id }) => {
       </p>
       <form onSubmit={handleSubmit} className="comment-form">
         <textarea
+          id="content"
+          name="content"
           value={content}
           onChange={handleCommentChange}
           placeholder="What are your thoughts?"

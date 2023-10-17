@@ -8,11 +8,10 @@ const PostProvider = ({ children }) => {
   useEffect(() => {
     fetch("/posts").then((resp) => {
       if (resp.ok) {
-          resp.json().then((data) => {
-              console.log(data);
-              setPosts(data);   
-          }); 
-      } 
+        resp.json().then((data) => {
+          setPosts(data);
+        });
+      }
     });
   }, []);
 
@@ -47,11 +46,14 @@ const PostProvider = ({ children }) => {
 
   // Update like count
     const updateLikeCount = (postId, newLikeCount) => {
-    const updatedPosts = posts.map((post) =>
-      post.id === postId ? { ...post, likes_count: newLikeCount } : post
-    );
-    setPosts(updatedPosts);
-  };
+        console.log(postId)
+        console.log(newLikeCount)
+
+        const updatedPosts = posts.map((post) =>
+        post.id === postId ? { ...post, likes_count: newLikeCount } : post
+        );
+        setPosts(updatedPosts);
+    };
 
   // Edit comment
   const editComment = (editedComment) => {
