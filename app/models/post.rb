@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
-  has_one_attached :image 
+  has_many_attached :images 
+
 
   belongs_to :user 
   has_many :comments, dependent: :destroy 
@@ -20,19 +21,29 @@ class Post < ApplicationRecord
 
 end
 
-#---------------------------------------------
-# `validate` - singular for custom validations
 
-# Use before_validation Callbacks: Instead of before_save, consider using before_validation callbacks in your models. This ensures your formatting logic runs before validation, which is generally a good practice.
+#---------------------------------------------------
 
-# Pagination: If your posts, comments, or users can be numerous, consider implementing pagination to limit the number of records returned in a single API call. Libraries like will_paginate or kaminari can help with this.
+## `has_many_attached :images`
+        # this macro is saying the Post class has a has_many association to a ActiveStorage::Attachment record and a has_many_through association to a ActiveStorage::Blob record with :images.
 
-# Authorization Middleware: Consider using middleware like Pundit or CanCanCan for authorization. These libraries can help you manage authorization logic in a more structured way.
+## Use before_validation Callbacks: 
+      # Instead of before_save, consider using before_validation callbacks in your models. This ensures your formatting logic runs before validation, which is generally a good practice.
 
-# Background Jobs: If there are tasks that don't need to be done in real-time (e.g., sending emails, processing images), consider using background job processing with libraries like Sidekiq or Delayed Job. This can improve the response time of your API endpoints.
+## Pagination: 
+      # If your posts, comments, or users can be numerous, consider implementing pagination to limit the number of records returned in a single API call. Libraries like will_paginate or kaminari can help with this.
 
-# Database Indexing: Analyze your database queries and add appropriate indexes to columns frequently used in search conditions, joins, or order by clauses. This can significantly speed up database operations.
+## Authorization Middleware: 
+      # Consider using middleware like Pundit or CanCanCan for authorization. These libraries can help you manage authorization logic in a more structured way.
 
-# Caching: Implement caching for read-heavy endpoints to reduce database load and improve response times. Rails provides various caching mechanisms, such as fragment caching and Russian Doll caching.
+## Background Jobs: 
+      # If there are tasks that don't need to be done in real-time (e.g., sending emails, processing images), consider using background job processing with libraries like Sidekiq or Delayed Job. This can improve the response time of your API endpoints.
 
-# Logging: Implement proper logging for your application, especially in production. Effective logging can help you diagnose issues and monitor the health of your application.
+## Database Indexing: 
+      # Analyze your database queries and add appropriate indexes to columns frequently used in search conditions, joins, or order by clauses. This can significantly speed up database operations.
+
+## Caching: 
+      #Implement caching for read-heavy endpoints to reduce database load and improve response times. Rails provides various caching mechanisms, such as fragment caching and Russian Doll caching.
+
+## Logging: 
+      # Implement proper logging for your application, especially in production. Effective logging can help you diagnose issues and monitor the health of your application.

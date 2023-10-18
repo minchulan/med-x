@@ -4,7 +4,8 @@ class UsersController < ApplicationController
   
     # GET "/users"
     def index  
-        render json: User.all
+        users = User.all.with_attached_image 
+        render json: users 
     end  
 
     # GET "/me"
@@ -27,7 +28,7 @@ class UsersController < ApplicationController
     private 
 
     def user_params 
-        params.permit(:username, :email, :password)
+        params.permit(:username, :email, :password, :image)
     end
 
 
