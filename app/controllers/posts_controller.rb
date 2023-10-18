@@ -11,7 +11,6 @@ class PostsController < ApplicationController
     # POST "/posts"
     def create 
         post = current_user.posts.create!(post_params) 
-        post.images.attach(params[:images])
         render json: post, status: :created 
     end 
 
@@ -35,7 +34,7 @@ class PostsController < ApplicationController
     private 
 
     def post_params 
-        params.require(:post).permit(:title, :content, :likes_count, :images: []) 
+        params.require(:post).permit(:title, :content, :likes_count) 
     end 
 
     def find_post

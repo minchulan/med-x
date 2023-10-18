@@ -1,35 +1,31 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState,useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/user";
 import { PostContext } from "../context/post";
 import { ErrorsContext } from "../context/error";
 import "./PostForm.css";
 
-const MAX_AMOUNT = 5; // Assuming you have a maximum limit for photos
+
+const initialPostFormState = {
+  title: "",
+  content: "",
+};
 
 const PostForm = () => {
   const { loggedIn, updateUserAddPost } = useContext(UserContext);
   const { setErrors } = useContext(ErrorsContext);
   const { addPost } = useContext(PostContext);
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    photos: [], // Store photos in the form state
-  });
+  const [postData, setPostData] = useState(initialPostFormState);
   const navigate = useNavigate();
 
   useEffect(() => {
     setErrors([]);
+
   }, [setErrors]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handlePhotoEvent = (e) => {
-    const uploadedPhotos = Array.from(e.target.files).slice(0, MAX_AMOUNT);
-    setFormData({ ...formData, photos: uploadedPhotos });
+    setPostData({ ...postData, [name]: value });
   };
 
   const handleSubmit = (e) => {
@@ -38,33 +34,23 @@ const PostForm = () => {
       navigate("/login");
       return;
     }
-
-    const formDataToSend = new FormData();
-    formDataToSend.append("title", formData.title);
-    formDataToSend.append("content", formData.content);
-    formData.photos.forEach((photo, index) => {
-      formDataToSend.append(`images[${index}]`, photo);
-    });
-
     fetch("/posts", {
       method: "POST",
-      body: formDataToSend,
-    })
-      .then((resp) => {
-        if (resp.ok) {
-          return resp.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then((data) => {
-        addPost(data);
-        updateUserAddPost(data);
-        navigate("/posts");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setErrors(["Failed to create the post. Please try again."]);
-      });
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(postData),
+    }).then((resp) => {
+      if (resp.ok) {
+        resp.json().then((data) => {
+          addPost(data);
+          updateUserAddPost(data);
+          navigate("/posts");
+        });
+      } else {
+        resp.json().then((data) => {
+          setErrors(data.errors);
+        });
+      }
+    });
   };
 
   return (
@@ -77,7 +63,7 @@ const PostForm = () => {
             type="text"
             id="title"
             name="title"
-            value={formData.title}
+            value={postData.title}
             onChange={handleInputChange}
             required
           />
@@ -87,20 +73,10 @@ const PostForm = () => {
           <textarea
             id="content"
             name="content"
-            value={formData.content}
+            value={postData.content}
             onChange={handleInputChange}
             rows="6"
             required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="photosUpload">Upload Photos:</label>
-          <input
-            id="photosUpload"
-            type="file"
-            accept=".jpg, .jpeg, .png, .webp"
-            onChange={handlePhotoEvent}
-            multiple
           />
         </div>
         <button type="submit">Submit</button>
