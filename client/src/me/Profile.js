@@ -8,7 +8,7 @@ import LoadingSpinner from "../LoadingSpinner";
 import "./Profile.css";
 
 const Profile = ({ loading }) => {
-  const { currentUser, loggedIn } = useContext(UserContext);
+  const { currentUser, loggedIn, updateUserProfilePicture } = useContext(UserContext);
   const { posts } = useContext(PostContext);
   const { setErrors } = useContext(ErrorsContext);
   const navigate = useNavigate();
@@ -34,6 +34,25 @@ const Profile = ({ loading }) => {
   if (loading || !currentUser || !currentUser.posts) {
     return <LoadingSpinner />;
   }
+
+  // Update user's profile picture 
+  const handleUpdateProfilePicture = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      // Send a request to update the user's profile picture
+      fetch("/me/update_image", {
+        method: "PUT",
+        body: formData,
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          updateUserProfilePicture(data.image);
+        });
+    }
+  };
 
   return (
     <div className="profile-container">
@@ -73,7 +92,19 @@ const Profile = ({ loading }) => {
       </div>
       <div className="user-info-container">
         <div className="avatar">
-          <img src="https://placekitten.com/150/150" alt="User Avatar" />
+          <label htmlFor="profile-picture-input">
+            <img
+              src={currentUser.image || "https://placekitten.com/150/150"}
+              alt="User Avatar"
+            />
+          </label>
+          <input
+            id="profile-picture-input"
+            type="file"
+            accept="image/*"
+            onChange={handleUpdateProfilePicture}
+            style={{ display: "none" }}
+          />
         </div>
         <div className="details">
           <h3>{currentUser.username}</h3>

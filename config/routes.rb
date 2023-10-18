@@ -1,10 +1,5 @@
 Rails.application.routes.draw do
-  resources :users, only: [:index, :show] do
-    # PUT "/users/:id/update_image"
-    member do
-      put 'update_image'
-    end
-  end
+  resources :users, only: [:index, :show]
 
   resources :posts do
     resources :comments, shallow: true
@@ -12,7 +7,11 @@ Rails.application.routes.draw do
   end
 
   patch "/posts/:post_id/comments/:id", to: "comments#update"
+  
   get "/users/:user_id/posts", to: "posts#index"
+
+  # Update the profile picture of the authenticated user
+  put "/me/update_image", to: "users#update_image"
 
   # signup
   post "/signup", to: "users#create"
@@ -31,6 +30,15 @@ Rails.application.routes.draw do
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end
 
+
+## resources :users, only: [:index, :show] sets up RESTful routes for the User model with only :index and :show actions available. This means you can list all users (GET /users) and view an individual user (GET /users/:id).
+
+## put 'update_image', on: :collection creates a custom route named update_image accessible via a PUT request.
+
+## put 'update_image': This defines a route named update_image accessible via the PUT HTTP method. It maps to the update_image action in the UsersController.
+
+## on: :collection: This specifies that the update_image route is a collection route, not a member route. In the context of a users resource, a collection route operates on the entire collection of users rather than a specific user. Does not include an `:id` parameter in the URL. 
+    # I.e., "/users/image_update"
 
 
   ## MEMBER

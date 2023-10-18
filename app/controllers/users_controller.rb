@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
-  before_action :find_user, only: [:show, :update, :destroy]
   skip_before_action :authorize_user, only: [:create]
-
+  
   # GET "/users"
   def index
     users = User.all.with_attached_image
@@ -10,7 +9,7 @@ class UsersController < ApplicationController
 
   # GET "/me"
   def show
-    render json: @user, status: :ok
+    render json: current_user, status: :ok
   end
 
   # POST "/signup"
@@ -24,7 +23,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # PUT "/users/:id/update_image"
+  # PUT "/me/update_image"
   def update_image
     if current_user.update(image: params[:image])
       render json: current_user, status: :ok
@@ -37,10 +36,5 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(:username, :email, :password, :image)
-  end
-
-  def find_user
-    @user = current_user
-    render_not_found unless @user
   end
 end

@@ -7,6 +7,7 @@ function UserProvider({ children, setLoading }) {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [userImage, setUserImage] = useState(null);
   const navigate = useNavigate();
 
   // Get current user
@@ -14,7 +15,7 @@ function UserProvider({ children, setLoading }) {
     fetch("/me").then((resp) => {
       if (resp.ok) {
         resp.json().then((data) => {
-          console.log(data)
+          console.log(data);
           login(data);
           setLoading(false);
         });
@@ -72,9 +73,7 @@ function UserProvider({ children, setLoading }) {
     setCurrentUser((prevUser) => ({
       ...prevUser,
       posts: prevUser.posts.map((post) =>
-        post.id === postId
-          ? { ...post, likes_count: likesCount}
-          : post
+        post.id === postId ? { ...post, likes_count: likesCount } : post
       ),
     }));
   };
@@ -84,10 +83,17 @@ function UserProvider({ children, setLoading }) {
     setCurrentUser((prevUser) => ({
       ...prevUser,
       posts: prevUser.posts.map((post) =>
-        post.id === postId
-          ? { ...post, likes_count: likesCount}
-          : post
+        post.id === postId ? { ...post, likes_count: likesCount } : post
       ),
+    }));
+  };
+
+  // Update currentUser state with the new profile picture
+  const updateUserProfilePicture = (newImageUrl) => {
+    setUserImage(newImageUrl);
+    setCurrentUser((prevUser) => ({
+      ...prevUser,
+      image: newImageUrl,
     }));
   };
 
@@ -100,7 +106,7 @@ function UserProvider({ children, setLoading }) {
     <UserContext.Provider
       value={{
         loggedIn,
-        currentUser,
+        currentUser: { ...currentUser, image: userImage },
         setCurrentUser,
         users,
         setUsers,
@@ -111,6 +117,7 @@ function UserProvider({ children, setLoading }) {
         updateUserRemovePost,
         updateUserLikeCount,
         updateUserUnlikeCount,
+        updateUserProfilePicture,
       }}
     >
       {children}
