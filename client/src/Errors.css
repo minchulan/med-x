@@ -1,12 +1,17 @@
-
 .errors-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 10px 0; 
 }
 
 .errors-list li {
   color: red;
-  margin-bottom: 8px; 
+  margin-bottom: 8px;
+  font-size: 14px; 
 }
 
+.errors-container {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}

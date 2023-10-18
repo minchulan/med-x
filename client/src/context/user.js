@@ -17,6 +17,7 @@ function UserProvider({ children, setLoading }) {
         resp.json().then((data) => {
           console.log(data);
           login(data);
+          setUserImage(data.image)
           setLoading(false);
         });
       } else {
@@ -49,6 +50,7 @@ function UserProvider({ children, setLoading }) {
   const logout = () => {
     setCurrentUser(null);
     setLoggedIn(false);
+
     navigate("/");
   };
 

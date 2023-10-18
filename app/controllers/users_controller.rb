@@ -26,9 +26,9 @@ class UsersController < ApplicationController
   # PUT "/me/update_image"
   def update_image
     if current_user.update(image: params[:image])
-      render json: current_user, status: :ok
+      render json: { image: url_for(current_user.image) }
     else
-      render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+      render json: { error: "Failed to update profile picture" }, status: :unprocessable_entity
     end
   end
 

@@ -8,7 +8,8 @@ import comment from "../asset/comment.png"
 import LoadingSpinner from "../LoadingSpinner";
 
 const PostCard = ({ post }) => {
-  const { currentUser, loggedIn, updateUserRemovePost } = useContext(UserContext);
+  const { currentUser, loggedIn, updateUserRemovePost } =
+    useContext(UserContext);
   const { deletePost } = useContext(PostContext);
   const { id, title, user, content, created_at } = post;
   const [menuVisible, setMenuVisible] = useState(false);
@@ -56,12 +57,12 @@ const PostCard = ({ post }) => {
     });
 
     deletePost(post.id);
-    updateUserRemovePost(post.id)
+    updateUserRemovePost(post.id);
   };
 
   // Conditionally render the PostCard component when user data is available
   if (!user?.username) {
-    return <LoadingSpinner />
+    return <LoadingSpinner />;
   }
 
   return (
@@ -78,7 +79,7 @@ const PostCard = ({ post }) => {
       {currentUser && currentUser.id === post.user.id && (
         <div className="post-card-actions">
           <button className="kebab-icon" onClick={toggleMenu}>
-            ⋮
+            <i className="fas fa-bars"></i> {/* Hamburger icon */}
           </button>
           <div
             className={`menu-options ${menuVisible ? "visible" : ""}`}

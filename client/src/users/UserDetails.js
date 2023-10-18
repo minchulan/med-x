@@ -56,6 +56,7 @@ const UserDetails = () => {
                 key={post.id}
                 id={post.id}
                 summary={post.summary}
+                image={post.image}
               />
             ))}
           {activeTab === "liked" &&
@@ -64,6 +65,7 @@ const UserDetails = () => {
                 key={post.id}
                 id={post.id}
                 summary={post.summary}
+                image={post.image}
               />
             ))}
         </div>
