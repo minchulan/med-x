@@ -1,25 +1,16 @@
 class LikesController < ApplicationController
-  before_action :find_post, only [:create, :destroy]
+  before_action :find_post, only: [:create, :destroy]
 
   # POST "/posts/:post_id/likes"
   def create
     @like = @post.likes.new(user_id: current_user.id)
-    if @like.save
-      render json: { likes_count: @post.likes_count, liked: true }, status: :created
-    else
-      render json: { error: @like.errors.full_messages.join(', ') }, status: :unprocessable_entity
-    end
+    handle_save(@like)
   end
 
   # DELETE "/posts/:post_id/likes/:id"
   def destroy
     @like = @post.likes.find_by(user_id: current_user.id)
-
-    if @like&.destroy
-      render json: { likes_count: @post.likes_count, liked: false }, status: :ok
-    else
-      render json: { error: "Like not found or failed to unlike the post" }, status: :unprocessable_entity
-    end
+    handle_destroy(@like)
   end
 
   private
@@ -27,7 +18,24 @@ class LikesController < ApplicationController
   def find_post
     @post = Post.find(params[:post_id])
   end
+
+  def handle_save(like)
+    if like.save
+      render json: { likes_count: @post.likes_count, liked: true }, status: :created
+    else
+      render json: { error: like.errors.full_messages.join(', ') }, status: :unprocessable_entity
+    end
+  end
+
+  def handle_destroy(like)
+    if like&.destroy
+      render json: { likes_count: @post.likes_count, liked: false }, status: :ok
+    else
+      render json: { error: "Like not found or failed to unlike the post" }, status: :unprocessable_entity
+    end
+  end
 end
+
 
 
 ## Counter Cache 
