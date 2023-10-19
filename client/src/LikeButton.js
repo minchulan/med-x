@@ -8,11 +8,12 @@ const LikeButton = ({ post }) => {
   const { updatePostLikesCount, updatePostUnlikesCount } =
     useContext(PostContext);
   const [isLiked, setIsLiked] = useState(post.liked);
-  const [likesCount, setLikesCount] = useState(post.likes_count);
+  const [likesCount, setLikesCount] = useState(0);
 
   useEffect(() => {
     setIsLiked(post.liked);
-  }, [post.liked]);
+    setLikesCount(post.likes_count);
+  }, [post.liked, post.likes_count]);
 
   const handleLikeToggle = () => {
     if (isLiked) {

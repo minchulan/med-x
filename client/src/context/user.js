@@ -111,7 +111,6 @@ function UserProvider({ children, setLoading }) {
       ),
     }));
   };
-  console.log(currentUser);
 
   // Update currentUser state with the new profile picture
   const updateUserProfilePicture = (newImageUrl) => {
