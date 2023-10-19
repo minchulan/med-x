@@ -15,6 +15,7 @@ const Profile = ({ loading }) => {
   const [activeTab, setActiveTab] = useState("posts");
   const [likedPosts, setLikedPosts] = useState([]);
 
+
   // Update user's profile picture 
   const handleUpdateProfilePicture = (e) => {
     const file = e.target.files[0];
@@ -37,25 +38,23 @@ const Profile = ({ loading }) => {
   };
 
     useEffect(() => {
+      // If the user is not logged in, redirect to the login page
       if (!loading && !loggedIn) {
         navigate("/login");
       }
+
+      // Clear errors
       setErrors([]);
-      if (!loadingPosts && currentUser && currentUser.posts && posts) {
+
+      // Filter liked posts if user data and posts are available and not loading
+      if (!loadingPosts && currentUser?.posts && posts) {
         const filteredLikedPosts = posts.filter((post) =>
-          post.likes.some((like) => like.user_id === currentUser.id)
+          post.likes?.some((like) => like.user_id === currentUser.id)
         );
         setLikedPosts(filteredLikedPosts);
       }
-    }, [
-      loading,
-      loggedIn,
-      navigate,
-      setErrors,
-      loadingPosts,
-      currentUser,
-      posts,
-    ]);
+    }, [loading, loggedIn, navigate, setErrors, loadingPosts, currentUser, posts]);
+
 
     if (loading || !currentUser || !currentUser.posts) {
       return <LoadingSpinner />;

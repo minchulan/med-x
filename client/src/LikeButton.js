@@ -38,8 +38,10 @@ const LikeButton = ({ post }) => {
       })
       .catch((error) => {
         console.error(error);
+      })
+      .finally(() => {
         setLoading(false);
-      });
+    })
   };
 
   return (
