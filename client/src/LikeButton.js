@@ -41,6 +41,7 @@ const LikeButton = ({ post }) => {
       })
       .finally(() => {
         setLoading(false);
+
     })
   };
 
@@ -50,7 +51,7 @@ const LikeButton = ({ post }) => {
       onClick={handleLikeToggle}
     >
       <FontAwesomeIcon icon={faThumbsUp} className={"thumbs-up-icon"} />
-      {isLiked ? "Liked" : "Like"}: {post?.likes_count || 0}
+      {isLiked ? "Liked" : "Like"}: {post?.likes_count}
     </div>
   );
 };

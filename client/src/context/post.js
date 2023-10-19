@@ -101,7 +101,7 @@ const PostProvider = ({ children }) => {
       return prevPosts.map((post) => {
         if (post && post.id === postId) {
           const updatedLikes =
-            post.likes && post.likes.filter((like) => like.id !== user?.id);
+            post.likes && post.likes.filter((like) => like && like.id !== user?.id);
           return {
             ...post,
             likes_count: newUnlikesCount,
