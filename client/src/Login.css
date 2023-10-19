@@ -83,4 +83,5 @@ button[type="submit"]:hover {
 .error-container {
   color: red;
   margin-top: 10px;
+  font-size: 14px;
 }

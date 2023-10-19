@@ -8,8 +8,7 @@ import LoadingSpinner from "../LoadingSpinner";
 import "./Profile.css";
 
 const Profile = ({ loading }) => {
-  const { currentUser, loggedIn, updateUserProfilePicture } =
-    useContext(UserContext);
+  const { currentUser, loggedIn, updateUserProfilePicture } = useContext(UserContext);
   const { posts, loadingPosts } = useContext(PostContext);
   const { setErrors } = useContext(ErrorsContext);
   const navigate = useNavigate();
@@ -17,34 +16,22 @@ const Profile = ({ loading }) => {
   const [likedPosts, setLikedPosts] = useState([]);
 
   useEffect(() => {
-    if (!loading && !loggedIn) {
-      navigate("/login");
-    }
-
+    if (!loading && !loggedIn) {navigate("/login") }
     setErrors([]);
-
     if (!loadingPosts && currentUser && currentUser.posts && posts) {
       const filteredLikedPosts = posts.filter((post) =>
         post.likes.some((like) => like.user_id === currentUser.id)
       );
-
+      console.log("filteredLikedPosts:", filteredLikedPosts);
       setLikedPosts(filteredLikedPosts);
     }
-  }, [
-    loading,
-    loggedIn,
-    navigate,
-    setErrors,
-    loadingPosts,
-    currentUser,
-    posts,
-  ]);
+  }, [loading, loggedIn, navigate, setErrors, loadingPosts, currentUser, posts]);
 
   if (loading || !currentUser || !currentUser.posts) {
     return <LoadingSpinner />;
   }
 
-  // Update user's profile picture
+  // Update user's profile picture 
   const handleUpdateProfilePicture = (e) => {
     const file = e.target.files[0];
     if (file) {

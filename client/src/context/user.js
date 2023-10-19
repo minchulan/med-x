@@ -54,7 +54,7 @@ function UserProvider({ children, setLoading }) {
     navigate("/");
   };
 
-  // Update currentUser state to add a new post
+  // Update currentUser state to ADD a newly created post
   const updateUserAddPost = (newPost) => {
     setCurrentUser((prevUser) => ({
       ...prevUser,
@@ -62,7 +62,17 @@ function UserProvider({ children, setLoading }) {
     }));
   };
 
-  // Update currentUser state to remove a deleted post
+  // Update currentUser state to UPDATE an edited post
+  const updateUserEditPost = (editedPost) => {
+    setCurrentUser((prevUser) => ({
+      ...prevUser,
+      posts: prevUser.posts.map((post) =>
+        post.id === editedPost.id ? editedPost : post
+      ),
+    }));
+  };
+
+  // Update currentUser state to DELETE a removed post
   const updateUserRemovePost = (postId) => {
     setCurrentUser((prevUser) => ({
       ...prevUser,
@@ -70,7 +80,7 @@ function UserProvider({ children, setLoading }) {
     }));
   };
 
-  // Update currentUser state to increment likesCount (like)
+  // Update currentUser state to increment post's likesCount (like)
   const updateUserLikesCount = (postId, newLikesCount) => {
     setCurrentUser((prevUser) => ({
       ...prevUser,
@@ -86,7 +96,7 @@ function UserProvider({ children, setLoading }) {
     }));
   };
 
-  // Update currentUser state to decrement likesCount (unlike)
+  // Update currentUser state to decrement post's likesCount (unlike)
   const updateUserUnlikesCount = (postId, newUnlikesCount) => {
     setCurrentUser((prevUser) => ({
       ...prevUser,
@@ -116,7 +126,7 @@ function UserProvider({ children, setLoading }) {
     setUsers([...users, user]);
   };
 
-  // Update user 
+  // Update user
   const updateUser = (updatedUser) => {
     setCurrentUser(updatedUser);
   };
@@ -133,6 +143,7 @@ function UserProvider({ children, setLoading }) {
         logout,
         addUser,
         updateUserAddPost,
+        updateUserEditPost,
         updateUserRemovePost,
         updateUserLikesCount,
         updateUserUnlikesCount,

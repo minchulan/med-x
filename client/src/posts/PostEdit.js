@@ -12,9 +12,9 @@ const initialPostState = {
 };
 
 const PostEdit = ({ loading }) => {
-  const { loggedIn, currentUser } = useContext(UserContext);
+  const { loggedIn, currentUser, updateUserEditPost } = useContext(UserContext);
   const { posts, editPost } = useContext(PostContext);
-  const [formData, setFormData] = useState(initialPostState);
+  const [formData, setFormData] = useState({...initialPostState});
   const { id } = useParams();
   const postId = parseInt(id, 10);
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const PostEdit = ({ loading }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((formData) => ({ ...formData, [name]: value }));
   };
 
   const handleCancel = () => {
@@ -50,6 +50,7 @@ const PostEdit = ({ loading }) => {
       if (resp.ok) {
         resp.json().then((data) => {
           editPost(data);
+          updateUserEditPost(data);
           navigate(`/posts/${id}`);
         });
       }
@@ -57,7 +58,7 @@ const PostEdit = ({ loading }) => {
   };
 
   const post = posts.find((post) => post.id === parseInt(id, 10));
-  const createdAt = new Date(post.created_at).toLocaleString(); // Convert timestamp to readable date format
+  const createdAt = new Date(post?.created_at).toLocaleString(); // Convert timestamp to readable date format
 
   if (posts.length === 0) {
     <LoadingSpinner />;
@@ -67,24 +68,21 @@ const PostEdit = ({ loading }) => {
     <div className="post-edit-container">
       <PostMeta username={currentUser.username} createdAt={createdAt} />
       <form className="post-edit-form" onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
           <label htmlFor="title">Title</label>
-
           <input
             type="text"
             name="title"
-            id="title"
             value={formData.title}
             onChange={handleChange}
             autoComplete="on"
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="content">Content</label>
           <input
             type="text"
             name="content"
-            id="content"
             value={formData.content}
             onChange={handleChange}
             autoComplete="on"
