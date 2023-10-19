@@ -5,7 +5,7 @@ class PostsController < ApplicationController
     # GET "/posts"
     def index  
         posts = Post.all 
-        render json: posts, scope: current_user, status: :ok 
+        render json: posts, status: :ok 
     end 
 
     # POST "/posts"

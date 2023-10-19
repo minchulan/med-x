@@ -8,9 +8,9 @@ minchul = User.create(username: "minchulan", email: "itsminchul@gmail.com", pass
 joey = User.create(username: "joey", email: "joey@gmail.com", password: "password", bio: "Joey is a test user without admin privileges. Joey is fictitious and has been created for testing purposes only.")
 
 # Create posts and assign them to users
-p1 = Post.create(title: "Post Title 1", content: "Some awesome lorem text lorem lorem text text", user: admin, likes_count: 0)
-p2 = Post.create(title: "Post Title 2", content: "Some awesome lorem text lorem lorem text text", user: minchul, likes_count: 0)
-p3 = Post.create(title: "Post Title 3", content: "Some awesome lorem text lorem lorem text text", user: joey, likes_count: 0)
+p1 = Post.create(title: "Post Title 1", content: "Some awesome lorem text lorem lorem text text", user: admin)
+p2 = Post.create(title: "Post Title 2", content: "Some awesome lorem text lorem lorem text text", user: minchul)
+p3 = Post.create(title: "Post Title 3", content: "Some awesome lorem text lorem lorem text text", user: joey)
 
 # Create comments
 p1.comments.create(user: admin, content: "This was a great post! Thanks for sharing!")
@@ -18,3 +18,5 @@ p2.comments.create(user: minchul, content: "This was a great post! Thanks for sh
 p3.comments.create(user: joey, content: "This was a great post! Thanks for sharing!")
 
 puts "✅ Done seeding!"
+
+

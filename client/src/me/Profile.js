@@ -44,7 +44,6 @@ const Profile = ({ loading }) => {
       })
         .then((resp) => resp.json())
         .then((data) => {
-          console.log(data);
           updateUserProfilePicture(data.image);
           updateUserPostProfilePicture(data.image, currentUser)
           
@@ -120,3 +119,8 @@ const Profile = ({ loading }) => {
 };
 
 export default Profile;
+
+/*
+  When the server responds with the updated user data (which only includes the new image URL), I'm updating the user's profile picture both in the currentUser state (updateUserProfilePicture) and in the posts state (updateUserPostProfilePicture). This ensures new image is reflected across the application.
+
+*/

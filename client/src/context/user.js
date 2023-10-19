@@ -15,7 +15,6 @@ function UserProvider({ children, setLoading }) {
     fetch("/me").then((resp) => {
       if (resp.ok) {
         resp.json().then((data) => {
-          console.log(data);
           login(data);
           setCurrentUser(data);
           setUserImage(data.image);
@@ -112,6 +111,7 @@ function UserProvider({ children, setLoading }) {
       ),
     }));
   };
+  console.log(currentUser);
 
   // Update currentUser state with the new profile picture
   const updateUserProfilePicture = (newImageUrl) => {
@@ -125,11 +125,6 @@ function UserProvider({ children, setLoading }) {
   // Add user
   const addUser = (user) => {
     setUsers([...users, user]);
-  };
-
-  // Update user
-  const updateUser = (updatedUser) => {
-    setCurrentUser(updatedUser);
   };
 
   return (
@@ -149,7 +144,6 @@ function UserProvider({ children, setLoading }) {
         updateUserLikesCount,
         updateUserUnlikesCount,
         updateUserProfilePicture,
-        updateUser,
       }}
     >
       {children}
