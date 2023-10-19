@@ -24,27 +24,23 @@ const UserDetails = ({ loading }) => {
     }
   }, [currentUser.id, loggedIn, navigate, userId]);
 
-  if (loading && !user) {
+  if (loading && !users) {
     return <LoadingSpinner />;
-  };
+  }
 
   // Find the user by user ID
-  const user = users && users.find((user) => user.id === userId);
-
-  if (loading && !loggedIn) {
-    return <LoadingSpinner />;
-  };
+  const user = users?.find((user) => user.id === userId);
 
   if (loading) {
     return <LoadingSpinner />;
-  };
+  }
 
   // Filter posts made by the specific user
   const userPosts = posts.filter((post) => post.user.id === userId);
   const userLikedPosts = posts.filter(
     (post) =>
-      post.likes.some((like) => like.user_id === userId) &&
-      post.user.id !== userId
+      post.likes.some((like) => like?.user_id === userId) &&
+      post?.user?.id !== userId
   );
 
   const handleTabChange = (tab) => {
@@ -94,12 +90,12 @@ const UserDetails = ({ loading }) => {
           <img src="https://placekitten.com/150/150" alt="User Avatar" />
         </div>
         <div className="details">
-          <h3>{user.username}</h3>
+          <h3>{user?.username}</h3>
           <p>
-            <i>{user.email}</i>
+            <i>{user?.email}</i>
           </p>
           <div className="bio">
-            <p>{user.bio || "No bio available."}</p>
+            <p>{user?.bio || "No bio available."}</p>
           </div>
         </div>
       </div>

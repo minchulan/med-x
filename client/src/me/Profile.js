@@ -49,7 +49,7 @@ const Profile = ({ loading }) => {
       // Filter liked posts if user data and posts are available and not loading
       if (!loadingPosts && currentUser?.posts && posts) {
         const filteredLikedPosts = posts.filter((post) =>
-          post.likes?.some((like) => like.user_id === currentUser.id)
+          post.likes?.some((like) => like && like.user_id === currentUser.id)
         );
         setLikedPosts(filteredLikedPosts);
       }
