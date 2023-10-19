@@ -51,6 +51,8 @@ const Profile = ({ loading }) => {
     }
   };
 
+  console.log(currentUser)
+
   return (
     <div className="profile-container">
       <div className="main-content">

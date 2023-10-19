@@ -1,5 +1,5 @@
 class LikesController < ApplicationController
-  before_action :find_post
+  before_action :find_post, only [:create, :destroy]
 
   # POST "/posts/:post_id/likes"
   def create

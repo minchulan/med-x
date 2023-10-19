@@ -27,7 +27,7 @@ const PostProvider = ({ children }) => {
 
   // Edit post
   const editPost = (editedPost) => {
-    const updatedPosts = posts.map((post) =>
+    const updatedPosts = posts && posts.map((post) =>
       post.id === editedPost.id ? editedPost : post
     );
     setPosts(updatedPosts);
@@ -35,13 +35,13 @@ const PostProvider = ({ children }) => {
 
   // Delete post
   const deletePost = (postId) => {
-    const updatedPosts = posts.filter((post) => post.id !== postId);
+    const updatedPosts = posts && posts.filter((post) => post.id !== postId);
     setPosts(updatedPosts);
   };
 
   // Add comment
   const addComment = (comment) => {
-    const updatedPosts = posts.map((post) =>
+    const updatedPosts = posts && posts.map((post) =>
       post.id === comment.post.id
         ? { ...post, comments: [comment, ...post.comments] }
         : post
@@ -51,11 +51,11 @@ const PostProvider = ({ children }) => {
 
   // Edit comment
   const editComment = (editedComment) => {
-    const updatedPosts = posts.map((post) =>
+    const updatedPosts = posts && posts.map((post) =>
       post.id === editedComment.post.id
         ? {
             ...post,
-            comments: post.comments.map((comment) =>
+            comments: post && post.comments.map((comment) =>
               comment.id === editedComment.id ? editedComment : comment
             ),
           }
@@ -66,11 +66,11 @@ const PostProvider = ({ children }) => {
 
   // Delete comment
   const deleteComment = (commentId, postId) => {
-    const updatedPosts = posts.map((post) =>
+    const updatedPosts = posts && posts.map((post) =>
       post.id === postId
         ? {
             ...post,
-            comments: post.comments.filter(
+            comments: post && post.comments.filter(
               (comment) => comment.id !== commentId
             ),
           }
@@ -81,84 +81,58 @@ const PostProvider = ({ children }) => {
 
   // Update post's likes count and likes array to add user
   const updatePostLikesCount = (postId, newLikesCount, user) => {
-    const postIndex = posts.findIndex((post) => post.id === postId);
-    if (postIndex !== -1) {
-      const updatedPosts = [...posts];
-      updatedPosts[postIndex] = {
-        ...updatedPosts[postIndex],
-        likes_count: newLikesCount,
-        likes: [...updatedPosts[postIndex].likes, user],
-      };
-      setPosts(updatedPosts);
-      updateUserLikesCount(postId, newLikesCount);
-    }
+    setPosts((prevPosts) => {
+      return prevPosts.map((post) => {
+        if (post && post.id === postId) {
+          return {
+            ...post,
+            likes_count: newLikesCount,
+            likes: [...post.likes, user],
+          };
+        }
+        return post;
+      });
+    });
+    updateUserLikesCount(postId, newLikesCount);
   };
-
-  // const updatePostLikesCount = (postId, newLikesCount, user) => {
-  //   const updatedPosts = posts.map((post) =>
-  //     post.id === postId
-  //       ? {
-  //           ...post,
-  //           likes_count: newLikesCount,
-  //           likes: [...post.likes, user],
-  //         }
-  //       : post
-  //   );
-  //   setPosts(updatedPosts);
-  //   // Pass the updated likes_count directly to updateUserLikesCount
-  //   updateUserLikesCount(postId, newLikesCount);
-  // };
-
-  // Update post's unlikes count and likes array to remove user
 
   const updatePostUnlikesCount = (postId, newUnlikesCount, user) => {
-    const postIndex = posts.findIndex((post) => post.id === postId);
-    if (postIndex !== -1 && posts[postIndex].likes) {
-      const updatedPosts = [...posts];
-      updatedPosts[postIndex] = {
-        ...updatedPosts[postIndex],
-        likes_count: newUnlikesCount,
-        likes: updatedPosts[postIndex].likes.filter(
-          (like) => like.id !== user.id
-        ),
-      };
-      setPosts(updatedPosts);
-      updateUserUnlikesCount(postId, newUnlikesCount);
-    }
+    setPosts((prevPosts) => {
+      return prevPosts.map((post) => {
+        if (post && post.id === postId) {
+          const updatedLikes =
+            post.likes && post.likes.filter((like) => like.id !== user?.id);
+          return {
+            ...post,
+            likes_count: newUnlikesCount,
+            likes: updatedLikes || [], // Ensure likes is an array even if updatedLikes is undefined
+          };
+        }
+        return post;
+      });
+    });
+    updateUserUnlikesCount(postId, newUnlikesCount);
   };
 
-  // const updatePostUnlikesCount = (postId, newUnlikesCount, user) => {
-  //   const updatedPosts = posts.map((post) =>
-  //     post.id === postId && post.likes
-  //       ? {
-  //           ...post,
-  //           likes_count: newUnlikesCount,
-  //           likes: post.likes.filter((like) => like.id !== user.id),
-  //         }
-  //       : post
-  //   );
-  //   setPosts(updatedPosts);
-  //   // Pass the updated likes_count directly to updateUserUnlikesCount
-  //   updateUserUnlikesCount(postId, newUnlikesCount);
-  // };
 
   // update post's user's profile picture
   const updateUserPostProfilePicture = (newProfilePicture, currentUser) => {
-    const updatedPosts = posts.map((post) => {
-      if (post.user.id === currentUser.id) {
-        return {
-          ...post,
-          user: {
-            ...post.user,
-            image: newProfilePicture,
-          },
-        };
-      }
-      return post;
+    setPosts((prevPosts) => {
+      return prevPosts.map((post) => {
+        if (post.user.id === currentUser.id) {
+          return {
+            ...post,
+            user: {
+              ...post.user,
+              image: newProfilePicture,
+            },
+          };
+        }
+        return post;
+      });
     });
-
-    setPosts(updatedPosts);
   };
+
 
   return (
     <PostContext.Provider
@@ -187,6 +161,9 @@ export { PostContext, PostProvider };
 
   
 /*
+
+`likes: updatedLikes || []`
+      added a check to ensure that likes is always an array, even if updatedLikes is undefined.
 
 Optimized `updatePostLikesCount` and `updatePostUnlikesCount` functions:
     Replaced map with Array.prototype.findIndex() method to find the index of the post you want to update. Allows us to directly update the specific post in the array without mapping through all posts.

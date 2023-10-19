@@ -135,6 +135,7 @@ const PostDetails = ({ loading }) => {
         </p>
         <LikeButton
           post={post}
+          loading={loading}
         />
       </div>
 

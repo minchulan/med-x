@@ -5,10 +5,12 @@ const UserContext = createContext();
 
 function UserProvider({ children, setLoading }) {
   const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [userImage, setUserImage] = useState(null);
   const navigate = useNavigate();
+
+  console.log(currentUser)
 
   // Get current user
   useEffect(() => {
@@ -48,7 +50,7 @@ function UserProvider({ children, setLoading }) {
 
   // Logout
   const logout = () => {
-    setCurrentUser(null);
+    setCurrentUser({});
     setLoggedIn(false);
 
     navigate("/");

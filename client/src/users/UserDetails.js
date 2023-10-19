@@ -6,7 +6,7 @@ import "./UserDetails.css";
 import MiniaturePostCard from "../me/MiniaturePostCard";
 import LoadingSpinner from "../LoadingSpinner";
 
-const UserDetails = () => {
+const UserDetails = ({ loading }) => {
   const navigate = useNavigate();
   const { users, loggedIn, currentUser } = useContext(UserContext);
   const { posts } = useContext(PostContext);
@@ -24,16 +24,20 @@ const UserDetails = () => {
     }
   }, [currentUser.id, loggedIn, navigate, userId]);
 
-  if (!loggedIn) {
+  if (loading && !user) {
     return <LoadingSpinner />;
-  }
+  };
 
   // Find the user by user ID
   const user = users && users.find((user) => user.id === userId);
 
-  if (!user) {
+  if (loading && !loggedIn) {
     return <LoadingSpinner />;
-  }
+  };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  };
 
   // Filter posts made by the specific user
   const userPosts = posts.filter((post) => post.user.id === userId);

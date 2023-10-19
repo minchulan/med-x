@@ -35,7 +35,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/me" element={<Profile loading={loading} />} />
                 <Route path="/users/*" element={<UserList loading={loading} />} />
-                <Route exact path="/users/:id" element={<UserDetails />} />
+                <Route exact path="/users/:id" element={<UserDetails loading={loading} />} />
                 <Route path="/posts" element={<PostList loading={loading} />} />
                 <Route path="/posts/new" element={<PostForm loading={loading} />} />
                 <Route path="/posts/:id/edit" element={<PostEdit loading={loading} />} />

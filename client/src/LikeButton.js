@@ -1,29 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./LikeButton.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { PostContext } from "./context/post";
 
-const LikeButton = ({ post }) => {
+const LikeButton = ({ post, loading }) => {
   const { updatePostLikesCount, updatePostUnlikesCount } =
     useContext(PostContext);
-  const [isLiked, setIsLiked] = useState(post.liked);
-  const [likesCount, setLikesCount] = useState(0);
-
-  useEffect(() => {
-    setIsLiked(post.liked);
-    setLikesCount(post.likes_count);
-  }, [post.liked, post.likes_count]);
-
+  const [isLiked, setIsLiked] = useState(post?.liked || false);
   const handleLikeToggle = () => {
-    if (isLiked) {
+    if (isLiked && !loading) {
       fetch(`/posts/${post.id}/likes/${post.like_id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       })
         .then((resp) => resp.json())
         .then((data) => {
-          setLikesCount(data.likes_count);
           updatePostLikesCount(post.id, data.likes_count);
           setIsLiked(false); // Set isLiked to false after successful unlike
         })
@@ -37,7 +29,6 @@ const LikeButton = ({ post }) => {
       })
         .then((resp) => resp.json())
         .then((data) => {
-          setLikesCount(data.likes_count);
           updatePostUnlikesCount(post.id, data.likes_count);
           setIsLiked(true); // Set isLiked to true after successful like
         })
@@ -48,12 +39,12 @@ const LikeButton = ({ post }) => {
   };
 
   return (
-    <div className="like-count" onClick={handleLikeToggle}>
-      <FontAwesomeIcon
-        icon={faThumbsUp}
-        className={`thumbs-up-icon ${isLiked ? "liked" : ""}`}
-      />
-      Likes: {likesCount}
+    <div
+      className={`like-count ${isLiked ? "liked" : ""}`}
+      onClick={handleLikeToggle}
+    >
+      <FontAwesomeIcon icon={faThumbsUp} className={"thumbs-up-icon"} />
+      {isLiked && !loading ? "Liked" : "Like"}: {post?.likes_count || 0}
     </div>
   );
 };
