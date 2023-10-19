@@ -1,3 +1,64 @@
+# MedX - Let's Talk Health
+
+MedX is a specialized social media platform designed exclusively for healthcare professionals. It provides a dedicated space for collaboration, discussion, and knowledge sharing within the healthcare industry.
+
+## Project Overview
+
+Healthcare professionals need an efficient platform to connect, exchange insights, and stay updated with the latest developments. MedX addresses this need by offering a user-friendly social media platform tailored to the unique requirements of healthcare professionals.
+
+## Features
+
+- **User Registration and Profile Management:** Healthcare professionals can create accounts and manage their profiles.
+- **Secure Messaging and Discussion:** Users can post and comment securely, fostering meaningful discussions.
+- **Engagement Features:** Users can like and share posts, enhancing interaction.
+- **Content Repository:** A robust database of healthcare-related content with insightful posts.
+
+## Project Structure
+
+The project consists of two main parts:
+
+- **Backend (Rails):** Handles data management, authentication, and API endpoints.
+- **Frontend (React):** Provides the user interface and interacts with the backend API.
+
+## Setup Instructions
+
+### Backend (Rails)
+
+1. Navigate to the `server` directory: `cd med-x`.
+2. Install dependencies: `bundle install`.
+3. Run database migrations: `rails db:migrate`.
+4. Start the Rails server: `rails server`.
+
+### Frontend (React)
+
+1. Navigate to the `client` directory: `cd client`.
+2. Install dependencies: `npm install`.
+3. Start the React development server: `npm start`.
+
+## Contribution Guidelines
+
+Contributions are welcome! If you want to contribute to MedX, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/my-feature`.
+3. Commit your changes: `git commit -m 'Add some feature'`.
+4. Push to the branch: `git push origin feature/my-feature`.
+5. Submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+For detailed instructions on setting up the frontend or backend individually, refer to the respective README files in the `client` and `server` directories.
+
+### [Frontend README (client/README.md)](client/README.md)
+
+### [Backend README (server/README.md)](server/README.md)
+
+
+
 # Project Template: React/Rails API
 
 ## Description
