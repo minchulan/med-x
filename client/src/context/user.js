@@ -15,6 +15,7 @@ function UserProvider({ children, setLoading }) {
     fetch("/me").then((resp) => {
       if (resp.ok) {
         resp.json().then((data) => {
+          console.log(data);
           login(data);
           setCurrentUser(data);
           setUserImage(data.image);

@@ -9,7 +9,7 @@ import "./Profile.css";
 
 const Profile = ({ loading }) => {
   const { currentUser, loggedIn, updateUserProfilePicture } = useContext(UserContext);
-  const { posts, loadingPosts } = useContext(PostContext);
+  const { posts, loadingPosts, updateUserPostProfilePicture } = useContext(PostContext);
   const { setErrors } = useContext(ErrorsContext);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("posts");
@@ -22,7 +22,6 @@ const Profile = ({ loading }) => {
       const filteredLikedPosts = posts.filter((post) =>
         post.likes.some((like) => like.user_id === currentUser.id)
       );
-      console.log("filteredLikedPosts:", filteredLikedPosts);
       setLikedPosts(filteredLikedPosts);
     }
   }, [loading, loggedIn, navigate, setErrors, loadingPosts, currentUser, posts]);
@@ -47,6 +46,8 @@ const Profile = ({ loading }) => {
         .then((data) => {
           console.log(data);
           updateUserProfilePicture(data.image);
+          updateUserPostProfilePicture(data.image, currentUser)
+          
         });
     }
   };

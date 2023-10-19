@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { PostContext } from "../context/post";
 import { UserContext } from "../context/user";
 import "./UserDetails.css";
@@ -7,11 +7,22 @@ import MiniaturePostCard from "../me/MiniaturePostCard";
 import LoadingSpinner from "../LoadingSpinner";
 
 const UserDetails = () => {
-  const { users, loggedIn } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { users, loggedIn, currentUser } = useContext(UserContext);
   const { posts } = useContext(PostContext);
   const { id } = useParams();
   const userId = parseInt(id);
   const [activeTab, setActiveTab] = useState("posts");
+
+  useEffect(() => {
+    // Check if the current user is viewing their own profile
+    const isCurrentUser = loggedIn && currentUser.id === userId;
+
+    // Redirect to "/me" if the current user is viewing their own profile
+    if (isCurrentUser) {
+      navigate("/me");
+    }
+  }, [currentUser.id, loggedIn, navigate, userId]);
 
   if (!loggedIn) {
     return <LoadingSpinner />;
@@ -20,11 +31,10 @@ const UserDetails = () => {
   // Find the user by user ID
   const user = users && users.find((user) => user.id === userId);
 
-  // If user is not found, display loading or error message
   if (!user) {
-    return <LoadingSpinner />; // or display an error message
+    return <LoadingSpinner />;
   }
-  
+
   // Filter posts made by the specific user
   const userPosts = posts.filter((post) => post.user.id === userId);
   const userLikedPosts = posts.filter(
