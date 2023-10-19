@@ -15,21 +15,6 @@ const Profile = ({ loading }) => {
   const [activeTab, setActiveTab] = useState("posts");
   const [likedPosts, setLikedPosts] = useState([]);
 
-  useEffect(() => {
-    if (!loading && !loggedIn) {navigate("/login") }
-    setErrors([]);
-    if (!loadingPosts && currentUser && currentUser.posts && posts) {
-      const filteredLikedPosts = posts.filter((post) =>
-        post.likes.some((like) => like.user_id === currentUser.id)
-      );
-      setLikedPosts(filteredLikedPosts);
-    }
-  }, [loading, loggedIn, navigate, setErrors, loadingPosts, currentUser, posts]);
-
-  if (loading || !currentUser || !currentUser.posts) {
-    return <LoadingSpinner />;
-  }
-
   // Update user's profile picture 
   const handleUpdateProfilePicture = (e) => {
     const file = e.target.files[0];
@@ -50,6 +35,32 @@ const Profile = ({ loading }) => {
         });
     }
   };
+
+    useEffect(() => {
+      if (!loading && !loggedIn) {
+        navigate("/login");
+      }
+      setErrors([]);
+      if (!loadingPosts && currentUser && currentUser.posts && posts) {
+        const filteredLikedPosts = posts.filter((post) =>
+          post.likes.some((like) => like.user_id === currentUser.id)
+        );
+        setLikedPosts(filteredLikedPosts);
+      }
+    }, [
+      loading,
+      loggedIn,
+      navigate,
+      setErrors,
+      loadingPosts,
+      currentUser,
+      posts,
+    ]);
+
+    if (loading || !currentUser || !currentUser.posts) {
+      return <LoadingSpinner />;
+    }
+
 
   console.log(currentUser)
 

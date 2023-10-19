@@ -95,8 +95,8 @@ const PostDetails = ({ loading }) => {
         // Update currentUser state to reflect new comment
         const updatedUser = {
           ...currentUser,
-          comments: [...currentUser.comments, newComment]
-        }
+          comments: [...currentUser.comments, newComment],
+        };
         setCurrentUser(updatedUser);
       });
   };
@@ -133,10 +133,7 @@ const PostDetails = ({ loading }) => {
           <img src={comment} alt="Comment Icon" className="comment-icon" />{" "}
           {commentCount} {singularOrPlural}
         </p>
-        <LikeButton
-          post={post}
-          loading={loading}
-        />
+        {currentUser && <LikeButton post={post} loading={loading} />}
       </div>
 
       <CommentForm onSubmit={addComment} post_id={post.id} />

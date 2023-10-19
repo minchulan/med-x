@@ -4,38 +4,42 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { PostContext } from "./context/post";
 
-const LikeButton = ({ post, loading }) => {
+const LikeButton = ({ post }) => {
   const { updatePostLikesCount, updatePostUnlikesCount } =
     useContext(PostContext);
   const [isLiked, setIsLiked] = useState(post?.liked || false);
+  const [loading, setLoading] = useState(false);
+
   const handleLikeToggle = () => {
-    if (isLiked && !loading) {
-      fetch(`/posts/${post.id}/likes/${post.like_id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          updatePostLikesCount(post.id, data.likes_count);
-          setIsLiked(false); // Set isLiked to false after successful unlike
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else {
-      fetch(`/posts/${post.id}/likes`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          updatePostUnlikesCount(post.id, data.likes_count);
-          setIsLiked(true); // Set isLiked to true after successful like
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    if (loading) {
+      return; // Prevent multiple requests while waiting for a response
     }
+
+    setLoading(true);
+    const endpoint = isLiked
+      ? `/posts/${post.id}/likes/${post.like_id}`
+      : `/posts/${post.id}/likes`;
+
+    const method = isLiked ? "DELETE" : "POST";
+
+    fetch(endpoint, {
+      method: method,
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (isLiked) {
+          updatePostUnlikesCount(post.id, data.likes_count);
+        } else {
+          updatePostLikesCount(post.id, data.likes_count);
+        }
+        setIsLiked(!isLiked); // Toggle isLiked state
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
   };
 
   return (
@@ -44,7 +48,7 @@ const LikeButton = ({ post, loading }) => {
       onClick={handleLikeToggle}
     >
       <FontAwesomeIcon icon={faThumbsUp} className={"thumbs-up-icon"} />
-      {isLiked && !loading ? "Liked" : "Like"}: {post?.likes_count || 0}
+      {isLiked ? "Liked" : "Like"}: {post?.likes_count || 0}
     </div>
   );
 };
