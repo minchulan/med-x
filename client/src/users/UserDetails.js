@@ -14,12 +14,17 @@ const UserDetails = () => {
   const [activeTab, setActiveTab] = useState("posts");
 
   if (!loggedIn) {
-    return <LoadingSpinner />
+    return <LoadingSpinner />;
   }
 
   // Find the user by user ID
-  const user = users.find((user) => user.id === userId);
+  const user = users && users.find((user) => user.id === userId);
 
+  // If user is not found, display loading or error message
+  if (!user) {
+    return <LoadingSpinner />; // or display an error message
+  }
+  
   // Filter posts made by the specific user
   const userPosts = posts.filter((post) => post.user.id === userId);
   const userLikedPosts = posts.filter(

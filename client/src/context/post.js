@@ -4,8 +4,9 @@ import { UserContext } from "./user";
 const PostContext = createContext([]);
 
 const PostProvider = ({ children }) => {
+  const [loadingPosts, setLoadingPosts] = useState(true);
   const [posts, setPosts] = useState([]);
-  const { updateUserLikeCount, updateUserUnlikeCount } =
+  const { updateUserLikesCount, updateUserUnlikesCount } =
     useContext(UserContext);
 
   useEffect(() => {
@@ -13,6 +14,7 @@ const PostProvider = ({ children }) => {
       if (resp.ok) {
         resp.json().then((data) => {
           setPosts(data);
+          setLoadingPosts(false);
         });
       }
     });
@@ -77,32 +79,36 @@ const PostProvider = ({ children }) => {
     setPosts(updatedPosts);
   };
 
-    
-  // Update the post's likes_count when liked (incremented like count)
-  const updatePostLikeCount = (postId, newIncrementedLikeCount) => {
+  // Update post's likes count and likes array to add user
+  const updatePostLikesCount = (postId, newLikesCount, user) => {
     const updatedPosts = posts.map((post) =>
       post.id === postId
-        ? { ...post, likes_count: newIncrementedLikeCount }
+        ? {
+            ...post,
+            likes_count: newLikesCount,
+            likes: [...post.likes, user],
+          }
         : post
     );
     setPosts(updatedPosts);
-
-    // Pass the updated likes_count directly to updateUserLikeCount
-    updateUserLikeCount(postId, newIncrementedLikeCount);
+    // Pass the updated likes_count directly to updateUserLikesCount
+    updateUserLikesCount(postId, newLikesCount);
   };
 
-  // Update the post's likes_count when unliked (decremented like count)
-  const updatePostUnlikeCount = (postId, newDecrementedLikeCount) => {
-    const updatedPosts = posts.map((post) =>
+  // Update post's unlikes count and likes array to remove user
+  const updatePostUnlikesCount = (postId, newUnlikesCount, user) => {
+    const updatedPosts = posts && posts.map((post) =>
       post.id === postId
-        ? { ...post, likes_count: newDecrementedLikeCount }
+        ? {
+            ...post,
+            likes_count: newUnlikesCount,
+            likes: post && post.likes.filter((like) => like.id !== user.id),
+          }
         : post
     );
-
     setPosts(updatedPosts);
-
-    // Pass the updated likes_count directly to updateUserUnlikeCount
-    updateUserUnlikeCount(postId, newDecrementedLikeCount);
+    // Pass the updated likes_count directly to updateUserUnlikesCount
+    updateUserUnlikesCount(postId, newUnlikesCount);
   };
 
   return (
@@ -116,8 +122,9 @@ const PostProvider = ({ children }) => {
         addComment,
         editComment,
         deleteComment,
-        updatePostLikeCount,
-        updatePostUnlikeCount
+        updatePostLikesCount,
+        updatePostUnlikesCount,
+        loadingPosts,
       }}
     >
       {children}

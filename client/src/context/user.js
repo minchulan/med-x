@@ -15,9 +15,9 @@ function UserProvider({ children, setLoading }) {
     fetch("/me").then((resp) => {
       if (resp.ok) {
         resp.json().then((data) => {
-          console.log(data);
           login(data);
-          setUserImage(data.image)
+          setCurrentUser(data);
+          setUserImage(data.image);
           setLoading(false);
         });
       } else {
@@ -71,21 +71,33 @@ function UserProvider({ children, setLoading }) {
   };
 
   // Update currentUser state to increment likesCount (like)
-  const updateUserLikeCount = (postId, likesCount) => {
+  const updateUserLikesCount = (postId, newLikesCount) => {
     setCurrentUser((prevUser) => ({
       ...prevUser,
       posts: prevUser.posts.map((post) =>
-        post.id === postId ? { ...post, likes_count: likesCount } : post
+        post.id === postId
+          ? {
+              ...post,
+              likes_count: newLikesCount,
+              liked: true, // Set liked to true when the user likes the post
+            }
+          : post
       ),
     }));
   };
 
   // Update currentUser state to decrement likesCount (unlike)
-  const updateUserUnlikeCount = (postId, likesCount) => {
+  const updateUserUnlikesCount = (postId, newUnlikesCount) => {
     setCurrentUser((prevUser) => ({
       ...prevUser,
       posts: prevUser.posts.map((post) =>
-        post.id === postId ? { ...post, likes_count: likesCount } : post
+        post.id === postId
+          ? {
+              ...post,
+              likes_count: newUnlikesCount,
+              liked: false, // Set liked to false when the user unlikes the post
+            }
+          : post
       ),
     }));
   };
@@ -104,6 +116,11 @@ function UserProvider({ children, setLoading }) {
     setUsers([...users, user]);
   };
 
+  // Update user 
+  const updateUser = (updatedUser) => {
+    setCurrentUser(updatedUser);
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -117,9 +134,10 @@ function UserProvider({ children, setLoading }) {
         addUser,
         updateUserAddPost,
         updateUserRemovePost,
-        updateUserLikeCount,
-        updateUserUnlikeCount,
+        updateUserLikesCount,
+        updateUserUnlikesCount,
         updateUserProfilePicture,
+        updateUser,
       }}
     >
       {children}

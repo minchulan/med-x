@@ -1,38 +1,49 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./LikeButton.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
-import { UserContext } from "./context/user";
+import { PostContext } from "./context/post";
 
 const LikeButton = ({ post }) => {
-  const { updateUserLikeCount, updateUserUnlikeCount } =
-    useContext(UserContext);
+  const { updatePostLikesCount, updatePostUnlikesCount } =
+    useContext(PostContext);
   const [isLiked, setIsLiked] = useState(post.liked);
   const [likesCount, setLikesCount] = useState(post.likes_count);
 
+  useEffect(() => {
+    setIsLiked(post.liked);
+  }, [post.liked]);
+
   const handleLikeToggle = () => {
-    const endpoint = isLiked
-      ? `/posts/${post.id}/likes/${post.like_id}`
-      : `/posts/${post.id}/likes`;
-
-    const method = isLiked ? "DELETE" : "POST";
-
-    fetch(endpoint, {
-      method: method,
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log("Data from server:", data);
-        setLikesCount(data.likes_count);
-        setIsLiked(!isLiked);
-
-        if (isLiked) {
-          updateUserUnlikeCount(post.id, data.likes_count);
-        } else {
-          updateUserLikeCount(post.id, data.likes_count);
-        }
-      });
+    if (isLiked) {
+      fetch(`/posts/${post.id}/likes/${post.like_id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          setLikesCount(data.likes_count);
+          updatePostLikesCount(post.id, data.likes_count);
+          setIsLiked(false); // Set isLiked to false after successful unlike
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      fetch(`/posts/${post.id}/likes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          setLikesCount(data.likes_count);
+          updatePostUnlikesCount(post.id, data.likes_count);
+          setIsLiked(true); // Set isLiked to true after successful like
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   return (

@@ -4,9 +4,8 @@ class LikesController < ApplicationController
   # POST "/posts/:post_id/likes"
   def create
     @like = @post.likes.new(user_id: current_user.id)
-
     if @like.save
-      render json: { likes_count: @post.likes_count }, status: :created
+      render json: { likes_count: @post.likes_count, liked: true }, status: :created
     else
       render json: { error: @like.errors.full_messages.join(', ') }, status: :unprocessable_entity
     end
@@ -17,7 +16,7 @@ class LikesController < ApplicationController
     @like = @post.likes.find_by(user_id: current_user.id)
 
     if @like&.destroy
-      render json: { likes_count: @post.likes_count }, status: :ok
+      render json: { likes_count: @post.likes_count, liked: false }, status: :ok
     else
       render json: { error: "Like not found or failed to unlike the post" }, status: :unprocessable_entity
     end
