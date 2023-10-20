@@ -41,7 +41,7 @@ const CommentForm = ({ post_id }) => {
       }
     });
 
-    setContent(""); // reset
+    setContent("");
   };
 
   return (
