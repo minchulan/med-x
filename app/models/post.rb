@@ -3,6 +3,7 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy 
   has_many :commented_users, through: :comments, source: :user 
   has_many :likes, dependent: :destroy 
+#   has_one_attached :image 
 
   validates_presence_of :title, :content
   validates :title, length: {in: 3..60}

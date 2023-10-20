@@ -46,11 +46,12 @@ function UserProvider({ children, setLoading }) {
   const login = (user) => {
     setCurrentUser(user);
     setLoggedIn(true);
+    setUserImage(user.image);
   };
 
   // Logout
   const logout = () => {
-    setCurrentUser({});
+    setCurrentUser(null);
     setLoggedIn(false);
 
     navigate("/");
@@ -145,6 +146,7 @@ function UserProvider({ children, setLoading }) {
         updateUserLikesCount,
         updateUserUnlikesCount,
         updateUserProfilePicture,
+        userImage,
       }}
     >
       {children}

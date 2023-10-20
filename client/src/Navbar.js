@@ -3,15 +3,17 @@ import { UserContext } from "./context/user";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css"; 
 import logo from "./asset/logo.png"
+import LoadingSpinner from "./LoadingSpinner";
 
 const Navbar = () => {
-  const { loggedIn, logout, setCurrentUser } = useContext(UserContext);
+  const { loggedIn, logout, setCurrentUser, currentUser, loading } =
+    useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    navigate("/");
     setCurrentUser(null);
+    navigate("/");
   };
 
   const loggedInLinks = () => {
@@ -63,9 +65,12 @@ const Navbar = () => {
         </Link>
       </nav>
       <nav className="nav-links">
-        <ul>
-          {loggedIn ? loggedInLinks() : loggedOutLinks()}
-        </ul>
+        <ul>{loggedIn ? loggedInLinks() : loggedOutLinks()}</ul>
+        {loading && (
+          <div className="profile-picture-placeholder">
+            <LoadingSpinner />{" "}
+          </div>
+        )}
       </nav>
     </div>
   );

@@ -8,12 +8,13 @@ import LoadingSpinner from "../LoadingSpinner";
 import "./Profile.css";
 
 const Profile = ({ loading }) => {
-  const { currentUser, loggedIn, updateUserProfilePicture } = useContext(UserContext);
+  const { currentUser, loggedIn, userImage, updateUserProfilePicture } = useContext(UserContext);
   const { posts, loadingPosts, updateUserPostProfilePicture } = useContext(PostContext);
   const { setErrors } = useContext(ErrorsContext);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("posts");
   const [likedPosts, setLikedPosts] = useState([]);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
 
   // Update user's profile picture 
@@ -23,16 +24,18 @@ const Profile = ({ loading }) => {
       const formData = new FormData();
       formData.append("image", file);
 
+      setUploadingImage(true);
+
       // Send a request to update the user's profile picture
       fetch("/me/update_image", {
         method: "PUT",
         body: formData,
       })
         .then((resp) => resp.json())
-        .then((data) => {
-          updateUserProfilePicture(data.image);
-          updateUserPostProfilePicture(data.image, currentUser)
-          
+        .then(async (data) => {
+          await updateUserProfilePicture(data.image);
+          await updateUserPostProfilePicture(data.image, currentUser);
+          setUploadingImage(false);
         });
     }
   };
@@ -103,7 +106,7 @@ const Profile = ({ loading }) => {
         <div className="avatar">
           <label htmlFor="profile-picture-input">
             <img
-              src={currentUser.image || "https://placekitten.com/150/150"}
+              src={userImage || "https://placekitten.com/150/150"}
               alt="User Avatar"
             />
           </label>
@@ -113,7 +116,9 @@ const Profile = ({ loading }) => {
             accept="image/*"
             onChange={handleUpdateProfilePicture}
             style={{ display: "none" }}
+            disabled={uploadingImage}
           />
+          {uploadingImage && <LoadingSpinner />}
         </div>
         <div className="details">
           <h3>{currentUser.username}</h3>

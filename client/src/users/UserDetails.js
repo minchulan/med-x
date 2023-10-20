@@ -13,6 +13,7 @@ const UserDetails = ({ loading }) => {
   const { id } = useParams();
   const userId = parseInt(id);
   const [activeTab, setActiveTab] = useState("posts");
+  const [userProfileImage, setUserProfileImage] = useState(""); // State to hold user profile image URL
 
   useEffect(() => {
     // Check if the current user is viewing their own profile
@@ -22,7 +23,14 @@ const UserDetails = ({ loading }) => {
     if (isCurrentUser) {
       navigate("/me");
     }
-  }, [currentUser.id, loggedIn, navigate, userId]);
+
+    // Find the user by user ID and set the user profile image URL
+    const user = users?.find((user) => user.id === userId);
+    if (user) {
+      setUserProfileImage(user.image || ""); // Use user's profile image URL
+    }
+
+  }, [currentUser.id, loggedIn, navigate, userId, users]);
 
   if (loading && !users) {
     return <LoadingSpinner />;
@@ -87,7 +95,7 @@ const UserDetails = ({ loading }) => {
       </div>
       <div className="user-info-container">
         <div className="avatar">
-          <img src="https://placekitten.com/150/150" alt="User Avatar" />
+          <img src={userProfileImage || "https://placekitten.com/150/150"} alt="User Avatar" />
         </div>
         <div className="details">
           <h3>{user?.username}</h3>

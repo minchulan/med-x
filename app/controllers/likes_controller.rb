@@ -21,7 +21,19 @@ class LikesController < ApplicationController
 
   def handle_save(like)
     if like.save
-      render json: { likes_count: @post.likes_count, liked: true }, status: :created
+      render json: {
+        likes_count: @post.likes_count,
+        liked: true,
+        like: {
+          id: like.id,
+          user_id: like.user_id,
+          post_id: like.post_id,
+          created_at: like.created_at,
+          user: {
+            username: current_user.username
+          }
+        }
+      }, status: :created
     else
       render json: { error: like.errors.full_messages.join(', ') }, status: :unprocessable_entity
     end
@@ -35,6 +47,7 @@ class LikesController < ApplicationController
     end
   end
 end
+
 
 
 
