@@ -86,7 +86,7 @@ const Profile = ({ loading }) => {
         </div>
         <div className="miniature-post-cards">
           {activeTab === "posts" &&
-            posts.map((post) => (
+            currentUser.posts.map((post) => (
               <MiniaturePostCard
                 key={post.id}
                 id={post.id}
