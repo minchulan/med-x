@@ -51,13 +51,9 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-For detailed instructions on setting up the frontend or backend individually, refer to the respective README files in the `client` and `server` directories.
+For detailed instructions on setting up the frontend, refer to the README file in the `client` directory.
 
 ### [Frontend README (client/README.md)](client/README.md)
-
-### [Backend README (server/README.md)](server/README.md)
-
-
 
 # Project Template: React/Rails API
 
