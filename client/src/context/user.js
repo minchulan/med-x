@@ -124,6 +124,11 @@ function UserProvider({ children, setLoading }) {
     }));
   };
 
+  // Update currentUser state to UPDATE profile bio 
+  const updateBio = () => {
+
+  };
+
   // Add user
   const addUser = (user) => {
     setUsers([...users, user]);

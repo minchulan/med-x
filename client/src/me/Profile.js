@@ -10,16 +10,19 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import "./Profile.css";
 
 const Profile = ({ loading }) => {
-  const { currentUser, loggedIn, userImage, updateUserProfilePicture } = useContext(UserContext);
-  const { posts, loadingPosts, updateUserPostProfilePicture } = useContext(PostContext);
+  const { currentUser, loggedIn, userImage, updateUserProfilePicture, updateBio } =
+    useContext(UserContext);
+  const { posts, loadingPosts, updateUserPostProfilePicture } =
+    useContext(PostContext);
   const { setErrors } = useContext(ErrorsContext);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("posts");
   const [likedPosts, setLikedPosts] = useState([]);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [editingBio, setEditingBio] = useState(false);
+  const [newBio, setNewBio] = useState(currentUser.bio || "");
 
-
-  // Update user's profile picture 
+  // Update user's profile picture
   const handleUpdateProfilePicture = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -42,30 +45,33 @@ const Profile = ({ loading }) => {
     }
   };
 
-    useEffect(() => {
-      // If the user is not logged in, redirect to the login page
-      if (!loading && !loggedIn) {
-        navigate("/login");
-      }
-
-      // Clear errors
-      setErrors([]);
-      
-      const filteredLikedPosts = posts.filter((post) =>
-        post.likes?.some((like) => like && like.user_id === currentUser.id)
-      );
-      console.log(filteredLikedPosts);
-      setLikedPosts(filteredLikedPosts);
-
-    }, [loading, loggedIn, navigate, setErrors, loadingPosts, currentUser, posts]);
-
-
-    if (loading || !currentUser || !currentUser.posts) {
-      return <LoadingSpinner />;
+  useEffect(() => {
+    // If the user is not logged in, redirect to the login page
+    if (!loading && !loggedIn) {
+      navigate("/login");
     }
 
+    // Clear errors
+    setErrors([]);
 
-  console.log(currentUser)
+    const filteredLikedPosts = posts.filter((post) =>
+      post.likes?.some((like) => like && like.user_id === currentUser.id)
+    );
+    console.log(filteredLikedPosts);
+    setLikedPosts(filteredLikedPosts);
+  }, [
+    loading,
+    loggedIn,
+    navigate,
+    setErrors,
+    loadingPosts,
+    currentUser,
+    posts,
+  ]);
+
+  if (loading || !currentUser || !currentUser.posts) {
+    return <LoadingSpinner />;
+  };
 
   return (
     <div className="profile-container">
@@ -106,7 +112,10 @@ const Profile = ({ loading }) => {
       </div>
       <div className="user-info-container">
         <div className="avatar">
-          <label htmlFor="profile-picture-input" className="profile-picture-label">
+          <label
+            htmlFor="profile-picture-input"
+            className="profile-picture-label"
+          >
             <div className="camera-icon">
               <FontAwesomeIcon icon={faCamera} size="1g" />
             </div>
@@ -134,7 +143,24 @@ const Profile = ({ loading }) => {
         </div>
         <div className="bio">
           <br />
-          <p>{currentUser.bio || "No bio available."}</p>
+          {editingBio ? (
+            <>
+              <textarea
+                value={newBio}
+                onChange={(e) => setNewBio(e.target.value)}
+                placeholder="Enter your new bio..."
+              />
+              <button onClick={updateBio}>Save</button>
+              <button onClick={() => setEditingBio(false)}>Cancel</button>
+            </>
+          ) : (
+            // Show bio text if not in edit mode
+            <p>
+              {currentUser.bio || "No bio available."}{" "}
+              {/* Show edit button to start editing */}
+              <button onClick={() => setEditingBio(true)}>Edit Bio</button>
+            </p>
+          )}
         </div>
       </div>
     </div>

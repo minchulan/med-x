@@ -20,7 +20,7 @@ joey = User.create(username: "joey", email: "joey@gmail.com", password: "passwor
 10.times do
   User.create(
     username: Faker::Internet.unique.username,
-    email: Faker::Internet.unique.email,
+    email: "#{Faker::Internet.unique.username}@gmail.com",
     password: "password",
     bio: "Medical professional at #{Faker::Company.profession} specializing in #{medical_terms.sample}"
   )
