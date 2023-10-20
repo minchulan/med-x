@@ -32,7 +32,7 @@
 }
 
 .post-form-container button[type="submit"] {
-  background-color: var(--primary-color); /* Use the primary color variable */
+  background-color: var(--primary-color); 
   color: white;
   padding: 10px 20px;
   border: none;
@@ -43,7 +43,7 @@
 }
 
 .post-form-container button[type="submit"]:hover {
-  background-color: var(--primary-hover-color); /* Use the primary hover color variable */
+  background-color: var(--primary-hover-color); 
 }
 
 .post-form-container .error-container {

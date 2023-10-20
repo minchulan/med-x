@@ -5,7 +5,6 @@ import { PostContext } from "../context/post";
 import { ErrorsContext } from "../context/error";
 import "./PostForm.css";
 
-
 const initialPostFormState = {
   title: "",
   content: "",

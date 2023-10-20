@@ -30,8 +30,6 @@ const PostDetails = ({ loading }) => {
 
   }, [currentUser, loading, loggedIn, navigate, postId, posts]);
 
-
-
   // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
     fetch(`/posts/${post.id}/comments/${commentId}`, {

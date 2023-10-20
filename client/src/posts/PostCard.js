@@ -19,7 +19,6 @@ const PostCard = ({ post }) => {
   const commentCount = post.comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
-  // LOGGED IN AUTHORIZATION
   const handlePostClick = () => {
     if (!loggedIn) {
       navigate("/login");
@@ -28,7 +27,6 @@ const PostCard = ({ post }) => {
     }
   };
 
-  // HAMBURGER TOGGLE MENU - EDIT & DELETE
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -60,7 +58,6 @@ const PostCard = ({ post }) => {
     updateUserRemovePost(post.id);
   };
 
-  // Conditionally render the PostCard component when user data is available
   if (!user?.username) {
     return <LoadingSpinner />;
   }
@@ -95,5 +92,3 @@ const PostCard = ({ post }) => {
 };
 
 export default PostCard;
-
-// useLocation hook to conditionally display comments here only if we are in the show page
