@@ -66,18 +66,15 @@ const Profile = ({ loading }) => {
   };
 
   useEffect(() => {
-    // If the user is not logged in, redirect to the login page
     if (!loading && !loggedIn) {
       navigate("/login");
     }
 
-    // Clear errors
     setErrors([]);
 
     const filteredLikedPosts = posts.filter((post) =>
       post.likes?.some((like) => like && like.user_id === currentUser.id)
     );
-    console.log(filteredLikedPosts);
     setLikedPosts(filteredLikedPosts);
   }, [
     loading,
@@ -176,10 +173,8 @@ const Profile = ({ loading }) => {
               </div>
             </form>
           ) : (
-            // Show bio text if not in edit mode
             <p>
               {currentUser.bio || "No bio available."}{" "}
-              {/* Show edit button to start editing */}
               <button onClick={() => setEditingBio(true)}>Edit Bio</button>
             </p>
           )}
@@ -190,38 +185,3 @@ const Profile = ({ loading }) => {
 };
 
 export default Profile;
-
-/*
-  When the server responds with the updated user data (which only includes the new image URL), I'm updating the user's profile picture both in the currentUser state (updateUserProfilePicture) and in the posts state (updateUserPostProfilePicture). This ensures new image is reflected across the application.
-
-
-        </div>
-      <div className="user-info-container">
-        <div className="avatar">
-          <label htmlFor="profile-picture-input">
-            <img
-              src={currentUser.image || "https://placekitten.com/150/150"}
-              alt="User Avatar"
-            />
-          </label>
-          <input
-            id="profile-picture-input"
-            type="file"
-            accept="image/*"
-            onChange={handleUpdateProfilePicture}
-            style={{ display: "none" }}
-          />
-        </div>
-        <div className="details">
-          <h3>{currentUser.username}</h3>
-          <p>
-            <i>{currentUser.email}</i>
-          </p>
-        </div>
-        <div className="bio">
-          <br />
-          <p>{currentUser.bio || "No bio available."}</p>
-        </div>
-      </div>
-
-*/
