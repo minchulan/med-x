@@ -61,7 +61,7 @@ const PostEdit = ({ loading }) => {
   const createdAt = new Date(post?.created_at).toLocaleString(); // Convert timestamp to readable date format
 
   if (posts.length === 0) {
-    <LoadingSpinner />;
+    return <LoadingSpinner />;
   }
 
   return (
@@ -80,7 +80,8 @@ const PostEdit = ({ loading }) => {
         </div>
         <div className="form-group">
           <label htmlFor="content">Content</label>
-          <input
+          <textarea
+            className="content-box"
             type="text"
             name="content"
             value={formData.content}
