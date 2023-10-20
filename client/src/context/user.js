@@ -90,7 +90,7 @@ function UserProvider({ children, setLoading }) {
           ? {
               ...post,
               likes_count: newLikesCount,
-              liked: true, // Set liked to true when the user likes the post
+              liked: true,
             }
           : post
       ),
@@ -106,7 +106,7 @@ function UserProvider({ children, setLoading }) {
           ? {
               ...post,
               likes_count: newUnlikesCount,
-              liked: false, // Set liked to false when the user unlikes the post
+              liked: false,
             }
           : post
       ),
@@ -163,38 +163,3 @@ function UserProvider({ children, setLoading }) {
 }
 
 export { UserContext, UserProvider };
-  
-  
-  
-  
-  /*
-
-  STRETCH GOALS:
-      1] `addUser` => implement a navbar link to a UsersList for admin auth only.
-      
-      2] // Update currentUser state to add a new comment - stretch goal (in profile page, show all comments left by user)
-
-      3] // Update currentUser state to remove a deleted comment - stretch goal (in profile page, show all comments left by user)
-
-
-  FIX:
-      // Update user state to reflect post like count
-      const updatePostLikeCount = (postId, newLikeCount) => {
-        setCurrentUser((prevUser) => {
-          const updatedPosts = prevUser.posts.map((post) => {
-            if (post.id === postId) {
-              return {
-                ...post,
-                likes_count: newLikeCount,
-              };
-            }
-            return post;
-          });
-          return {
-            ...prevUser,
-            posts: updatedPosts,
-          };
-        });
-      };
-
-  */

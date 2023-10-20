@@ -157,17 +157,3 @@ const PostProvider = ({ children }) => {
 };
 
 export { PostContext, PostProvider };
-
-
-  
-/*
-
-`likes: updatedLikes || []`
-      added a check to ensure that likes is always an array, even if updatedLikes is undefined.
-
-Optimized `updatePostLikesCount` and `updatePostUnlikesCount` functions:
-    Replaced map with Array.prototype.findIndex() method to find the index of the post you want to update. Allows us to directly update the specific post in the array without mapping through all posts.
-        1] Array.prototype.findIndex() is used to find the index of the post with the specified postId.
-        2] If the post is found (postIndex !== -1), it creates a copy of the posts array, updates the specific post, and sets the state with the updated array.
-        3] It also checks if likes property is defined before performing operations on it to prevent errors in case it is undefined.
-*/
