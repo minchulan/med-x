@@ -10,8 +10,11 @@ Rails.application.routes.draw do
   
   get "/users/:user_id/posts", to: "posts#index"
 
-  # Update the profile picture of the authenticated user
+  # Update profile picture of the authenticated user
   put "/me/update_image", to: "users#update_image"
+
+  # Update bio of the authenticated user 
+  put "/me/update_bio", to: "users#update_bio"
 
   # signup
   post "/signup", to: "users#create"

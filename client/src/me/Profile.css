@@ -73,7 +73,6 @@
   background-color: #0056b3;
 }
 
-
 .avatar img {
   width: 150px;
   height: 150px;
@@ -81,17 +80,16 @@
   margin-bottom: 20px;
   object-fit: cover;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 2px solid #007bff; /* Add border */
-  cursor: pointer; /* Add cursor pointer */
-  transition: border-color 0.3s, box-shadow 0.3s;
+  border: 2px solid #007bff;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s; 
 }
 
 .avatar img:hover {
-  border-color: #0056b3; /* Change border color on hover */
+  border-color: #0056b3;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.3s, box-shadow 0.3s; 
 }
-
-
 
 .avatar {
   position: relative;

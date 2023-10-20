@@ -6,8 +6,7 @@ import logo from "./asset/logo.png"
 import LoadingSpinner from "./LoadingSpinner";
 
 const Navbar = () => {
-  const { loggedIn, logout, setCurrentUser, currentUser, loading } =
-    useContext(UserContext);
+  const { loggedIn, logout, setCurrentUser, loading } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {

@@ -10,8 +10,6 @@ function UserProvider({ children, setLoading }) {
   const [userImage, setUserImage] = useState(null);
   const navigate = useNavigate();
 
-  console.log(currentUser)
-
   // Get current user
   useEffect(() => {
     fetch("/me").then((resp) => {
@@ -124,9 +122,13 @@ function UserProvider({ children, setLoading }) {
     }));
   };
 
-  // Update currentUser state to UPDATE profile bio 
-  const updateBio = () => {
-
+  // Update currentUser state to UPDATE profile bio
+  const updateBio = (newBio) => {
+    console.log(newBio)
+    setCurrentUser((prevUser) => ({
+      ...prevUser,
+      bio: newBio
+    }))
   };
 
   // Add user
@@ -152,6 +154,7 @@ function UserProvider({ children, setLoading }) {
         updateUserUnlikesCount,
         updateUserProfilePicture,
         userImage,
+        updateBio,
       }}
     >
       {children}

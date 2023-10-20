@@ -45,6 +45,26 @@ const Profile = ({ loading }) => {
     }
   };
 
+  // Update user's profile bio 
+  const handleUpdateBio = () => {
+    fetch("/me/update_bio", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ bio: newBio }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Update the user's bio using contextUpdateBio
+        updateBio(data.bio);
+        setEditingBio(false);
+      })
+      .catch((error) => {
+        console.error("Error updating bio:", error);
+      });
+  };
+
   useEffect(() => {
     // If the user is not logged in, redirect to the login page
     if (!loading && !loggedIn) {
@@ -117,7 +137,7 @@ const Profile = ({ loading }) => {
             className="profile-picture-label"
           >
             <div className="camera-icon">
-              <FontAwesomeIcon icon={faCamera} size="1g" />
+              <FontAwesomeIcon icon={faCamera} size="sm" />
             </div>
             <img
               src={userImage || "https://placekitten.com/150/150"}
@@ -144,15 +164,17 @@ const Profile = ({ loading }) => {
         <div className="bio">
           <br />
           {editingBio ? (
-            <>
+            <form className="bio-form">
               <textarea
                 value={newBio}
                 onChange={(e) => setNewBio(e.target.value)}
                 placeholder="Enter your new bio..."
               />
-              <button onClick={updateBio}>Save</button>
-              <button onClick={() => setEditingBio(false)}>Cancel</button>
-            </>
+              <div className="button-group">
+                <button type="button" onClick={handleUpdateBio}>Save</button>
+                <button type="button" onClick={() => setEditingBio(false)}>Cancel</button>
+              </div>
+            </form>
           ) : (
             // Show bio text if not in edit mode
             <p>

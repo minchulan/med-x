@@ -32,6 +32,15 @@ class UsersController < ApplicationController
     end
   end
 
+  # PUT "/me/update_bio"
+  def update_bio
+    if current_user.update(bio: params[:bio])
+      render json: { bio: current_user.bio }
+    else
+      render json: { error: "Failed to update bio" }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def user_params
