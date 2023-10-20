@@ -163,19 +163,37 @@ const Profile = ({ loading }) => {
           {editingBio ? (
             <form className="bio-form">
               <textarea
+                className="bio-textarea"
                 value={newBio}
                 onChange={(e) => setNewBio(e.target.value)}
                 placeholder="Enter your new bio..."
               />
               <div className="button-group">
-                <button type="button" onClick={handleUpdateBio}>Save</button>
-                <button type="button" onClick={() => setEditingBio(false)}>Cancel</button>
+                <button
+                  className="small-button"
+                  type="button"
+                  onClick={handleUpdateBio}
+                >
+                  Save
+                </button>
+                <button
+                  className="small-button"
+                  type="button"
+                  onClick={() => setEditingBio(false)}
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           ) : (
             <p>
               {currentUser.bio || "No bio available."}{" "}
-              <button onClick={() => setEditingBio(true)}>Edit Bio</button>
+              <button
+                className="small-button"
+                onClick={() => setEditingBio(true)}
+              >
+                Edit Bio
+              </button>
             </p>
           )}
         </div>
