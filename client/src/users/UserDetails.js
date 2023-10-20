@@ -13,30 +13,23 @@ const UserDetails = ({ loading }) => {
   const { id } = useParams();
   const userId = parseInt(id);
   const [activeTab, setActiveTab] = useState("posts");
-  const [userProfileImage, setUserProfileImage] = useState(""); // State to hold user profile image URL
+  const [userProfileImage, setUserProfileImage] = useState("");
 
   useEffect(() => {
-    // Check if the current user is viewing their own profile
     const isCurrentUser = loggedIn && currentUser.id === userId;
-
-    // Redirect to "/me" if the current user is viewing their own profile
     if (isCurrentUser) {
       navigate("/me");
     }
-
-    // Find the user by user ID and set the user profile image URL
     const user = users?.find((user) => user.id === userId);
     if (user) {
-      setUserProfileImage(user.image || ""); // Use user's profile image URL
+      setUserProfileImage(user.image || "");
     }
-
   }, [currentUser.id, loggedIn, navigate, userId, users]);
 
   if (loading && !users) {
     return <LoadingSpinner />;
   }
 
-  // Find the user by user ID
   const user = users?.find((user) => user.id === userId);
 
   if (loading) {
@@ -95,7 +88,10 @@ const UserDetails = ({ loading }) => {
       </div>
       <div className="user-info-container">
         <div className="avatar">
-          <img src={userProfileImage || "https://placekitten.com/150/150"} alt="User Avatar" />
+          <img
+            src={userProfileImage || "https://placekitten.com/150/150"}
+            alt="User Avatar"
+          />
         </div>
         <div className="details">
           <h3>{user?.username}</h3>
