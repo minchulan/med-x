@@ -2,16 +2,16 @@
 
 MedX is a specialized social media platform designed exclusively for healthcare professionals. It provides a dedicated space for collaboration, discussion, and knowledge sharing within the healthcare industry.
 
-## Project Overview
-
-Healthcare professionals need an efficient platform to connect, exchange insights, and stay updated with the latest developments. MedX addresses this need by offering a user-friendly social media platform tailored to the unique requirements of healthcare professionals
-
 ## 🔗 Links
 
 [![Portfolio](https://img.shields.io/badge/portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/minchulan)
 [![LinkedIn](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/minchulan/)
 [![Twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/itsminchul)
 
+
+## Project Overview
+
+Healthcare professionals need an efficient platform to connect, exchange insights, and stay updated with the latest developments. MedX addresses this need by offering a user-friendly social media platform tailored to the unique requirements of healthcare professionals
 
 
 ## Features
