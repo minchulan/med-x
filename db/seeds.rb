@@ -47,7 +47,7 @@ users.each do |user|
     Comment.create(
       user: user,
       post: post,
-      content: Faker::Lorem.sentence(word_count: 6)
+      content: Faker::Lorem.sentence(word_count: 10)
     )
     post.likes.create(user: user) if [true, false].sample # Randomly create likes for posts
   end
