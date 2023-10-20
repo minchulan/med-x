@@ -135,4 +135,34 @@ export default Profile;
 /*
   When the server responds with the updated user data (which only includes the new image URL), I'm updating the user's profile picture both in the currentUser state (updateUserProfilePicture) and in the posts state (updateUserPostProfilePicture). This ensures new image is reflected across the application.
 
+
+        </div>
+      <div className="user-info-container">
+        <div className="avatar">
+          <label htmlFor="profile-picture-input">
+            <img
+              src={currentUser.image || "https://placekitten.com/150/150"}
+              alt="User Avatar"
+            />
+          </label>
+          <input
+            id="profile-picture-input"
+            type="file"
+            accept="image/*"
+            onChange={handleUpdateProfilePicture}
+            style={{ display: "none" }}
+          />
+        </div>
+        <div className="details">
+          <h3>{currentUser.username}</h3>
+          <p>
+            <i>{currentUser.email}</i>
+          </p>
+        </div>
+        <div className="bio">
+          <br />
+          <p>{currentUser.bio || "No bio available."}</p>
+        </div>
+      </div>
+
 */

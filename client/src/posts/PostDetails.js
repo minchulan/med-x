@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useParams, NavLink } from "react-router-dom";
+import { useParams, useNavigate, NavLink } from "react-router-dom";
 import { PostContext } from "../context/post";
 import CommentForm from "../comments/CommentForm";
 import "./PostDetails.css";
@@ -11,19 +11,25 @@ import { UserContext } from "../context/user";
 
 const PostDetails = ({ loading }) => {
   const { posts, setPosts } = useContext(PostContext);
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser, loggedIn } = useContext(UserContext);
   const { id } = useParams();
   const postId = parseInt(id);
   const [post, setPost] = useState(null);
+  const navigate = useNavigate();
   const comments = post?.comments || [];
   const commentCount = comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
   // Find post details based on postId
   useEffect(() => {
+    if (!loading && !loggedIn) {
+      navigate("/login")
+    }
     const selectPost = posts.find((post) => post.id === postId);
     setPost(selectPost);
-  }, [postId, posts]);
+  }, [currentUser, loading, loggedIn, navigate, postId, posts]);
+
+
 
   // EDIT COMMENT
   const handleEditComment = (commentId, editedContent) => {
