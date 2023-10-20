@@ -22,7 +22,7 @@ const PostProvider = ({ children }) => {
 
   // Add post
   const addPost = (addedPost) => {
-    setPosts([...posts, addedPost]);
+    setPosts([addedPost, ...posts]);
   };
 
   // Edit post
@@ -78,16 +78,16 @@ const PostProvider = ({ children }) => {
     );
     setPosts(updatedPosts);
   };
-
-  // Update post's likes count and likes array to add user
-  const updatePostLikesCount = (postId, newLikesCount, user) => {
+  
+  // Increment likes count 
+  const updatePostLikesCount = (postId, newLikesCount, username) => {
     setPosts((prevPosts) => {
       return prevPosts.map((post) => {
         if (post && post.id === postId) {
           return {
             ...post,
             likes_count: newLikesCount,
-            likes: [...post.likes, user],
+            likes: [...post.likes, { user: { username } }],
           };
         }
         return post;
@@ -96,16 +96,18 @@ const PostProvider = ({ children }) => {
     updateUserLikesCount(postId, newLikesCount);
   };
 
-  const updatePostUnlikesCount = (postId, newUnlikesCount, user) => {
+  // Decrement likes count 
+  const updatePostUnlikesCount = (postId, newUnlikesCount, username) => {
     setPosts((prevPosts) => {
       return prevPosts.map((post) => {
         if (post && post.id === postId) {
           const updatedLikes =
-            post.likes && post.likes.filter((like) => like && like.id !== user?.id);
+            post.likes &&
+            post.likes.filter((like) => like && like.user?.username !== username);
           return {
             ...post,
             likes_count: newUnlikesCount,
-            likes: updatedLikes || [], // Ensure likes is an array even if updatedLikes is undefined
+            likes: updatedLikes || [],
           };
         }
         return post;
@@ -113,7 +115,6 @@ const PostProvider = ({ children }) => {
     });
     updateUserUnlikesCount(postId, newUnlikesCount);
   };
-
 
   // update post's user's profile picture
   const updateUserPostProfilePicture = (newProfilePicture, currentUser) => {
@@ -132,7 +133,6 @@ const PostProvider = ({ children }) => {
       });
     });
   };
-
 
   return (
     <PostContext.Provider

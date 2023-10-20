@@ -140,7 +140,7 @@ const PostDetails = ({ loading }) => {
           <img src={comment} alt="Comment Icon" className="comment-icon" />{" "}
           {commentCount} {singularOrPlural}
         </p>
-        {currentUser && <LikeButton post={post} loading={loading} />}
+        {currentUser && <LikeButton post={post} username={currentUser.username} />}
       </div>
 
       <CommentForm onSubmit={addComment} post_id={post.id} />

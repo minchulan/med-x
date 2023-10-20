@@ -48,14 +48,13 @@ const Profile = ({ loading }) => {
 
       // Clear errors
       setErrors([]);
+      
+      const filteredLikedPosts = posts.filter((post) =>
+        post.likes?.some((like) => like && like.user_id === currentUser.id)
+      );
+      console.log(filteredLikedPosts);
+      setLikedPosts(filteredLikedPosts);
 
-      // Filter liked posts if user data and posts are available and not loading
-      if (!loadingPosts && currentUser?.posts && posts) {
-        const filteredLikedPosts = posts.filter((post) =>
-          post.likes?.some((like) => like && like.user_id === currentUser.id)
-        );
-        setLikedPosts(filteredLikedPosts);
-      }
     }, [loading, loggedIn, navigate, setErrors, loadingPosts, currentUser, posts]);
 
 
@@ -85,7 +84,7 @@ const Profile = ({ loading }) => {
         </div>
         <div className="miniature-post-cards">
           {activeTab === "posts" &&
-            currentUser.posts.map((post) => (
+            posts.map((post) => (
               <MiniaturePostCard
                 key={post.id}
                 id={post.id}
@@ -93,7 +92,7 @@ const Profile = ({ loading }) => {
               />
             ))}
           {activeTab === "liked" &&
-            likedPosts.map((post) => (
+            likedPosts && likedPosts.map((post) => (
               <MiniaturePostCard
                 key={post.id}
                 id={post.id}

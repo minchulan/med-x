@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { PostContext } from "./context/post";
 
-const LikeButton = ({ post }) => {
+const LikeButton = ({ post, username }) => {
   const { updatePostLikesCount, updatePostUnlikesCount } =
     useContext(PostContext);
   const [isLiked, setIsLiked] = useState(post?.liked || false);
@@ -26,23 +26,26 @@ const LikeButton = ({ post }) => {
       method: method,
       headers: { "Content-Type": "application/json" },
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
       .then((data) => {
         if (isLiked) {
-          updatePostUnlikesCount(post.id, data.likes_count);
+          updatePostUnlikesCount(post.id, data.likes_count, username);
         } else {
-          updatePostLikesCount(post.id, data.likes_count);
+          updatePostLikesCount(post.id, data.likes_count, username);
         }
         setIsLiked(!isLiked); // Toggle isLiked state
-        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
       })
       .finally(() => {
         setLoading(false);
-
-    })
+      });
   };
 
   return (
@@ -57,6 +60,7 @@ const LikeButton = ({ post }) => {
 };
 
 export default LikeButton;
+
 
 /*
   To handle the like increment logic, you would typically do this on the server-side when a successful like request is made. The server should handle the logic of updating the likes count in the database and then send back the updated count to the client.
