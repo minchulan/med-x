@@ -20,13 +20,14 @@ const PostDetails = ({ loading }) => {
   const commentCount = comments.length;
   const singularOrPlural = commentCount === 1 ? "comment" : "comments";
 
-  // Find post details based on postId
   useEffect(() => {
     if (!loading && !loggedIn) {
       navigate("/login")
     }
+
     const selectPost = posts.find((post) => post.id === postId);
     setPost(selectPost);
+
   }, [currentUser, loading, loggedIn, navigate, postId, posts]);
 
 

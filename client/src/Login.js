@@ -80,12 +80,9 @@ const Login = ({ loading }) => {
             autoComplete="on"
           />
         </div>
-
         <button type="submit">Log In</button>
       </form>
-
       {error && <div className="error-container">{error}</div>}
-
       <br />
       <>
         <small>

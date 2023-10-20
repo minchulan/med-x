@@ -20,9 +20,10 @@ const Signup = () => {
     username: "",
     email: "",
     password: "", 
+    passwordConfirmation: "",
   });
 
-  const { username, email, password } = formData;
+  const { username, email, password, passwordConfirmation } = formData;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,7 +31,7 @@ const Signup = () => {
     fetch("/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({ username, email, password, passwordConfirmation }),
     })
       .then((resp) => resp.json())
       .then((data) => {
@@ -87,6 +88,17 @@ const Signup = () => {
             onChange={handleChange}
             value={password}
             autoComplete="off"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="passwordConfirmation">Confirm Password:</label>
+          <input
+            type="password"
+            name="passwordConfirmation"
+            id="passwordConfirmation"
+            onChange={handleChange}
+            value={passwordConfirmation}
+            autoComplete="on"
           />
         </div>
         <button type="submit">Sign Up</button>
