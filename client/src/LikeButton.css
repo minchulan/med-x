@@ -64,13 +64,12 @@
   left: 0;
 }
 
-/* Styles for liked posts */
 .like-count.liked {
-  color: #007bff; /* Change color to indicate liked status */
+  color: #007bff; 
 }
 
 .thumbs-up-icon.liked {
-  color: #007bff; /* Change thumbs-up icon color for liked posts */
+  color: #007bff; 
 }
 
 
