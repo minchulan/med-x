@@ -5,6 +5,8 @@ import { PostContext } from "../context/post";
 import { ErrorsContext } from "../context/error";
 import MiniaturePostCard from "./MiniaturePostCard";
 import LoadingSpinner from "../LoadingSpinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import "./Profile.css";
 
 const Profile = ({ loading }) => {
@@ -92,7 +94,8 @@ const Profile = ({ loading }) => {
               />
             ))}
           {activeTab === "liked" &&
-            likedPosts && likedPosts.map((post) => (
+            likedPosts &&
+            likedPosts.map((post) => (
               <MiniaturePostCard
                 key={post.id}
                 id={post.id}
@@ -103,10 +106,14 @@ const Profile = ({ loading }) => {
       </div>
       <div className="user-info-container">
         <div className="avatar">
-          <label htmlFor="profile-picture-input">
+          <label htmlFor="profile-picture-input" className="profile-picture-label">
+            <div className="camera-icon">
+              <FontAwesomeIcon icon={faCamera} size="1g" />
+            </div>
             <img
               src={userImage || "https://placekitten.com/150/150"}
               alt="User Avatar"
+              className="profile-picture"
             />
           </label>
           <input

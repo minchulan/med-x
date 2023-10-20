@@ -40,9 +40,39 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.avatar {
-  text-align: center;
+.details h3 {
+  font-size: 24px;
+  margin: 0 0 10px 0;
 }
+
+.details p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.bio p {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+/* Profile.css */
+.change-profile-picture-button {
+  transition: background-color 0.3s;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.change-profile-picture-button:hover {
+  background-color: #0056b3;
+}
+
 
 .avatar img {
   width: 150px;
@@ -61,19 +91,25 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.details h3 {
-  font-size: 24px;
-  margin: 0 0 10px 0;
+
+
+.avatar {
+  position: relative;
+  display: inline-block;
 }
 
-.details p {
-  font-size: 16px;
-  color: #666;
-  margin: 0;
+.profile-picture-label {
+  position: relative;
+  display: inline-block;
 }
 
-.bio p {
-  font-size: 14px;
-  color: #555;
-  margin: 0;
+
+.camera-icon {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: #fff; 
+  border-radius: 50%; 
+  padding: 5px; 
+  cursor: pointer;
 }
