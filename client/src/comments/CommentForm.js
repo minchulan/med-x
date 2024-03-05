@@ -36,7 +36,8 @@ const CommentForm = ({ post_id }) => {
         });
       } else {
         resp.json().then((data) => {
-          setErrors(data.errors);
+          debugger 
+          setErrors(["Comment must be between 1 and 280 characters."]);
         });
       }
     });

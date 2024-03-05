@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   resources :users, only: [:index, :show]
-
   resources :posts do
     resources :comments, shallow: true
     resources :likes, only: [:create, :destroy]
@@ -29,7 +28,7 @@ Rails.application.routes.draw do
   get "/me", to: "users#show"
 
   # Routing logic: fallback requests for React Router.
-  # Leave this here to help deploy your app later!
+  # Leave this here to help deploy your app later! requests on frontend are just get paths. 
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end
 
