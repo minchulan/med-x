@@ -58,3 +58,5 @@ gem "active_model_serializers", "~> 0.10.12"
 
 gem 'psych', '~> 3.3'
 
+gem 'bundler', '~> 2.2.24'
+
